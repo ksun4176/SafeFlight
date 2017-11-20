@@ -1,0 +1,229 @@
+
+
+header.home {
+	background:rgba(200, 200, 255, 0);
+	-background: -moz-linear-gradient(top,  rgba(30,87,153,1) 0%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(30,87,153,1) 0%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(20, 20, 60,1) 0%,rgba(20, 20, 60,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+}
+
+header.home .header {
+	height:150px;
+}
+
+header.home .left {
+	left:193px;
+	top:50px;
+}
+
+header.home .left .logo {
+	position:relative;
+	width:150px;
+	height:75px;
+	overflow:visible;
+}
+header .logotext {
+	opacity:1;
+}
+header.home .logotext {
+	opacity:0;
+}
+header .logo .trail {
+	position:absolute;
+	background-size:contain;
+	background-position:center;
+	background-repeat:no-repeat;
+	background-image:url('./../img/logo/trail.png');
+	width:0;
+	height:0;
+	left:0;
+	top:0;
+}
+header.home .logo .trail {
+	opacity:1;
+	width:280px;
+	height:160px;
+	left:-238;
+	top:-47px;
+}
+
+
+#container {
+	margin-top:0;
+	width:100%;
+	overflow-x:hidden;
+	overflow-y:auto;
+}
+
+#container .main {
+	position:relative;
+	width:100%;
+	height:80%;
+	min-height:560px;
+	text-align: center;
+}
+#container .main .bg,
+#container .main .cover {
+	position:absolute;
+	width:100%;
+	height:100%;
+	z-index:1;
+	left:0;
+	top:0;
+}
+#container .main .bg {
+	background-size:cover;
+	background-position: center;
+	background-image:url('./../img/bg/main.png');
+}
+#container .main .cover {
+	background-color:rgba(20, 20, 60, 0.70);
+}
+#container .main:before,
+#container .main .vcenter {
+	display: inline-block;
+	vertical-align: middle;
+	z-index:3;
+	position:relative;
+}
+#container .main:before {
+	content:"0";
+	font-size:0;
+	width:0px;
+	height:100%;
+}
+#container .main .vcenter {
+	top:30px;
+}
+
+.main h1 {
+	font-size:50px;
+	font-family:Raleway;
+	font-family: "Blogger Sans Bold";
+	font-weight:normal;
+	color:#fff;
+}
+.main h1 span {
+	font-family: "Blogger Sans Bold";
+	color:#ddf;
+}
+.main h5 {
+	font-size:25px;
+	font-weight:normal;
+	color:#fff;
+}
+
+.quicklinks {
+	position:relative;
+	width:100%;
+	background:#CCDDE9;
+	z-index:4;
+	text-align:center;
+
+}
+
+.quicklinks .overlapbox {
+	position:absolute;
+	left:calc(50% - 200px);
+	width:400px;
+	top:-50px;
+	height:100px;
+	background:#010B18;
+	cursor:pointer;
+}
+.quicklinks .overlapbox:hover {
+	background:#212B48;
+}
+.quicklinks .overlapbox > div {
+	width:calc(100% - 4px);
+	height:calc(100% - 4px);
+	margin:2px;
+	padding:2px;
+	border:2px solid #aaa;
+}
+.quicklinks .overlapbox .text {
+	color:#fff;
+	font-size:30px;
+	text-align:center;
+	width:100%;
+	margin-top:25px;
+	font-family: "Blogger Sans";
+}
+
+.quicklinks .content {
+	display:inline-block;
+	width:100%;
+	max-width:1000px;
+	min-width:600px;
+	height:350px;
+	padding-top:89px;
+	font-size:0;
+}
+.quicklinks .box {
+	position:relative;
+	vertical-align: top;
+	left:0;
+	top:0;
+	opacity:1;
+	display:inline-block;
+	width:21%;
+	height:200px;
+	margin:0 1.5%;
+
+}
+.quicklinks .box img {
+	width:100px;
+	height:100px;
+}
+.quicklinks .box .subheader {
+	font-family:"Blogger Sans Bold";
+	font-size:26px;
+	margin-top:12px;
+}
+.quicklinks .box .text {
+	font-size:14px;
+	margin-top:14px;
+	color:#666;
+}
+
+.sponsors {
+	width:100%;
+	text-align: center;
+	background:#eee;
+	padding:30px 0 47px;
+}
+.sponsors .content {
+	display: inline-block;
+	width:100%;
+	max-width:1100px;
+	min-width:600px;
+	line-height:100px;
+}
+.sponsors .box {
+	display:inline-block;
+	width:175px;
+	height:80px;
+	margin:0 5px;
+	text-align:center;
+}
+.sponsors .box:before {
+	display:inline-block;
+	vertical-align: middle;
+	width:0;
+	height:100%;
+	content:" ";
+}
+.sponsors .box img {
+	display:inline-block;
+	vertical-align: middle;
+}
+
+
+
+.bottomarea {
+	width:100%;
+	height:500px;
+	height:0;
+	background:#ccc;
+}
