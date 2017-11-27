@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<title>SafeFlight</title>
+
+	<link rel=icon href=/img/favicon.ico>
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker3.standalone.css'>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/home.css" />
+	<link rel="stylesheet" type="text/css" href="css/datepicker.css">
+
+	<script src="js/vendor/jmin.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/home.js"></script>
+</head>
+
+<body>
+	<div id="header" file="common/header.html" loadcontent></div>
+
+	<div id="container">
+
+		<div class="main">
+			<div class="bg"></div>
+			<div class="cover"></div>
+			<div class="vcenter">
+
+				<h1>Welcome to
+					<span>SafeFlight</span>
+				</h1>
+				<h5>Your fastest ticket to hitting the air</h5>
+				<div class="search">
+					<div class="flight-chooser" id="flight-location">
+						<div class="form-item">
+							<label>Origin</label>
+							<span class="fontawesome fontawesome-map-marker"></span>
+							<input class="input-sm form-control" type="text" name="origin" placeholder="Enter Origin" data-date-format="DD, MM d" />
+						</div>
+						<div class="form-item">
+							<label>Destination</label>
+							<span class="fontawesome fontawesome-map-marker"></span>
+							<input class="input-sm form-control" type="text" name="destination" placeholder="Enter Destination" data-date-format="DD, MM d"
+							/>
+						</div>
+					</div>
+					<div class="input-daterange input-group flight-chooser" id="flight-datepicker">
+						<div class="form-item">
+							<label>Depart on</label>
+							<span class="fontawesome fontawesome-calendar"></span>
+							<input class="input-sm form-control" type="text" id="start-date" name="start" placeholder="Select Depart Date" data-date-format="DD, MM d"
+							/>
+							<span class="date-text date-depart"></span>
+						</div>
+						<div class="form-item">
+							<label>Return on</label>
+							<span class="fontawesome fontawesome-calendar"></span>
+							<input class="input-sm form-control" type="text" id="end-date" name="end" placeholder="Select Return Date" data-date-format="DD, MM d"
+							/>
+							<span class="date-text date-return"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="quicklinks">
+			<a class="overlapbox t2">
+				<div>
+					<div class="text">Get Started</div>
+				</div>
+			</a>
+			<div class="content">
+				<div class="box">
+					<img src="img/home/setup.png" />
+					<div class="subheader">Easy Setup</div>
+					<div class="text">
+						Creating an account is fast and easy, and you can start looking through flights right away
+					</div>
+				</div>
+				<div class="box">
+					<img src="img/home/cloud.png" />
+					<div class="subheader">Up To Date</div>
+					<div class="text">
+						Our system is always connected and updated, giving you accurate flight information
+					</div>
+				</div>
+				<div class="box">
+					<img src="img/home/support.png" />
+					<div class="subheader">Support</div>
+					<div class="text">
+						24/7 customer service representatives keep you from running into any problems
+					</div>
+				</div>
+				<div class="box">
+					<img src="img/home/smart.png" />
+					<div class="subheader">Smart</div>
+					<div class="text">
+						Efficient solutions make sure we can always bring you flights you want for the price you want
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="sponsors">
+			<div class="content">
+				<div class="box">
+					<img src="https://cdn.shopify.com/s/files/1/1565/5149/files/content-time.png?v=1477581947" />
+				</div>
+				<div class="box">
+					<img src="https://cdn.shopify.com/s/files/1/1565/5149/files/content-wsj.png?9070494900711496154" />
+				</div>
+				<div class="box">
+					<img src="https://cdn.shopify.com/s/files/1/1565/5149/files/content-logo9.png?9070494900711496154" />
+				</div>
+				<div class="box">
+					<img src="https://cdn.shopify.com/s/files/1/1565/5149/files/content-today-show.png?9070494900711496154" />
+				</div>
+				<div class="box">
+					<img src="https://cdn.shopify.com/s/files/1/1565/5149/files/content-logo2.png?9070494900711496154" />
+				</div>
+				<div class="box">
+					<img src="https://cdn.shopify.com/s/files/1/1565/5149/files/content-bloomberg.png?9070494900711496154" />
+				</div>
+				<div class="box">
+					<img src="https://cdn.shopify.com/s/files/1/1565/5149/files/content-us-today.png?9070494900711496154" />
+				</div>
+				<div class="box">
+					<img src="https://cdn.shopify.com/s/files/1/1565/5149/files/content-logo4.png?9070494900711496154" />
+				</div>
+				<div class="box">
+					<img src="https://cdn.shopify.com/s/files/1/1565/5149/files/content-logo5.png?9070494900711496154" />
+				</div>
+				<div class="box">
+					<img src="https://cdn.shopify.com/s/files/1/1565/5149/files/content-huffington.png?9070494900711496154" />
+				</div>
+			</div>
+		</div>
+
+		<div class="bottomarea">
+
+
+		</div>
+
+	</div>
+
+	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-dateFormat/1.0/jquery.dateFormat.js'></script>
+	<script src="js/datepicker.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,286 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:900,300);
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+
+.search {
+  line-height: 1.2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1000px;
+  margin: auto;
+  /* flex: 1; */
+  margin-top: 36px;
+}
+
+@media screen and (min-width: 1000px) {
+  .search {
+    flex-direction: row;
+  }
+}
+
+.flight-chooser {
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  width: 800px;
+  max-width: 80%;
+  margin-top: 20px;
+}
+
+.flight-chooser .form-item {
+  position: relative;
+  margin: 12px 0 60px;
+  flex: 1;
+}
+@media screen and (min-width: 400px) {
+  .flight-chooser .form-item {
+    margin: 12px 24px 0 0;
+  }
+}
+.flight-chooser label {
+  display: block;
+  margin-bottom: 8px;
+  color: #ffffff;
+  font-weight: 500;
+}
+.flight-chooser input {
+  display: block;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  width: 100%;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: left;
+  color: #dfdaff;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #ffffff;
+  border-radius: 0;
+  outline: none;
+  -webkit-transition: border-color 0.2s ease-out;
+  transition: border-color 0.2s ease-out;
+}
+.flight-chooser input:first-child,
+.flight-chooser input:last-child {
+  border-radius: 0;
+}
+.flight-chooser input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0);
+  font-size: 14px;
+  line-height: 30px;
+  -webkit-transition: color 0.2s 0.2s ease-out;
+  transition: color 0.2s 0.2s ease-out;
+}
+.flight-chooser input:-moz-placeholder {
+  color: rgba(255, 255, 255, 0);
+  font-size: 14px;
+  line-height: 30px;
+  -webkit-transition: color 0.2s 0.2s ease-out;
+  transition: color 0.2s 0.2s ease-out;
+}
+.flight-chooser input::-moz-placeholder {
+  color: rgba(255, 255, 255, 0);
+  font-size: 14px;
+  line-height: 30px;
+  -webkit-transition: color 0.2s 0.2s ease-out;
+  transition: color 0.2s 0.2s ease-out;
+}
+.flight-chooser input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0);
+  font-size: 14px;
+  line-height: 30px;
+  -webkit-transition: color 0.2s 0.2s ease-out;
+  transition: color 0.2s 0.2s ease-out;
+}
+.flight-chooser input:focus {
+  border-bottom-width: 2px;
+}
+.flight-chooser input:focus::-webkit-input-placeholder {
+  color: transparent;
+  -webkit-transition: color 0.2s ease-out;
+  transition: color 0.2s ease-out;
+}
+.flight-chooser input:focus:-moz-placeholder {
+  color: transparent;
+  -webkit-transition: color 0.2s ease-out;
+  transition: color 0.2s ease-out;
+}
+.flight-chooser input:focus::-moz-placeholder {
+  color: transparent;
+  -webkit-transition: color 0.2s ease-out;
+  transition: color 0.2s ease-out;
+}
+.flight-chooser input:focus:-ms-input-placeholder {
+  color: transparent;
+  -webkit-transition: color 0.2s ease-out;
+  transition: color 0.2s ease-out;
+}
+.flight-chooser .date-text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  top: calc(100% + 6px);
+  font-size: 12px;
+  color: white;
+}
+@media screen and (min-width: 400px) {
+  .flight-chooser .date-text {
+    top: 100%;
+  }
+}
+
+.datepicker.dropdown-menu {
+  padding: 0;
+  background-clip: border-box;
+  border: none;
+  border-radius: 0;
+  -webkit-animation: popup 0.2s ease-out forwards;
+  animation: popup 0.2s ease-out forwards;
+}
+.datepicker.dropdown-menu table {
+  background-color: #42a5f5;
+}
+.datepicker.dropdown-menu table thead {
+  background-color: #42a5f5;
+}
+.datepicker.dropdown-menu table thead tr {
+  border-top: 0;
+}
+.datepicker.dropdown-menu table tbody {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+.datepicker.dropdown-menu table tr {
+  border-top: 1px solid #ededed;
+}
+.datepicker.dropdown-menu table tr td,
+.datepicker.dropdown-menu table tr th {
+  width: auto;
+  height: 24px;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 0;
+  -webkit-transition: background-color 0.6s ease-out;
+  transition: background-color 0.6s ease-out;
+}
+@media screen and (min-width: 400px) {
+  .datepicker.dropdown-menu table tr td,
+  .datepicker.dropdown-menu table tr th {
+    padding: 12px;
+  }
+}
+.datepicker.dropdown-menu table tr td:hover,
+.datepicker.dropdown-menu table tr td.active:hover,
+.datepicker.dropdown-menu table tr td:active:hover,
+.datepicker.dropdown-menu table tr th:hover,
+.datepicker.dropdown-menu table tr th.active:hover,
+.datepicker.dropdown-menu table tr th:active:hover {
+  border-color: #ededed;
+  border-radius: 0;
+  -webkit-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
+}
+.datepicker.dropdown-menu table tr td.focused,
+.datepicker.dropdown-menu table tr td.selected,
+.datepicker.dropdown-menu table tr th.focused,
+.datepicker.dropdown-menu table tr th.selected {
+  background-color: #42a5f5;
+  border-color: #ededed;
+  border-radius: 0;
+}
+.datepicker.dropdown-menu table tr td.active,
+.datepicker.dropdown-menu table tr td.active:focus,
+.datepicker.dropdown-menu table tr td.active.active:hover,
+.datepicker.dropdown-menu table tr td:active:focus,
+.datepicker.dropdown-menu table tr td.highlighted,
+.datepicker.dropdown-menu table tr th.active,
+.datepicker.dropdown-menu table tr th.active:focus,
+.datepicker.dropdown-menu table tr th.active.active:hover,
+.datepicker.dropdown-menu table tr th:active:focus,
+.datepicker.dropdown-menu table tr th.highlighted {
+  background-color: #42a5f5;
+  border-color: #ededed;
+}
+.datepicker.dropdown-menu table tr th.datepicker-switch {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 2;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  background-color: inherit;
+  border-radius: 0;
+}
+.datepicker.dropdown-menu table tr th.prev,
+.datepicker.dropdown-menu table tr th.next {
+  color: #ffffff;
+  background-color: #298cdc;
+  border-radius: 0;
+}
+.datepicker.dropdown-menu table tr th.dow {
+  padding: 2px 12px;
+  font-size: 12px;
+  line-height: 2;
+  color: #ffffff;
+  background-color: #5cbfff;
+  border-top: 1px solid #5cbfff;
+  border-radius: 0;
+}
+.datepicker.dropdown-menu table tr td.day {
+  width: 24px;
+  border-right: 1px solid #ededed;
+}
+.datepicker.dropdown-menu table tr td.day:last-child {
+  border-right-width: 0;
+}
+.datepicker.dropdown-menu table tr td.range {
+  background-color: #eeeeee;
+}
+.datepicker.dropdown-menu .new,
+.datepicker.dropdown-menu .old,
+.datepicker.dropdown-menu .disabled,
+.datepicker.dropdown-menu .disabled:hover {
+  color: #ccc;
+}
+
+[class*="fontawesome-"]:before {
+  font-family: "FontAwesome", sans-serif;
+}
+
+.fontawesome {
+  position: absolute;
+  top: 26px;
+  right: 0;
+  font-size: 24px;
+  z-index: -99;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@-webkit-keyframes popup {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(12px);
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes popup {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(12px);
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
