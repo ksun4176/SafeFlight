@@ -3,6 +3,9 @@ package com.SafeFlight;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
  
 public class ConnectionUtils {
  
@@ -11,4 +14,6 @@ public class ConnectionUtils {
     		
        return MySQLConnUtils.getMySQLConnection();
     }
+    
+    
 }

@@ -10,8 +10,8 @@ public class MySQLConnUtils {
    // Connect to MySQL
    public static Connection getMySQLConnection() throws SQLException,
            ClassNotFoundException {
-       String hostName = "localhost";
- 
+//       String hostName = "my-db-instance.ckej4fsuw7km.us-east-1.rds.amazonaws.com ";
+	   String hostName = "localhost";
        String dbName = "SafeFlight";
        String userName = "root";
        String password = "timotius2";
@@ -30,8 +30,7 @@ public class MySQLConnUtils {
  
        String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
  
-       Connection conn = DriverManager.getConnection(connectionURL, userName,
-               password);
+       Connection conn = DriverManager.getConnection(connectionURL, userName, password);
        return conn;
    }
 }

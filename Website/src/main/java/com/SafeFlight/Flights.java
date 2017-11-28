@@ -19,7 +19,6 @@ import org.json.simple.JSONObject;
  * Servlet implementation class HelloServlet
  */
 
-@WebServlet("/flights") 
 public class Flights extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
