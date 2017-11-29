@@ -6,7 +6,6 @@
 
         <link rel=icon href=/img/favicon.ico>
 
-		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<link rel="stylesheet" type="text/css" href="css/home.css" />
 
@@ -16,7 +15,8 @@
 	</head>
 
 	<body>
-    	<div id="header" file="common/header.html" loadcontent></div>
+    	
+        <?php include __DIR__."/common/header.php"; ?>
 
     	<div id="container">
     		
@@ -32,7 +32,7 @@
     		</div>
 
     		<div class="quicklinks">
-    			<a class="overlapbox t2" href="flights.html">
+    			<a class="overlapbox t2" href="flights.php">
     				<div>
     					<div class="text">Get Started</div>
     				</div>
