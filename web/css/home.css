@@ -47,6 +47,15 @@ header.home .logo .trail {
 	left:-238;
 	top:-47px;
 }
+header.home .links .link {
+	background:none;
+	height:100px;
+	padding:0 15px;
+}
+header.home .links .link .text {
+	color:#eef;
+	font-size:23px;
+}
 
 
 #container {
@@ -131,6 +140,7 @@ header.home .logo .trail {
 	height:100px;
 	background:#010B18;
 	cursor:pointer;
+	font-size:0;
 }
 .quicklinks .overlapbox:hover {
 	background:#212B48;
@@ -142,12 +152,21 @@ header.home .logo .trail {
 	padding:2px;
 	border:2px solid #aaa;
 }
+.quicklinks .overlapbox > div:before,
+.quicklinks .overlapbox .text {
+	display:inline-block;
+	vertical-align: middle;
+}
+.quicklinks .overlapbox > div:before {
+	width:0;
+	height:100%;
+	content:" ";
+}
 .quicklinks .overlapbox .text {
 	color:#fff;
 	font-size:30px;
 	text-align:center;
 	width:100%;
-	margin-top:25px;
 	font-family: "Blogger Sans";
 }
 

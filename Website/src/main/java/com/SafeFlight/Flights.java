@@ -19,7 +19,6 @@ import org.json.simple.JSONObject;
  * Servlet implementation class HelloServlet
  */
 
-@WebServlet("/flights") 
 public class Flights extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -99,5 +98,7 @@ public class Flights extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
+	
 	
 }
