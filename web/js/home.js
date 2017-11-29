@@ -23,12 +23,19 @@ onLoaded(function() {
 
   $(".login").on("click", function(e) {
     console.log("loggin in ");
-    $.post(
-      "http://localhost:8080/Website/login",
-      { username: "hello", password: "world" },
-      function(data) {
+    $.ajax("http://localhost:8080/Website/login", {
+      method: "POST",
+      data: { username: "awesomejane@ftw.com", password: "password" },
+      xhrFields: { withCredentials: true },
+      crossDomain: true,
+      success: function(data) {
         console.log(data);
+        data = JSON.parse(data);
+        console.log(data);
+        //     document.cookie =
+        //       "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE=" + data.Email;
+        //   }
       }
-    );
+    });
   });
 });

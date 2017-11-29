@@ -2,6 +2,7 @@ package com.SafeFlight;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpSession;
  * Servlet Filter implementation class CookieFilter
  */
 
-@WebFilter(filterName = "cookieFilter", urlPatterns = { "/*" })
+@WebFilter(filterName = "cookieFilter", urlPatterns = { "/login" })
 public class CookieFilter implements Filter {
 
     /**
@@ -39,17 +40,33 @@ public class CookieFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
-        HttpSession session = req.getSession();
- 
-        UserAccount user = ConnectionUtils.getLoginedUser(session);
-//	        if (userInSession != null) {
-//	            session.setAttribute("COOKIE_CHECKED", "CHECKED");
-//	            chain.doFilter(request, response);
-//	            return;
-//	        }
-        if (user != null) {
-        		System.out.println(user);
-        }
+		
+		
+        	Connection conn;
+			try {
+				conn = ConnectionUtils.getMyConnection();
+				
+				String userName = ConnectionUtils.getUserNameInCookie(req);
+				 try {
+	                UserAccount user = DBUtils.findUser(conn, userName);
+	                if (user != null) {
+
+	                		request.setAttribute("user", user);
+	                }
+	                
+				 } catch (SQLException e) {
+					 e.printStackTrace();
+				 }
+		        
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        
 		chain.doFilter(request, response);
 	}
 

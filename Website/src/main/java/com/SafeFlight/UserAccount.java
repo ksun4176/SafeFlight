@@ -1,5 +1,7 @@
 package com.SafeFlight;
 
+import org.json.simple.JSONObject;
+
 public class UserAccount {
 	private String email;
 	private int rating;
@@ -98,5 +100,16 @@ public class UserAccount {
 	public String toString() {
 		return String.format("Email: %s\nRating: %d\nName: %s\nAddress: %s", 
 				this.email, this.rating, this.getFullName(), this.getLongAddress());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject toJSON() {
+		JSONObject json = new JSONObject();
+		json.put("Email", email);
+		json.put("Rating", rating);
+		json.put("Name", this.getFullName());
+		json.put("Address", this.getLongAddress());
+		
+		return json;
 	}
 }

@@ -43,8 +43,12 @@ public class ConnectionUtils {
  
     public static String getUserNameInCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
+        System.out.println("In here");
+        System.out.println(cookies);
+        
         if (cookies != null) {
             for (Cookie cookie : cookies) {
+            		System.out.println(cookie);
                 if (ATT_NAME_USER_NAME.equals(cookie.getName())) {
                     return cookie.getValue();
                 }

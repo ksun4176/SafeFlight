@@ -36,5 +36,31 @@ public class DBUtils {
 		return user;
 	}
 	
+	public static UserAccount findUser(Connection conn, String username) throws SQLException {
+		UserAccount user = null;
+		String query = "{CALL findCustomerWithEmail(?)}";
+		CallableStatement stmt = conn.prepareCall(query);
+		
+		
+		stmt.setString(1, username);
+		
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+		  
+		   String email = rs.getString("Email");
+		   int rating = rs.getShort("Rating");
+		   String fname = rs.getString("FirstName");
+		   String lname = rs.getString("LastName");
+		   String address = rs.getString("Address");
+		   String city = rs.getString("City");
+		   String state = rs.getString("State");
+		   int zipcode = rs.getInt("Zipcode");
+		   
+		   user = new UserAccount(email, rating, fname, lname, address, city, state, zipcode);
+		   break;
+		}
+		
+		return user;
+	}
 	
 }

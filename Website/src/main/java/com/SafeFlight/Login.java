@@ -43,7 +43,13 @@ public class Login extends HttpServlet {
 		
 		boolean hasError = false;
 		String error = "";
-		UserAccount user = null;
+		UserAccount user = (UserAccount) request.getAttribute("user");
+		
+		// user already logged in 
+		if ( user != null) {
+			response.getWriter().print(user.toJSON());
+			return;
+		}
 		
 		if (username == null || password == null || username.length() == 0 || password.length() == 0) {
             hasError = true;
@@ -77,8 +83,10 @@ public class Login extends HttpServlet {
 			 HttpSession session = request.getSession();
 			 ConnectionUtils.storeLoginedUser(session, user);
 			 
-			 // Redirect user back
-			 response.sendRedirect(request.getRequestURI());
+			 // Store cookie for future use
+			 ConnectionUtils.storeUserCookie(response, user);
+			 
+			 response.getWriter().print(user.toJSON());
 		}
 	}
 
