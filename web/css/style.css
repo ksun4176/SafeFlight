@@ -28,14 +28,14 @@ body {
 	padding:0;
 	margin:0;
 	-webkit-font-smoothing: antialiased;
-	font-family: "Roboto";
+	font-family: "Proxima Nova";
 	font-weight:300;
-	background:#f2f2ff;
+	background:#f6f6ff;
 }
 body * {
 	padding:0;
 	margin:0;
-	font-family: "Roboto";
+	font-family: "Proxima Nova";
 	font-weight:300;
 
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -63,9 +63,26 @@ a {
 	display: inline-block;
 	width:100%;
 	max-width:1100px;
-	min-width:600px;
+	min-width:800px;
 	text-align: left;
 }
+
+.inputwrapper {
+	display:block;
+	position:relative;
+	overflow:visible;
+}
+.inputwrapper .dropdown {
+	display:none;
+	position:absolute;
+	left:0;
+	top:100%;
+	min-width:100%;
+}
+.inputwrapper .dropdown.visible {
+	display:block;
+}
+
 
 header {
 	position:fixed;
@@ -83,7 +100,7 @@ header .header {
 	display:inline-block;
 	width:100%;
 	max-width:1100px;
-	min-width:600px;
+	min-width:800px;
 	height:80px;
 }
 
@@ -108,5 +125,56 @@ header .left .logotext {
 	font-family: "Blogger Sans Bold";
 	font-weight:bold;
 	font-size:25px;
+	color:#335;
 	margin-left:10px;
 }
+header .right {
+	position:absolute;
+	right:10px;
+	top:0;
+	height:100%;
+	font-size:0;
+}
+header .links {
+	height:100%;
+}
+header .links .link {
+	display:inline-block;
+	height:100%;
+	cursor:pointer;
+	padding:0 15px;
+}
+header .links .link:hover,
+header .links .link.active {
+	background:#f6f6ff;
+}
+header .links .link:before {
+	vertical-align: middle;
+	display:inline-block;
+	width:0;
+	height:100%;
+	content:" ";
+}
+header .links .link .text {
+	vertical-align: middle;
+	display:inline-block;
+	font-size:18px;
+	letter-spacing:0.5px;
+	font-family: "Blogger Sans";
+	color:#335;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

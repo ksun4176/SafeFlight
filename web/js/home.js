@@ -1,5 +1,5 @@
 
-onLoaded(function() {
+$(function() {
 
 	$(window).scroll(function() {
 		var top = $(document).scrollTop();
