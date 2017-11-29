@@ -12,9 +12,9 @@ public class MySQLConnUtils {
            ClassNotFoundException {
        String hostName = "localhost";
  
-       String dbName = "SafeFlight";
+       String dbName = "SafeFlights";
        String userName = "root";
-       String password = "timotius2";
+       String password = "";
  
        return getMySQLConnection(hostName, dbName, userName, password);
    }
