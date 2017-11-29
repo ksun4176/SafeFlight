@@ -12,7 +12,7 @@ public class MySQLConnUtils {
            ClassNotFoundException {
 //       String hostName = "my-db-instance.ckej4fsuw7km.us-east-1.rds.amazonaws.com ";
 	   String hostName = "localhost";
-       String dbName = "SafeFlight";
+       String dbName = "SafeFlights";
        String userName = "root";
        String password = "timotius2";
  
