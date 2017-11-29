@@ -7,4 +7,4 @@
 *.sublime-project
 *.sublime-workspace
 
-Website/target/m2e-wtp/web-resources/META-INF/maven/com.SafeFlight/Website/pom.properties
+Website/target/*
