@@ -8,6 +8,4 @@
 *.sublime-workspace
 
 Website/target/*
-Website/pom.xml
-Website/.classpath
 

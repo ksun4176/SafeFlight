@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -41,61 +41,68 @@ public class Signup extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Servlet is called.");
-		// TODO Auto-generated method stub
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String address = request.getParameter("address");
-		String city = request.getParameter("city");
-		String state = request.getParameter("state");
-		String zip = request.getParameter("zip");
-		String telephone = request.getParameter("telephone");
-		String email = request.getParameter("email");
-		String creditCardNo = request.getParameter("creditCardNo");
-		int id = -1;
-
+		Connection conn;
+		JSONObject o = new JSONObject();
 		try {
-			Connection conn = ConnectionUtils.getMyConnection();
-			 System.out.println("Get connection " + conn);
-		        
-		        // Testing SQL
-		        Statement statement = conn.createStatement();
-		        String query = "{Call addPerson(?, ?, ?, ?, ?, ?)}";
-		        	CallableStatement stmt = conn.prepareCall(query);
-		        	stmt.setString(1, firstName);
-		        	stmt.setString(2, lastName);
-		        	stmt.setString(3, address);
-		        	stmt.setString(4, city);
-		        	stmt.setString(5, state);
-		        	stmt.setString(6, zip);
-		        	stmt.executeQuery();
-		        	query = "SELECT P.Id FROM Person P WHERE P.FirstName = ? AND P.LastName = ? AND P.Address = ? AND "
-		        			+ "P.City = ? AND P.State = ? AND P.ZipCode = ?";
-		        	stmt = conn.prepareCall(query);
-		        	stmt.setString(1, firstName);
-		        	stmt.setString(2, lastName);
-		        	stmt.setString(3, address);
-		        	stmt.setString(4, city);
-		        	stmt.setString(5, state);
-		        	stmt.setString(6, zip);
-		        ResultSet rs = stmt.executeQuery();
-		        while(rs.next()) {
-		        		id = rs.getInt("Id");
-		        }
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			conn = ConnectionUtils.getMyConnection();
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String address = request.getParameter("address");
+			String city = request.getParameter("city");
+			String state = request.getParameter("state");
+			int zip = Integer.parseInt(request.getParameter("zip"));
+			String email = request.getParameter("email");
+			int ccnum = Integer.parseInt(request.getParameter("creditCardNo"));
+			
+			
+			String query = "{CALL addPerson(?, ?, ?, ?, ?, ?)}";
+			CallableStatement stmt = conn.prepareCall(query);
+			stmt.setString(1, firstName);
+			stmt.setString(2, lastName);
+			stmt.setString(3, address);
+			stmt.setString(4, city);
+			stmt.setString(5, state);
+			stmt.setInt(6, zip);
+			ResultSet rs = stmt.executeQuery();
+			
+			rs.next();
+			int id = rs.getInt("id");
+			
+			query = "{CALL addLogin(?, ?, ?, ?)}";
+			stmt = conn.prepareCall(query);
+			stmt.setInt(1, id);
+			stmt.setString(2, username);
+			stmt.setString(3, password);
+			// Assuming this route only signs up customer
+			stmt.setString(4, "customer"); 
+			stmt.executeQuery();
+			
+			query = "{CALL addCustomer(?, ?, ?, ?)}";
+			stmt = conn.prepareCall(query);
+			stmt.setInt(1, id);
+			stmt.setInt(2, ccnum);
+			stmt.setString(3, email);
+			stmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
+			stmt.executeQuery();
+			
+			o.put("account_id", id);
+			
+			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// onError set return id to -1
 			e.printStackTrace();
+			o.put("account_id", -1);
+		} catch (SQLException e) {
+			// onError set return id to -1
+			e.printStackTrace();
+			o.put("account_id", -1);
 		}
 		
-		response.setContentType("text");
+		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		response.getWriter().print(id);
+		response.getWriter().print(o);
 		response.getWriter().flush();
 	}
 
