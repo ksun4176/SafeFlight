@@ -5,6 +5,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -103,7 +104,6 @@ public class Signup extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(o);
 		response.getWriter().flush();
-		
 	}
 
 }
