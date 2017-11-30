@@ -12,7 +12,6 @@ public class DBUtils {
 
 	public static JSONObject findUser(String username, String password) throws SQLException, ClassNotFoundException {
 		Connection conn = ConnectionUtils.getMyConnection();
-		UserAccount user = null;
 		String query = "{CALL findUser(?, ?)}";
 		CallableStatement stmt = conn.prepareCall(query);
 		
