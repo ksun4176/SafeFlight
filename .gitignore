@@ -8,9 +8,6 @@
 *.sublime-workspace
 
 Website/target/*
-<<<<<<< HEAD
 Website/pom.xml
 Website/.classpath
 
-=======
->>>>>>> parent of e3088e6... clearing up trash
