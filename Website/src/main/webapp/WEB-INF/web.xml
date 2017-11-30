@@ -58,6 +58,12 @@
   	<description></description>
   	<servlet-class>com.SafeFlight.Login</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>MailingList</servlet-name>
+  	<display-name>MailingList</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.MailingList</servlet-class>
+  </servlet>
 
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
@@ -66,6 +72,10 @@
   <servlet-mapping>
   	<servlet-name>Login</servlet-name>
   	<url-pattern>/account/login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>MailingList</servlet-name>
+  	<url-pattern>/MailingList</url-pattern>
   </servlet-mapping>
 
   
