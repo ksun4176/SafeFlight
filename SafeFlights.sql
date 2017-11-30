@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: my-db-instance.ckej4fsuw7km.us-east-1.rds.amazonaws.com
--- Generation Time: Nov 29, 2017 at 10:19 PM
+-- Generation Time: Nov 30, 2017 at 04:47 AM
 -- Server version: 5.6.34-log
 -- PHP Version: 5.6.17
 
@@ -24,121 +24,126 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE PROCEDURE `addCustomer` (IN `id` INT, IN `ccnum` CHAR(16), IN `email` VARCHAR(100), IN `creationDate` DATE)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `addCustomer` (IN `id` INT, IN `ccnum` CHAR(16), IN `email` VARCHAR(100), IN `creationDate` DATE)  BEGIN
 	INSERT INTO Customer(Id,CreditCardNo,Email,CreationDate) 
 	VALUES (id,ccnum,email,creationDate);
 END$$
 
-CREATE PROCEDURE `addEmployee` (`id` INT, `ssn` CHAR(9), `isManager` BOOLEAN, `startDate` DATE, `newRate` DECIMAL(10,2))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `addEmployee` (`id` INT, `ssn` CHAR(9), `isManager` BOOLEAN, `startDate` DATE, `newRate` DECIMAL(10,2))  BEGIN
 	INSERT INTO Employee 
 	VALUES(id,ssn,isManager,startDate,newRate);
 END$$
 
-CREATE PROCEDURE `addPerson` (`fname` VARCHAR(50), `lname` VARCHAR(50), `address` VARCHAR(50), `city` VARCHAR(50), `state` VARCHAR(50), `zipcode` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `addPerson` (`fname` VARCHAR(50), `lname` VARCHAR(50), `address` VARCHAR(50), `city` VARCHAR(50), `state` VARCHAR(50), `zipcode` INT)  BEGIN
 	INSERT INTO Person(FirstName,LastName,Address,City,State,ZipCode) 
 	VALUES (fname,lname,address,city,state,zipcode);
 END$$
 
-CREATE PROCEDURE `bid` (`accountNo` INT, `airlineID` CHAR(2), `flightNo` INT, `class` VARCHAR(20), `date` DATE, `bid` DECIMAL(10,2))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `bid` (`accountNo` INT, `airlineID` CHAR(2), `flightNo` INT, `class` VARCHAR(20), `date` DATE, `bid` DECIMAL(10,2))  BEGIN
 	INSERT INTO Auctions 
 	VALUES(accountNo,airlineID,flightNo,class,date,bid);
 END$$
 
-CREATE PROCEDURE `deleteCustomer` (`accoutNo` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `deleteCustomer` (`accoutNo` INT)  BEGIN
 	DELETE FROM Customer WHERE AccountNo = accoutNo;
 END$$
 
-CREATE PROCEDURE `deleteEmployee` (`id` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `deleteEmployee` (`id` INT)  BEGIN
 	DELETE FROM Employee WHERE Id = id;
 END$$
 
-CREATE PROCEDURE `deleteReservation` (`resNo` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `deleteReservation` (`resNo` INT)  BEGIN
 	DELETE FROM Includes WHERE ResNo = resNo;
 	DELETE FROM Reservation WHERE ResNo = resNo;
 END$$
 
-CREATE PROCEDURE `editCustomerCC` (`accountNo` INT, `ccnum` CHAR(16))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `editCustomer` (IN `id` INT, IN `firstName` VARCHAR(50), IN `lastName` VARCHAR(50), IN `address` VARCHAR(100), IN `city` VARCHAR(50), IN `state` VARCHAR(50), IN `zipcode` CHAR(5), IN `email` VARCHAR(100), IN `cc` CHAR(16))  BEGIN
+UPDATE Person P SET P.FirstName = firstName, P.LastName = lastName, P.Address = address, P.City = city, P.State = state, P.ZipCode = zipcode WHERE P.Id = id;
+UPDATE Customer C SET C.Email = email, C.CreditCardNo = cc WHERE C.Id = id;
+END$$
+
+CREATE DEFINER=`sf`@`%` PROCEDURE `editCustomerCC` (`accountNo` INT, `ccnum` CHAR(16))  BEGIN
 	UPDATE Customer SET CreditCardNo = ccnum WHERE AccountNo = accoutNo;
 END$$
 
-CREATE PROCEDURE `editCustomerCreationDate` (`accountNo` INT, `creationDate` DATE)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `editCustomerCreationDate` (`accountNo` INT, `creationDate` DATE)  BEGIN
 	UPDATE Customer SET CreationDate = creationDate WHERE AccountNo = accountNo;
 END$$
 
-CREATE PROCEDURE `editCustomerEmail` (`accoutNo` INT, `email` VARCHAR(100))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `editCustomerEmail` (`accoutNo` INT, `email` VARCHAR(100))  BEGIN
 	UPDATE Customer SET Email = email WHERE AccountNo = accoutNo;
 END$$
 
-CREATE PROCEDURE `editCustomerRating` (`accountNo` INT, `rating` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `editCustomerRating` (`accountNo` INT, `rating` INT)  BEGIN
 	UPDATE Customer SET Rating = rating WHERE AccountNo = accoutNo;
 END$$
 
-CREATE PROCEDURE `editEmployeeManager` (`id` INT, `isManager` BOOLEAN)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `editEmployeeManager` (`id` INT, `isManager` BOOLEAN)  BEGIN
 	UPDATE Employee SET IsManager = isManager WHERE Id = id;
 END$$
 
-CREATE PROCEDURE `editEmployeeRate` (`id` INT, `newRate` DECIMAL(10,2))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `editEmployeeRate` (`id` INT, `newRate` DECIMAL(10,2))  BEGIN
 	UPDATE Employee SET HourlyRate = newRate WHERE Id = id;
 END$$
 
-CREATE PROCEDURE `editEmployeeStartDate` (`id` INT, `startDate` DATE)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `editEmployeeStartDate` (`id` INT, `startDate` DATE)  BEGIN
 	UPDATE Employee SET StartDate = startDate;
 END$$
 
-CREATE PROCEDURE `findUser` (IN `Username` VARCHAR(50), IN `Password` VARCHAR(50))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `findUser` (IN `Username` VARCHAR(50), IN `Password` VARCHAR(50))  BEGIN
 	SELECT Id,Role FROM LoginInfo L WHERE L.Username = Username AND L.Password = Password;
 END$$
 
-CREATE PROCEDURE `getAllReservations` (`accountNo` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getAllReservations` (`accountNo` INT)  BEGIN
 	SELECT * FROM Reservation 
 	WHERE AccountNo = accountNo ORDER BY ResDate DESC;
 END$$
 
-CREATE PROCEDURE `getBestEmployee` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getBestEmployee` ()  BEGIN
 	SELECT E.Id,SUM(R.TotalFare) FROM Employee E,Reservation R 
 	WHERE E.Id = R.RepId GROUP BY E.Id ORDER BY SUM(R.TotalFare) DESC LIMIT 1;
 END$$
 
-CREATE PROCEDURE `getBidHistory` (`airlineID` CHAR(2), `flightNo` INT, `class` VARCHAR(20))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getBidHistory` (`airlineID` CHAR(2), `flightNo` INT, `class` VARCHAR(20))  BEGIN
 	SELECT Date, AccountNo, NYOP FROM Auctions 
 	WHERE AirlineID = airlineID AND FlightNo = flightNo AND Class = class ORDER BY Date DESC;
 END$$
 
-CREATE PROCEDURE `getCurrentBid` (`accountNo` INT, `airlineID` CHAR(2), `flightNo` INT, `class` VARCHAR(20))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getCurrentBid` (`accountNo` INT, `airlineID` CHAR(2), `flightNo` INT, `class` VARCHAR(20))  BEGIN
 	SELECT NYOP FROM Auctions 
 	WHERE AccountNo = accountNo AND AirlineID = airlineID AND FlightNo = flightNo AND Class = class AND Date = MAX(Date);
 END$$
 
-CREATE PROCEDURE `getCurrentReservations` (IN `accountNo` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getCurrentReservations` (IN `accountNo` INT)  BEGIN
 	SELECT R.ResNo FROM Reservation R ,Includes I
 	WHERE I.Date >= CURDATE() AND R.ResNo = I.ResNo AND R.AccountNo = accountNo;
 END$$
 
-CREATE PROCEDURE `getDelayedFlights` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getDelayedFlights` ()  BEGIN
 	SELECT AirlineID,FlightNo,LegNo FROM Leg 
 	WHERE OnTime = 0;
 END$$
 
-CREATE PROCEDURE `getDomesticFlights` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getDomesticFlights` ()  BEGIN
 	SELECT F.AirlineID, F.FlightNo FROM Flight F, Leg L, Airport Arr, Airport Dep 
 	WHERE F.AirlineID = L.AirlineID AND F.FlightNo = L.FlightNo AND L.ArrAirportID = Arr.Id AND L.DepAirportID = Dep.Id AND Arr.Country = Dep.Country;
 END$$
 
-CREATE PROCEDURE `getFlexTimeFlights` (IN `prefTime` DATETIME)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getFlexTimeFlights` (IN `prefTime` DATETIME)  BEGIN
     SELECT L.AirlineID, L.FlightNo, L.LegNo FROM Leg L
     WHERE L.DepTime >= prefTime;
 END$$
 
-CREATE PROCEDURE `getFlights` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getFlights` ()  BEGIN
 	SELECT * FROM Leg;
 END$$
 
-CREATE PROCEDURE `getFlightsAtAirport` (`airportId` CHAR(3))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getFlightsAtAirport` (`airportId` CHAR(3))  BEGIN
 	SELECT FlightNo FROM Leg 
 	WHERE ArrAirportID = airportId OR DepAirportID = airportId;
 END$$
 
-CREATE PROCEDURE `getFlightSuggestions` (`accountNo` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getFlightSuggestions` (`accountNo` INT)  BEGIN
 	SELECT L.AirlineID, L.FlightNo FROM Leg L 
 	WHERE L.ArrAirportID IN (
 		SELECT L2.ArrAirportID FROM Leg L2, Includes I , Reservation R 
@@ -146,82 +151,82 @@ CREATE PROCEDURE `getFlightSuggestions` (`accountNo` INT)  BEGIN
 	AND L.DepTime > NOW();
 END$$
 
-CREATE PROCEDURE `getInternationFlights` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getInternationFlights` ()  BEGIN
 	SELECT F.FlightNo FROM Flight F, Leg L, Airport Arr, Airport Dep 
 	WHERE F.AirlineID = L.AirlineID AND F.FlightNo = L.FlightNo AND L.ArrAirportID = Arr.Id AND L.DepAirportID = Dep.Id AND Arr.Country <> Dep.Country;
 END$$
 
-CREATE PROCEDURE `getItinerary` (`resNo` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getItinerary` (`resNo` INT)  BEGIN
 	SELECT L.DepAirportID, L.DepTime, L.ArrAirportID, L.ArrTime FROM LEG L, Includes I 
 	WHERE L.AirlineID = I.AirlineID AND L.FlightNo = I.FlightNo AND L.LegNo = I.LegNo AND I.ResNo = resNo ORDER BY L.ArrTime, L.DepTime ASC;
 END$$
 
-CREATE PROCEDURE `getMailingList` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getMailingList` ()  BEGIN
 	SELECT Email FROM Customer C;
 END$$
 
-CREATE PROCEDURE `getMonthlySalesReport` (`month` INT, `year` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getMonthlySalesReport` (`month` INT, `year` INT)  BEGIN
 	SELECT * FROM Reservation
 	WHERE YEAR(ResDate) = year AND MONTH(ResDate) = month;
 END$$
 
-CREATE PROCEDURE `getMostActiveFlights` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getMostActiveFlights` ()  BEGIN
 	SELECT AirlineId,FlightNo,COUNT(*) FROM Includes 
 	GROUP BY AirlineId,FlightNo ORDER BY COUNT(*) DESC LIMIT 10;
 END$$
 
-CREATE PROCEDURE `getMultiCityFlights` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getMultiCityFlights` ()  BEGIN
 	SELECT L.AirlineID, L.FlightNo FROM Leg L
 	GROUP BY L.AirlineID,L.FlightNo
 	HAVING COUNT(DISTINCT L.ArrAirportID) >= 2;
 END$$
 
-CREATE PROCEDURE `getOneWayFlights` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getOneWayFlights` ()  BEGIN
 	SELECT AirlineID, FlightNo FROM Fare 
 	WHERE FareType='one-way';
 END$$
 
-CREATE PROCEDURE `getOnTimeFlights` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getOnTimeFlights` ()  BEGIN
 	SELECT AirlineID,FlightNo,LegNo FROM Leg 
 	WHERE OnTime = 1;
 END$$
 
-CREATE PROCEDURE `getReservationC` (`fname` VARCHAR(50), `lname` VARCHAR(50))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getReservationC` (`fname` VARCHAR(50), `lname` VARCHAR(50))  BEGIN
 	SELECT * FROM Reservation R,Customer C,Person P 
 	WHERE P.LastName = lname AND P.FirstName = fname AND C.Id = P.Id AND R.AccountNo =  C.AccountNo;
 END$$
 
-CREATE PROCEDURE `getReservationF` (`airlineId` CHAR(2), `flightNo` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getReservationF` (`airlineId` CHAR(2), `flightNo` INT)  BEGIN
 	SELECT * FROM Reservation R,Includes I 
 	WHERE I.AirlineID = airlineId AND I.FlightNo = flightNo AND R.ResNo = I.ResNo;
 END$$
 
-CREATE PROCEDURE `getReservedCustomers` (IN `airlineId` CHAR(2), IN `flightNo` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getReservedCustomers` (IN `airlineId` CHAR(2), IN `flightNo` INT)  BEGIN
 	SELECT C.Id FROM Customer C,Reservation R,Includes I 
 	WHERE I.AirlineID = airlineId AND I.FlightNo = flightNo AND R.ResNo = I.ResNo AND C.AccountNo = R.AccountNo;
 END$$
 
-CREATE PROCEDURE `getRevenueC` (`customerId` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getRevenueC` (`customerId` INT)  BEGIN
 	SELECT R.TotalFare FROM Reservation R,Customer C 
 	WHERE C.Id = customerId AND R.AccountNo = C.AccountNo;
 END$$
 
-CREATE PROCEDURE `getRevenueDC` (`city` VARCHAR(50))  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getRevenueDC` (`city` VARCHAR(50))  BEGIN
 	SELECT R.TotalFare FROM Reservation R,Includes I,Leg L,Airport A 
 	WHERE A.city = city AND L.ArrAirportID = A.Id AND I.LegNo = L.LegNo AND I.AirlineID = L.AirlineID AND I.FlightNo  =  L.Flightno AND R.ResNo = I.ResNo;
 END$$
 
-CREATE PROCEDURE `getRevenueF` (`airlineId` CHAR(2), `flightNo` INT)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getRevenueF` (`airlineId` CHAR(2), `flightNo` INT)  BEGIN
 	SELECT R.TotalFare FROM Reservation R,Includes I 
 	WHERE I.AirlineID = airlineId AND I.FlightNo = flightNo AND R.ResNo = I.ResNo;
 END$$
 
-CREATE PROCEDURE `getRoundTripFlights` ()  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `getRoundTripFlights` ()  BEGIN
 	SELECT AirlineID, FlightNo FROM Fare 
 	WHERE FareType='roundtrip';
 END$$
 
-CREATE PROCEDURE `recordReservation` (IN `accountNo` INT, IN `resNo` INT, IN `repId` INT, IN `airlineID` CHAR(2), IN `flightNo` INT, IN `legNo` INT, IN `flightFare` DECIMAL(10,2), IN `flightDate` DATE)  BEGIN
+CREATE DEFINER=`sf`@`%` PROCEDURE `recordReservation` (IN `accountNo` INT, IN `resNo` INT, IN `repId` INT, IN `airlineID` CHAR(2), IN `flightNo` INT, IN `legNo` INT, IN `flightFare` DECIMAL(10,2), IN `flightDate` DATE)  BEGIN
 	IF (SELECT COUNT(*) FROM Reservation WHERE ResNo = resNo) = 0 THEN INSERT INTO Reservation VALUES (resNo,NOW(),0,0,repId,accountNo);END IF;
 	INSERT INTO Includes VALUES(resNo,airlineID,flightNo,legNo,flightDate);
 	UPDATE Reservation SET TotalFare = TotalFare + flightFare,BookingFee = TotalFare / 10 WHERE ResNo = resNo;
