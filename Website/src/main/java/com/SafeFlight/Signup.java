@@ -52,10 +52,15 @@ public class Signup extends HttpServlet {
 			String address = request.getParameter("address");
 			String city = request.getParameter("city");
 			String state = request.getParameter("state");
-			int zip = Integer.parseInt(request.getParameter("zip"));
+			String zip = request.getParameter("zip");
 			String email = request.getParameter("email");
-			long ccnum = Long.parseLong(request.getParameter("creditCardNo"));
-			
+			String ccnum = request.getParameter("creditCardNo");
+			if(!zip.matches("[0-9]{5}")) {
+				throw new IllegalArgumentException("Invalid ZipCode");
+			}
+			if(!ccnum.matches("[0-9]{16}")) {
+				throw new IllegalArgumentException("Invalid Credit Card Number");
+			}
 			
 			String query = "{CALL addPerson(?, ?, ?, ?, ?, ?)}";
 			CallableStatement stmt = conn.prepareCall(query);
@@ -64,7 +69,7 @@ public class Signup extends HttpServlet {
 			stmt.setString(3, address);
 			stmt.setString(4, city);
 			stmt.setString(5, state);
-			stmt.setInt(6, zip);
+			stmt.setString(6, zip);
 			ResultSet rs = stmt.executeQuery();
 			
 			rs.next();
@@ -82,7 +87,7 @@ public class Signup extends HttpServlet {
 			query = "{CALL addCustomer(?, ?, ?, ?)}";
 			stmt = conn.prepareCall(query);
 			stmt.setInt(1, id);
-			stmt.setLong(2, ccnum);
+			stmt.setString(2, ccnum);
 			stmt.setString(3, email);
 			stmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
 			stmt.executeQuery();
@@ -96,6 +101,10 @@ public class Signup extends HttpServlet {
 			o.put("account_id", -1);
 		} catch (SQLException e) {
 			// onError set return id to -1
+			e.printStackTrace();
+			o.put("account_id", -1);
+		} catch (IllegalArgumentException e) {
+			//onError set return id to -1
 			e.printStackTrace();
 			o.put("account_id", -1);
 		}
