@@ -48,7 +48,7 @@ public class Flights extends HttpServlet {
 		        
 		        // Testing SQL
 		        Statement statement = conn.createStatement();
-		        String sql = "SELECT * FROM Leg";
+		        String sql = "{CALL getFlights()}";
 		        ResultSet rs = statement.executeQuery(sql);
 		        
 		        while(rs.next()) {

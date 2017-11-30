@@ -5,12 +5,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.json.simple.JSONObject;
+
 
 public class DBUtils {
 
-	public static UserAccount findUser(Connection conn, String username, String password) throws SQLException {
+	public static JSONObject findUser(String username, String password) throws SQLException, ClassNotFoundException {
+		Connection conn = ConnectionUtils.getMyConnection();
 		UserAccount user = null;
-		String query = "{CALL findCustomer(?, ?)}";
+		String query = "{CALL findUser(?, ?)}";
 		CallableStatement stmt = conn.prepareCall(query);
 		
 		
@@ -19,21 +22,25 @@ public class DBUtils {
 		
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
-		  
-		   String email = rs.getString("Email");
-		   int rating = rs.getShort("Rating");
-		   String fname = rs.getString("FirstName");
-		   String lname = rs.getString("LastName");
-		   String address = rs.getString("Address");
-		   String city = rs.getString("City");
-		   String state = rs.getString("State");
-		   int zipcode = rs.getInt("Zipcode");
+			int id = rs.getInt("id");
+			String role = rs.getString("role");
 		   
-		   user = new UserAccount(email, rating, fname, lname, address, city, state, zipcode);
-		   break;
+		   JSONObject o = new JSONObject();
+		   o.put("account_id", id);
+		   if (role.equals("customer")) {
+			   o.put("accountType", 0);
+		   }
+		   else if (role.equals("employee")) {
+			   o.put("accountType", 1);
+		   }
+		   else if (role.equals("manager")) {
+			   o.put("accountType", 2);
+		   }
+		   
+		   return o;
 		}
 		
-		return user;
+		return null;
 	}
 	
 	
