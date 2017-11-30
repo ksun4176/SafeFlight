@@ -53,7 +53,7 @@ public class Signup extends HttpServlet {
 			String state = request.getParameter("state");
 			int zip = Integer.parseInt(request.getParameter("zip"));
 			String email = request.getParameter("email");
-			int ccnum = Integer.parseInt(request.getParameter("creditCardNo"));
+			long ccnum = Long.parseLong(request.getParameter("creditCardNo"));
 			
 			
 			String query = "{CALL addPerson(?, ?, ?, ?, ?, ?)}";
@@ -81,7 +81,7 @@ public class Signup extends HttpServlet {
 			query = "{CALL addCustomer(?, ?, ?, ?)}";
 			stmt = conn.prepareCall(query);
 			stmt.setInt(1, id);
-			stmt.setInt(2, ccnum);
+			stmt.setLong(2, ccnum);
 			stmt.setString(3, email);
 			stmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
 			stmt.executeQuery();
