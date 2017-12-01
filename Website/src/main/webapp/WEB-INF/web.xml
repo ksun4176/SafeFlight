@@ -78,6 +78,12 @@
   	<description></description>
   	<servlet-class>com.SafeFlight.EditEmployee</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>Flight</servlet-name>
+  	<display-name>Flight</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.Flight</servlet-class>
+  </servlet>
 
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
@@ -106,6 +112,10 @@
   <servlet-mapping>
   	<servlet-name>Reservation</servlet-name>
   	<url-pattern>/reservation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Flight</servlet-name>
+  	<url-pattern>/flights/get</url-pattern>
   </servlet-mapping>
 
   
