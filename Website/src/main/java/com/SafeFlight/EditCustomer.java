@@ -70,7 +70,7 @@ public class EditCustomer extends HttpServlet {
 			CallableStatement stmt = conn.prepareCall(query);
 			stmt.setString(1, accountId);
 			ResultSet rs = stmt.executeQuery();
-			if(rs.next() == false) {
+			if(!rs.next()) {
 				throw new IllegalArgumentException("No account with this id");
 			}
 			
