@@ -97,7 +97,7 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>MailingList</servlet-name>
-  	<url-pattern>/MailingList</url-pattern>
+  	<url-pattern>/mailinglist</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>EditCustomer</servlet-name>
