@@ -84,6 +84,12 @@
   	<description></description>
   	<servlet-class>com.SafeFlight.Flight</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>Itinerary</servlet-name>
+  	<display-name>Itinerary</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.Itinerary</servlet-class>
+  </servlet>
 
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
@@ -116,6 +122,10 @@
   <servlet-mapping>
   	<servlet-name>Flight</servlet-name>
   	<url-pattern>/flights/get</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Itinerary</servlet-name>
+  	<url-pattern>/itinerary</url-pattern>
   </servlet-mapping>
 
   
