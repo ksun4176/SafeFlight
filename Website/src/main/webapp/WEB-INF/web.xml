@@ -66,6 +66,12 @@
   	<description></description>
   	<servlet-class>com.SafeFlight.MailingList</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>EditCustomer</servlet-name>
+  	<display-name>EditCustomer</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.EditCustomer</servlet-class>
+  </servlet>
 
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
@@ -86,6 +92,10 @@
   <servlet-mapping>
   	<servlet-name>MailingList</servlet-name>
   	<url-pattern>/MailingList</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>EditCustomer</servlet-name>
+  	<url-pattern>/edit</url-pattern>
   </servlet-mapping>
 
   
