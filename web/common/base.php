@@ -9,4 +9,15 @@
 			$TYPE = (int)$_COOKIE["account_type"];
 		}
 	}
+
+	if (isset($REQUIRETYPE)) {
+		if ($TYPE != $REQUIRETYPE) {
+			die("Unauthorized");
+		}
+	}
+	if (isset($DENYTYPE)) {
+		if ($TYPE == $DENYTYPE) {
+			die("Unauthorized");
+		}
+	}
 	

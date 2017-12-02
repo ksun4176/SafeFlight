@@ -120,6 +120,10 @@ h1 {
 	text-align: center;
 	padding:6px 0;
 	margin-bottom:20px;
+	display:none;
+}
+.noflights.show {
+	display:block;
 }
 .noflights img {
 	display:inline-block;

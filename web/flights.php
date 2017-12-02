@@ -17,6 +17,7 @@
 		<script src="js/vendor/jmin.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/script.js"></script>
+        <script src="js/ajax.js"></script>
 		<script src="js/flights.js"></script>
 	</head>
 

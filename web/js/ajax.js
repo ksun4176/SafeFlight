@@ -9,6 +9,10 @@ $(function() {
 		login: {
 			url: "/account/login",
 			method: "POST"
+		},
+		getflights: {
+			url: "/flights/get",
+			method: "GET"
 		}
 	}
 
@@ -20,6 +24,19 @@ $(function() {
 		var opts = options || {};
 		var data = opts.data || {};
 		var callback = opts.callBack || (() => {});
+
+		if (ajaxCall.dummy === true) {
+			var response = null;
+
+			if (typeof ajaxCall.dummy == "object") {
+				response = ajaxCall.dummy;
+			} else if (typeof ajaxCall.dummy == "function") {
+				response = ajaxCall.dummy(data);
+			}
+
+			callback(response);
+			return true;
+		}
 
 		$.ajax(
 			ENDPOINT + ajaxCall.url,

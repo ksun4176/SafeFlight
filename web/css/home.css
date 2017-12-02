@@ -56,6 +56,9 @@ header.home .links .link .text {
 	color:#eef;
 	font-size:23px;
 }
+header.home .links .link .text:hover {
+	color:#aaf;
+}
 
 
 #container {

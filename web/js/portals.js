@@ -19,7 +19,7 @@ $(function() {
 			inp.attr("value", data[key]);
 			form.append(inp);
 		}
-
+		
 		$("body").append(form);
 		form.submit();
 	}

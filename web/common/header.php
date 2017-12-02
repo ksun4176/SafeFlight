@@ -11,7 +11,8 @@
 				<?php
 					$links = array(
 						array("Flights", "/flights.php"),
-						array("Login", "/login.php")
+						array("Login", "/login.php"),
+						array("Signup", "/signup.php")
 					);
 					$links2 = array(
 						array("Account", "/account.php"),
@@ -20,6 +21,11 @@
 
 					if ($ID > -1) {
 						array_pop($links);
+						array_pop($links);
+						
+						if ($TYPE == 1 || $TYPE == 2)
+							array_push($links, array("Dashboard", "/dashboard.php"));
+
 						$links = array_merge($links, $links2);
 					}
 

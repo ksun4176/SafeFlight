@@ -8,10 +8,10 @@
 		exit;
 	}
 
-	$account_id = isset($_REQUEST["account_id"]) ? (int)$_REQUEST["account_id"] : -1;
+	$account_id = isset($_POST["account_id"]) ? (int)$_POST["account_id"] : -1;
 	if ($account_id < 0) exit;
 
-	$account_type = isset($_REQUEST["account_type"]) ? (int)$_REQUEST["account_type"] : -1;
+	$account_type = isset($_POST["account_type"]) ? (int)$_POST["account_type"] : -1;
 	if ($account_type < 0 || $account_type > 2) exit;
 
 	$monthsec = 60 * 60 * 24 * 30;
