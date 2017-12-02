@@ -27,7 +27,7 @@ if (TYPE === 1) {
 
 			var account = null;
 			accounts.forEach((acc) => (account_id == acc.person_id) ? account=acc : null);
-			console.log(account);
+			editAccount(account);
 		})
 
 		var accounts = [];
@@ -48,6 +48,8 @@ if (TYPE === 1) {
 
 						$('.accounts').append($acc);
 					});
+
+					editAccount(accounts[0]);
 				}
 			}
 			);

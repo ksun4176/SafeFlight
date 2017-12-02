@@ -1,5 +1,5 @@
 
-var editAccout = () => {};
+var editAccount = () => {};
 
 $(function() {
 
@@ -12,7 +12,14 @@ $(function() {
 	});
 	$("body").append($modal);
 
+	
+	
 	editAccount = (account) => {
+		$modal.addClass("show");
+
+
+
+		console.log(account);
 
 	};
 
