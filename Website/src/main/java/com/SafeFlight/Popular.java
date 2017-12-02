@@ -53,8 +53,8 @@ public class Popular extends HttpServlet {
 		        		int Amount = rs.getInt("Amount");
 		        		
 		        		JSONObject o = new JSONObject();
-		        		o.put("AirlineId", airlineId);
-		        		o.put("FlightNo", flightNo);
+		        		o.put("airline_id", airlineId);
+		        		o.put("flightNumber", flightNo);
 		        		o.put("Amount", Amount);
 		        		jArray.add(o);
 		        }
