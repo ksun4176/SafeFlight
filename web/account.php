@@ -1,5 +1,5 @@
 <?  
-    $DENYTYPE = 0;
+    $REQUIRETYPE = 0;
     require __DIR__."/common/base.php";
 ?>
 
@@ -7,7 +7,7 @@
 
 	<head>
 
-		<title>Dashboard | SafeFlight</title>
+		<title>Account | SafeFlight</title>
 
 		<link rel=icon href=/img/favicon.ico>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -19,20 +19,19 @@
 		<script src="js/script.js"></script>
         <script src="js/ajax.js"></script>
         <script type="text/javascript">var TYPE=<?=$TYPE?>;var ID=<?=$ID?>;</script>
-        <script src="js/profileedit.js"></script>
         <script src="js/dashboard.js"></script>
 	</head>
 
 	<body>
 		
-    	<?php $headerHighlight = "Dashboard"; include __DIR__."/common/header.php"; ?>
+    	<?php $headerHighlight = "Account"; include __DIR__."/common/header.php"; ?>
 
     	<div id="container">
     		<div id="content">
 
-                <?php if ($TYPE == 1) { ?>
+                <?php if ($TYPE == 0) { ?>
 
-                    <h1>Customer Representative Dashboard</h1>
+                    <h1>Account</h1>
 
                     <div id="miniheader">
                         Customers
@@ -50,13 +49,7 @@
                     </div>
 
                     <div class="accounts">
-                        <div class="account top" account-id="-1">
-                            <div class="column edit"><span>edit</span></div>
-                            <div class="column username">Username</div>
-                            <div class="column name">Name</div>
-                            <div class="column email">Email</div>
-                            <div class="column address">Address</div>
-                        </div>
+                        
                     </div>
 
                 <?php } else if ($TYPE == 2) { ?>

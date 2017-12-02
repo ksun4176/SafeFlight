@@ -10,6 +10,10 @@ $(function() {
 			url: "/account/login",
 			method: "POST"
 		},
+		getaccounts: {
+			url: "/account/get",
+			method: "GET"
+		},
 		getflights: {
 			url: "/flights/get",
 			method: "GET"

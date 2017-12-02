@@ -49,29 +49,37 @@
 
     			</div>
     			<div id="right">
-    				<div class="noflights">
-    					<img src="img/papers.png" />
-    					<div class="text">No flights were found</div>
-    				</div>
 
-    				<? for($i=0;$i<3;$i++) { ?>
-    				<div class="flight">
-    					<div class="upperleft">
-    						<div class="column1 timerange">11:35am - 5:40pm</div>
-    						<div class="column2 time">5h 40m</div>
-    						<div class="stops">2 stops</div>
-    					</div>
-    					<div class="upperleft upperleft2">
-    						<div class="column1 airline">JetBlue Airways</div>
-    						<div class="column2 airports">JFK - LAS</div>
-    					</div>
-    					<div class="bottomleft">
-    						Operates on: Monday, Wednesday, Friday
-    					</div>
-    					<div class="price">$125<span>.55</span></div>
-    					<div class="select">Select</div>
-    				</div>
-    				<? } ?>
+                    <div class="flights">
+                        <div class="loader">
+                            <div class="spinner"><span></span></div>
+                        </div>
+
+                        <div class="noflights">
+                            <img src="img/papers.png" />
+                            <div class="text">No flights were found</div>
+                        </div>
+                        
+        				<? for($i=0;$i<1;$i++) { ?>
+        				<div class="flight dummy">
+        					<div class="upperleft">
+        						<div class="column1 timerange">11:35am - 5:40pm</div>
+        						<div class="column2 time">5h 40m</div>
+        						<div class="stops"></div>
+        					</div>
+        					<div class="upperleft upperleft2">
+        						<div class="column1 airline">JetBlue Airways</div>
+        						<div class="column2 airports">JFK - LAS</div>
+        					</div>
+        					<div class="bottomleft">
+        						Operates on: Monday, Wednesday, Friday
+        					</div>
+        					<div class="price">$125<span>.55</span></div>
+        					<div class="select">Select</div>
+        				</div>
+        				<? } ?>
+
+                    </div>
 
     			</div>
 

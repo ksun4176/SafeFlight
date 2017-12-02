@@ -1,4 +1,9 @@
 
+function toHumanReadableTime(time) {
+	var t = time;
+	if (typeof time == "string")
+		t = new Date(time);
+}
 
 $(function() {
 
