@@ -109,7 +109,7 @@ public class GetAccounts extends HttpServlet {
 				String role = rs.getString("Role");
 				
 				o.put("account_id", accid);
-				o.put("accout_num", accnum);
+				o.put("account_num", accnum);
 				o.put("credit_card_num", ccnum);
 				o.put("email", email);
 				o.put("creation_date", createdate);
