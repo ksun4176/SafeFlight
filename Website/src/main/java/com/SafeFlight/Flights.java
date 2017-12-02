@@ -61,13 +61,13 @@ public class Flights extends HttpServlet {
 		        		Timestamp arrTime = rs.getTimestamp("ArrTime");
 		        		
 		        		JSONObject o = new JSONObject();
-		        		o.put("AirlineID", airlineId);
-		        		o.put("FlightNo", flightNo);
-		        		o.put("LegNo", legNo);
-		        		o.put("DepAirportID", depAirportId);
-		        		o.put("ArrAirportID", arrAirportId);
-		        		o.put("DepTime", depTime.toString());
-		        		o.put("ArrTime", arrTime.toString());
+		        		o.put("airline_id", airlineId);
+		        		o.put("flightNumber", flightNo);
+		        		o.put("legNumber", legNo);
+		        		o.put("depAirportID", depAirportId);
+		        		o.put("arrAirportID", arrAirportId);
+		        		o.put("DepTime", depTime);
+		        		o.put("ArrTime", arrTime);
 		        		
 		        		
 		        		jArray.add(o);
