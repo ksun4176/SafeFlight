@@ -1,7 +1,9 @@
 package com.SafeFlight;
 
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONObject;
 
 /**
  * Servlet implementation class Login
@@ -40,6 +44,7 @@ public class Login extends HttpServlet {
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		JSONObject json = null;
 		
 		boolean hasError = false;
 		String error = "";
@@ -47,39 +52,29 @@ public class Login extends HttpServlet {
 		
 		if (username == null || password == null || username.length() == 0 || password.length() == 0) {
             hasError = true;
-            error = "Required username and password!";
+            System.out.println("Required username and password!");
         } 
 		else {
 			try {
-				Connection conn = ConnectionUtils.getMyConnection();
-				user = DBUtils.findUser(conn, username, password);
-				
-				if (user == null) {
-					hasError = true;
-					error = "Username or Password is invalid.";
-				}
-				
+				json = DBUtils.findUser(username, password);
 			} catch (ClassNotFoundException e) {
 				hasError = true;
 				e.printStackTrace();
-				error = "Class Not Found Exception";
 			} catch (SQLException e) {
 				hasError = true;
-				error = "SQL Error";
 				e.printStackTrace();
 			}
 		}
 		
 		if (hasError) {
-			System.out.println(error);
+			json = new JSONObject();
+			json.put("account_id", -1);
 		}
-		else {
-			 HttpSession session = request.getSession();
-			 ConnectionUtils.storeLoginedUser(session, user);
-			 
-			 // Redirect user back
-			 response.sendRedirect(request.getRequestURI());
-		}
+		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().print(json);
+		response.getWriter().flush();
 	}
 
 }

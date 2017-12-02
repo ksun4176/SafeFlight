@@ -5,12 +5,6 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
   <filter>
-  	<filter-name>CookieFilter</filter-name>
-  	<display-name>CookieFilter</display-name>
-  	<description></description>
-  	<filter-class>com.SafeFlight.CookieFilter</filter-class>
-  </filter>
-  <filter>
     <filter-name>CorsFilter</filter-name>
     <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
     <init-param>
@@ -39,10 +33,6 @@
     </init-param>
 </filter>
   <filter-mapping>
-  	<filter-name>CookieFilter</filter-name>
-  	<url-pattern>/CookieFilter</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
     <filter-name>CorsFilter</filter-name>
     <url-pattern>/*</url-pattern>
 </filter-mapping>
@@ -53,10 +43,52 @@
   	<servlet-class>com.SafeFlight.Flights</servlet-class>
   </servlet>
   <servlet>
+  	<servlet-name>Signup</servlet-name>
+  	<display-name>Signup</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.Signup</servlet-class>
+  </servlet>
+  <servlet>
   	<servlet-name>Login</servlet-name>
   	<display-name>Login</display-name>
   	<description></description>
   	<servlet-class>com.SafeFlight.Login</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>MailingList</servlet-name>
+  	<display-name>MailingList</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.MailingList</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>Reservation</servlet-name>
+  	<display-name>Reservation</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.Reservation</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>EditCustomer</servlet-name>
+  	<display-name>EditCustomer</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.EditCustomer</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>EditEmployee</servlet-name>
+  	<display-name>EditEmployee</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.EditEmployee</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>Flight</servlet-name>
+  	<display-name>Flight</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.Flight</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>Itinerary</servlet-name>
+  	<display-name>Itinerary</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.Itinerary</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -64,8 +96,36 @@
   	<url-pattern>/flights</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+  	<servlet-name>Signup</servlet-name>
+  	<url-pattern>/signup</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
   	<servlet-name>Login</servlet-name>
-  	<url-pattern>/login</url-pattern>
+  	<url-pattern>/account/login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>MailingList</servlet-name>
+  	<url-pattern>/mailinglist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>EditCustomer</servlet-name>
+  	<url-pattern>/edit</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>EditEmployee</servlet-name>
+  	<url-pattern>/edit/employee</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Reservation</servlet-name>
+  	<url-pattern>/reservation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Flight</servlet-name>
+  	<url-pattern>/flights/get</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Itinerary</servlet-name>
+  	<url-pattern>/itinerary</url-pattern>
   </servlet-mapping>
 
   
