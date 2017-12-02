@@ -46,15 +46,19 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 		JSONObject json = null;
 		
+		
 		boolean hasError = false;
 		String error = "";
 		UserAccount user = null;
+		
+		System.out.println("test");
 		
 		if (username == null || password == null || username.length() == 0 || password.length() == 0) {
             hasError = true;
             System.out.println("Required username and password!");
         } 
 		else {
+			System.out.println("test4");
 			try {
 				json = DBUtils.findUser(username, password);
 			} catch (ClassNotFoundException e) {
@@ -66,11 +70,14 @@ public class Login extends HttpServlet {
 			}
 		}
 		
+		System.out.println("test5");
+		
 		if (hasError) {
 			json = new JSONObject();
 			json.put("account_id", -1);
 		}
 		
+		System.out.println("hello");
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(json);
