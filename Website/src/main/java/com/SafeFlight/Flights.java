@@ -54,20 +54,18 @@ public class Flights extends HttpServlet {
 		        while(rs.next()) {
 		        		String airlineId = rs.getString("AirlineID");
 		        		int flightNo = rs.getInt("FlightNo");
-		        		int legNo = rs.getInt("LegNo");
-		        		String depAirportId = rs.getString("DepAirportID");
-		        		String arrAirportId = rs.getString("ArrAirportID");
-		        		Timestamp depTime = rs.getTimestamp("DepTime");
-		        		Timestamp arrTime = rs.getTimestamp("ArrTime");
+		        		int noOfSeats = rs.getInt("NoOfSeats");
+		        		String depAirportId = rs.getString("DaysOperating");
+		        		int minLengthOfStay = rs.getInt("MinLengthOfStay");
+		        		int maxLengthOfStay = rs.getInt("MaxLengthOfStay");
 		        		
 		        		JSONObject o = new JSONObject();
 		        		o.put("airline_id", airlineId);
 		        		o.put("flightNumber", flightNo);
-		        		o.put("legNumber", legNo);
-		        		o.put("depAirportID", depAirportId);
-		        		o.put("arrAirportID", arrAirportId);
-		        		o.put("DepTime", depTime);
-		        		o.put("ArrTime", arrTime);
+		        		o.put("NoOfSeats", noOfSeats);
+		        		o.put("minLengthOfStay", minLengthOfStay);
+		        		o.put("maxLengthOfStay", maxLengthOfStay);
+		        	
 		        		
 		        		
 		        		jArray.add(o);
@@ -81,8 +79,6 @@ public class Flights extends HttpServlet {
 		}
 		
 	
-//        json.put("name", "Tim");
-//        json.put(new String("age"), new Integer(200));
         json.put("flights", jArray);
 	    
 		response.setContentType("application/json");
