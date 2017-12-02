@@ -1,0 +1,40 @@
+#container {
+	overflow:visible;
+}
+
+#content {
+	font-size:0;
+	padding:0 15px;
+	width:360px;
+	max-width:100%;
+	min-width:auto;
+	text-align:center;
+}
+
+h1 {
+	font-size:30px;
+	font-weight:700;
+	margin:20px 0 10px;
+}
+
+
+.label {
+	margin-top:15px;
+	font-size:17.5px;
+	color:#333;
+	text-align:left;
+}
+.loginInput {
+	width:100%;
+	font-size:24px;
+	padding:7px 8px;
+	margin-top:4px;
+}
+
+#gobutton {
+	display:inline-block;
+	font-size:26px;
+	padding:15px 22px;
+	width:150px;
+	margin-top:15px;
+}

@@ -42,6 +42,9 @@ body * {
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
 	box-sizing: border-box;
 }
+input, select, textarea {
+	-webkit-appearance:none;
+}
 a {
 	text-decoration: none;
 }
@@ -59,7 +62,7 @@ a {
 	overflow-y:auto;
 	text-align: center;
 }
-#container #content {
+#content {
 	display: inline-block;
 	width:100%;
 	max-width:1100px;
