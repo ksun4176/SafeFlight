@@ -12,8 +12,8 @@ $(function() {
 	});
 	$("body").append($modal);
 
-	
-	
+	modal.initModal($modal);
+
 	editAccount = (account) => {
 		$modal.addClass("show");
 

@@ -12,14 +12,13 @@
 		<link rel=icon href=/img/favicon.ico>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" href="css/dashboard.css" />
 
+        <script type="text/javascript">var TYPE=<?=$TYPE?>;var ID=<?=$ID?>;</script>
 		<script src="js/vendor/jmin.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/script.js"></script>
         <script src="js/ajax.js"></script>
-        <script type="text/javascript">var TYPE=<?=$TYPE?>;var ID=<?=$ID?>;</script>
-        <script src="js/dashboard.js"></script>
+        <script src="js/profileedit.js"></script>
 	</head>
 
 	<body>
@@ -33,24 +32,7 @@
 
                     <h1>Account</h1>
 
-                    <div id="miniheader">
-                        Customers
-                        <span>Get mailing list</span>
-                    </div>
-
-                    <div class="modal" id="mailinglist">
-                        <div>
-                            <div class="box">
-                                <div class="spinner"><span></span></div>
-                                <h2>Mailing List</h2>
-                                <textarea></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accounts">
-                        
-                    </div>
+                    
 
                 <?php } else if ($TYPE == 2) { ?>
 

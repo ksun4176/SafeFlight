@@ -14,11 +14,11 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
         <link rel="stylesheet" type="text/css" href="css/dashboard.css" />
 
+        <script type="text/javascript">var TYPE=<?=$TYPE?>;var ID=<?=$ID?>;</script>
 		<script src="js/vendor/jmin.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/script.js"></script>
         <script src="js/ajax.js"></script>
-        <script type="text/javascript">var TYPE=<?=$TYPE?>;var ID=<?=$ID?>;</script>
         <script src="js/profileedit.js"></script>
         <script src="js/dashboard.js"></script>
 	</head>
