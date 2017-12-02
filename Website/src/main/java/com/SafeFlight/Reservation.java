@@ -54,7 +54,7 @@ public class Reservation extends HttpServlet {
 			if (flightNumber == null) {
 				if (account_id == null) {
 					//Reservation_id
-					String query = "{Call getReservationR(?)}";
+					String query = "{CALL getReservationR(?)}";
 					CallableStatement stmt = conn.prepareCall(query);
 					stmt.setString(1, reservation_id);
 					ResultSet rs = stmt.executeQuery();
@@ -78,7 +78,7 @@ public class Reservation extends HttpServlet {
 				}
 				else {
 					//account_id
-					String query = "{Call getReservationC(?)}";
+					String query = "{CALL getReservationC(?)}";
 					CallableStatement stmt = conn.prepareCall(query);
 					stmt.setString(1, account_id);
 					ResultSet rs = stmt.executeQuery();
@@ -105,7 +105,7 @@ public class Reservation extends HttpServlet {
 				//flightNumber
 				//return all reservations in flightnumber
 				String airlineID = request.getParameter("airline_id");
-				String query = "{Call getReservationF(?, ?)}";
+				String query = "{CALL getReservationF(?, ?)}";
 				CallableStatement stmt = conn.prepareCall(query);
 				stmt.setString(1, airlineID);
 				stmt.setString(2, flightNumber);
