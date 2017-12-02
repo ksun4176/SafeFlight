@@ -34,7 +34,21 @@ h1 {
 #gobutton {
 	display:inline-block;
 	font-size:26px;
-	padding:15px 22px;
+	padding:6px 22px;
 	width:150px;
-	margin-top:15px;
+	margin-top:28px;
+	cursor:pointer;
+}
+.error {
+	color:#f00;
+	font-size:14px;
+	width:100%;
+	margin:20px 0 0;
+	display:none;
+}
+.error.show {
+	display:block;
+}
+.error.ok {
+	color:#0a0;
 }

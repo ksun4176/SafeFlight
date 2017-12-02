@@ -101,6 +101,12 @@
   	<description></description>
   	<servlet-class>com.SafeFlight.AddReservation</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>Revenue</servlet-name>
+  	<display-name>Revenue</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.Revenue</servlet-class>
+  </servlet>
 
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
@@ -145,6 +151,10 @@
   <servlet-mapping>
   	<servlet-name>AddReservation</servlet-name>
   	<url-pattern>/reservations/create</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Revenue</servlet-name>
+  	<url-pattern>/reports/revenue</url-pattern>
   </servlet-mapping>
 
 
