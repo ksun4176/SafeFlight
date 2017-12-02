@@ -108,7 +108,7 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>Signup</servlet-name>
-  	<url-pattern>/signup</url-pattern>
+  	<url-pattern>/account/signup</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>Login</servlet-name>
@@ -116,19 +116,19 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>MailingList</servlet-name>
-  	<url-pattern>/mailinglist</url-pattern>
+  	<url-pattern>/account/mailinglist</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>EditCustomer</servlet-name>
-  	<url-pattern>/edit</url-pattern>
+  	<url-pattern>/account/edit</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>EditEmployee</servlet-name>
-  	<url-pattern>/edit/employee</url-pattern>
+  	<url-pattern>/account/edit/employee</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>Reservation</servlet-name>
-  	<url-pattern>/reservation</url-pattern>
+  	<url-pattern>/reservations/get</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>Flight</servlet-name>
@@ -136,15 +136,15 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>Itinerary</servlet-name>
-  	<url-pattern>/itinerary</url-pattern>
+  	<url-pattern>/reservations/itinerary</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>Popular</servlet-name>
-  	<url-pattern>/popular</url-pattern>
+  	<url-pattern>/flights/getpopular</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>AddReservation</servlet-name>
-  	<url-pattern>/add/reservation</url-pattern>
+  	<url-pattern>/reservations/create</url-pattern>
   </servlet-mapping>
 
 
