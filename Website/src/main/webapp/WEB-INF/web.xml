@@ -113,6 +113,12 @@
   	<description></description>
   	<servlet-class>com.SafeFlight.GetAccounts</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>MostActiveFlights</servlet-name>
+  	<display-name>MostActiveFlights</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.MostActiveFlights</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
   	<url-pattern>/flights</url-pattern>
@@ -164,6 +170,10 @@
   <servlet-mapping>
   	<servlet-name>GetAccounts</servlet-name>
   	<url-pattern>/account/get</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>MostActiveFlights</servlet-name>
+  	<url-pattern>/report/mostactiveflights</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
