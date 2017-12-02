@@ -1,3 +1,8 @@
+<?  
+    
+    require __DIR__."/common/base.php";
+?>
+
 <html>
 
 	<head>
