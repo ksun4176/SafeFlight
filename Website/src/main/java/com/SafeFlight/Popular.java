@@ -36,7 +36,7 @@ public class Popular extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("Servlet is called.");
 		JSONObject json = new JSONObject();
-		JSONArray jArray = new JSONArray();
+		JSONArray flights = new JSONArray();
 		
 		try {
 			Connection conn = ConnectionUtils.getMyConnection();
@@ -56,7 +56,7 @@ public class Popular extends HttpServlet {
 		        		o.put("airline_id", airlineId);
 		        		o.put("flightNumber", flightNo);
 		        		o.put("Amount", Amount);
-		        		jArray.add(o);
+		        		flights.add(o);
 		        }
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -66,7 +66,7 @@ public class Popular extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-        json.put("Popular", jArray);
+        json.put("Popular", flights);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(json);
