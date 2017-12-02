@@ -45,7 +45,7 @@ public class Reservation extends HttpServlet {
 		// TODO Auto-generated method stub
 		Connection conn;
 		JSONObject json = new JSONObject();
-		JSONArray jArray = new JSONArray();
+		JSONArray reservations = new JSONArray();
 		try {
 			conn = ConnectionUtils.getMyConnection();
 			String flightNumber  = request.getParameter("flightNumber");
@@ -67,13 +67,13 @@ public class Reservation extends HttpServlet {
 			        		int RepID = rs.getInt("RepID");
 			        		int AccountNo = rs.getInt("AccountNo");
 	
-			        		o.put("ResNo", ResNo);
+			        		o.put("resveration_id", ResNo);
 			        		o.put("ResDate", ResDate.toString());
-			        		o.put("BookingFee", BookingFee);
-			        		o.put("TotalFare", TotalFare);
-			        		o.put("RepID", RepID);
-			        		o.put("AccountNo", AccountNo);
-			        		jArray.add(o);
+			        		o.put("bookingFee", BookingFee);
+			        		o.put("totalFare", TotalFare);
+			        		o.put("customer_rep_id", RepID);
+			        		o.put("account_id", AccountNo);
+			        		reservations.add(o);
 					}
 				}
 				else {
@@ -91,13 +91,13 @@ public class Reservation extends HttpServlet {
 			        		int RepID = rs.getInt("RepID");
 			        		int AccountNo = rs.getInt("AccountNo");
 	
-			        		o.put("ResNo", ResNo);
+			        		o.put("resveration_id", ResNo);
 			        		o.put("ResDate", ResDate.toString());
-			        		o.put("BookingFee", BookingFee);
-			        		o.put("TotalFare", TotalFare);
-			        		o.put("RepID", RepID);
-			        		o.put("AccountNo", AccountNo);
-			        		jArray.add(o);				
+			        		o.put("bookingFee", BookingFee);
+			        		o.put("totalFare", TotalFare);
+			        		o.put("customer_rep_id", RepID);
+			        		o.put("account_id", AccountNo);
+			        		reservations.add(o);			
 					}
 				}
 			}
@@ -120,14 +120,13 @@ public class Reservation extends HttpServlet {
 		        		int RepID = rs.getInt("RepID");
 		        		int AccountNo = rs.getInt("AccountNo");
 
-		        		o.put("ResNo", ResNo);
+		        		o.put("resveration_id", ResNo);
 		        		o.put("ResDate", ResDate.toString());
-		        		o.put("BookingFee", BookingFee);
-		        		o.put("TotalFare", TotalFare);
-		        		o.put("RepID", RepID);
-		        		o.put("AccountNo", AccountNo);
-		        		
-		        		jArray.add(o);
+		        		o.put("bookingFee", BookingFee);
+		        		o.put("totalFare", TotalFare);
+		        		o.put("customer_rep_id", RepID);
+		        		o.put("account_id", AccountNo);
+		        		reservations.add(o);
 				}
 			}
 		} catch (SQLException e) {
@@ -137,7 +136,7 @@ public class Reservation extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		json.put("reservations", jArray);
+		json.put("reservations", reservations);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(json);

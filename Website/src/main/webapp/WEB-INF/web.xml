@@ -90,6 +90,17 @@
   	<description></description>
   	<servlet-class>com.SafeFlight.Itinerary</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>Popular</servlet-name>
+  	<display-name>Popular</display-name>
+  	<description></description><servlet-class>com.SafeFlight.Popular</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AddReservation</servlet-name>
+  	<display-name>AddReservation</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.AddReservation</servlet-class>
+  </servlet>
 
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
@@ -127,8 +138,16 @@
   	<servlet-name>Itinerary</servlet-name>
   	<url-pattern>/itinerary</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Popular</servlet-name>
+  	<url-pattern>/popular</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AddReservation</servlet-name>
+  	<url-pattern>/add/reservation</url-pattern>
+  </servlet-mapping>
 
-  
+
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
