@@ -67,12 +67,12 @@ public class Reservation extends HttpServlet {
 			        		int RepID = rs.getInt("RepID");
 			        		int AccountNo = rs.getInt("AccountNo");
 	
-			        		o.put("ResNo", ResNo);
+			        		o.put("resveration_id", ResNo);
 			        		o.put("ResDate", ResDate.toString());
-			        		o.put("BookingFee", BookingFee);
-			        		o.put("TotalFare", TotalFare);
-			        		o.put("RepID", RepID);
-			        		o.put("AccountNo", AccountNo);
+			        		o.put("bookingFee", BookingFee);
+			        		o.put("totalFare", TotalFare);
+			        		o.put("customer_rep_id", RepID);
+			        		o.put("account_id", AccountNo);
 			        		jArray.add(o);
 					}
 				}
@@ -91,13 +91,13 @@ public class Reservation extends HttpServlet {
 			        		int RepID = rs.getInt("RepID");
 			        		int AccountNo = rs.getInt("AccountNo");
 	
-			        		o.put("ResNo", ResNo);
+			        		o.put("resveration_id", ResNo);
 			        		o.put("ResDate", ResDate.toString());
-			        		o.put("BookingFee", BookingFee);
-			        		o.put("TotalFare", TotalFare);
-			        		o.put("RepID", RepID);
-			        		o.put("AccountNo", AccountNo);
-			        		jArray.add(o);				
+			        		o.put("bookingFee", BookingFee);
+			        		o.put("totalFare", TotalFare);
+			        		o.put("customer_rep_id", RepID);
+			        		o.put("account_id", AccountNo);
+			        		jArray.add(o);			
 					}
 				}
 			}
@@ -120,13 +120,12 @@ public class Reservation extends HttpServlet {
 		        		int RepID = rs.getInt("RepID");
 		        		int AccountNo = rs.getInt("AccountNo");
 
-		        		o.put("ResNo", ResNo);
+		        		o.put("resveration_id", ResNo);
 		        		o.put("ResDate", ResDate.toString());
-		        		o.put("BookingFee", BookingFee);
-		        		o.put("TotalFare", TotalFare);
-		        		o.put("RepID", RepID);
-		        		o.put("AccountNo", AccountNo);
-		        		
+		        		o.put("bookingFee", BookingFee);
+		        		o.put("totalFare", TotalFare);
+		        		o.put("customer_rep_id", RepID);
+		        		o.put("account_id", AccountNo);
 		        		jArray.add(o);
 				}
 			}
