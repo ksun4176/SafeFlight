@@ -39,7 +39,7 @@ public class GetAccounts extends HttpServlet {
 		JSONArray jArray = new JSONArray();
 		try {
 			conn = ConnectionUtils.getMyConnection();
-			String account_num = request.getParameter("account_id");
+			String account_num = request.getParameter("account_num");
 			if(account_num == null) {
 				String query = "{CALL getAllCustomers()}";
 				CallableStatement stmt = conn.prepareCall(query);
@@ -138,7 +138,7 @@ public class GetAccounts extends HttpServlet {
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
-		json.put("Accounts", jArray);
+		json.put("accounts", jArray);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(json);
