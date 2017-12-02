@@ -37,6 +37,17 @@
                         Customers
                         <span>Get mailing list</span>
                     </div>
+
+                    <div class="modal" id="mailinglist">
+                        <div>
+                            <div class="box">
+                                <div class="spinner"><span></span></div>
+                                <h2>Mailing List</h2>
+                                <textarea></textarea>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="accounts">
                         
                     </div>

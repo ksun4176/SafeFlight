@@ -13,6 +13,10 @@ $(function() {
 		getflights: {
 			url: "/flights/get",
 			method: "GET"
+		},
+		getmailinglist: {
+			url: "/account/mailinglist",
+			method: "GET"
 		}
 	}
 
@@ -25,7 +29,7 @@ $(function() {
 		var data = opts.data || {};
 		var callback = opts.callBack || (() => {});
 
-		if (ajaxCall.dummy === true) {
+		if (ajaxCall.hasOwnProperty("dummy")) {
 			var response = null;
 
 			if (typeof ajaxCall.dummy == "object") {
