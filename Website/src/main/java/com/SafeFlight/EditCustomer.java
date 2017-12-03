@@ -53,18 +53,8 @@ public class EditCustomer extends HttpServlet {
 			String zipCode = request.getParameter("zip");
 			String email = request.getParameter("email");
 			String ccnum = request.getParameter("creditCardNo");
-			if (accountId == null || firstName == null || lastName == null || address == null || city == null || state == null 
-					|| zipCode == null || email == null || ccnum == null){
-				throw new IllegalArgumentException("Missing Parameters");
-	        }
 			if(!accountId.matches("[0-9]+")) {
 				throw new IllegalArgumentException("Invalid AccountId");
-			}
-			if(!zipCode.matches("[0-9]{5}")) {
-				throw new IllegalArgumentException("Invalid ZipCode");
-			}
-			if(!ccnum.matches("[0-9]{16}")) {
-				throw new IllegalArgumentException("Invalid Credit Card Number");
 			}
 			String query = "SELECT C.Id FROM Customer C WHERE C.Id = ?";
 			CallableStatement stmt = conn.prepareCall(query);
@@ -77,14 +67,52 @@ public class EditCustomer extends HttpServlet {
 			query = "{CALL editCustomer(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 			stmt = conn.prepareCall(query);
 			stmt.setString(1, accountId);
-			stmt.setString(2, firstName);
-			stmt.setString(3, lastName);
-			stmt.setString(4, address);
-			stmt.setString(5, city);
-			stmt.setString(6, state);
-			stmt.setString(7, zipCode);
-			stmt.setString(8, email);
-			stmt.setString(9, ccnum);
+			if(firstName != null) {
+				stmt.setString(2, firstName);
+			} else {
+				stmt.setString(2, "-1");
+			}
+			if(lastName != null) {
+				stmt.setString(3, lastName);
+			} else {
+				stmt.setString(3, "-1");
+			}
+			if(address != null) {
+				stmt.setString(4, address);
+			} else {
+				stmt.setString(4, "-1");
+			}
+			if(city != null) {
+				stmt.setString(5, city);
+			} else {
+				stmt.setString(5, "-1");
+			}
+			if(state != null) {
+				stmt.setString(6, state);
+			} else {
+				stmt.setString(6, "-1");
+			}
+			if(zipCode != null) {
+				if(!zipCode.matches("[0-9]{5}")) {
+					throw new IllegalArgumentException("Invalid ZipCode");
+				}
+				stmt.setString(7, zipCode);
+			} else {
+				stmt.setString(7, "-1");
+			}
+			if(email != null) {
+				stmt.setString(8, email);
+			} else {
+				stmt.setString(8, "-1");
+			}
+			if(ccnum != null) {
+				if(!ccnum.matches("[0-9]{16}")) {
+					throw new IllegalArgumentException("Invalid Credit Card Number");
+				}
+				stmt.setString(9, ccnum);
+			} else {
+				stmt.setString(9, "-1");
+			}
 			rs = stmt.executeQuery();
 
 			json.put("ok",true);
