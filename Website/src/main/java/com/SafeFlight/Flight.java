@@ -98,6 +98,7 @@ public class Flight extends HttpServlet {
 			
 			String temp = null;
 			int tempNo = 0;
+			boolean done = false;
 			while(rs.next()) {
 //				System.out.println("new loop");
 //				for(String k : flights2.keySet()) {
@@ -147,6 +148,7 @@ public class Flight extends HttpServlet {
 								flights2.get(temp).get(legNo).add(depTime);
 								flights2.get(temp).get(legNo).add(arrTime);
 								tempNo = legNo;
+								done = false;
 							}
 						} else {
 							if(!flights2.containsKey(temp)) {
@@ -158,6 +160,7 @@ public class Flight extends HttpServlet {
 							flights2.get(temp).get(legNo).add(depTime);
 							flights2.get(temp).get(legNo).add(arrTime);
 							tempNo = legNo;
+							done = false;
 						}
 					} else if(arrAirport.equals(toAirport)) {
 						if(!flights2.containsKey(temp)) {
@@ -169,6 +172,37 @@ public class Flight extends HttpServlet {
 						flights2.get(temp).get(legNo).add(depTime);
 						flights2.get(temp).get(legNo).add(arrTime);	
 						tempNo = legNo;
+						done = true;
+						System.out.println(temp+" has ended at leg#: "+legNo);
+					} else if(legNo > 1 && flights2.containsKey(temp) && !done) {
+						flights2.get(temp).put(legNo, new ArrayList<String>());
+						flights2.get(temp).get(legNo).add(depAirport);
+						flights2.get(temp).get(legNo).add(arrAirport);
+						flights2.get(temp).get(legNo).add(depTime);
+						flights2.get(temp).get(legNo).add(arrTime);
+						tempNo = legNo;
+					}
+				}
+			}
+			if(temp != null) {
+				if(flights2.containsKey(temp)) {
+					boolean start = false;
+					boolean end = false;
+					if(toDate != null && flights2.get(temp).get(tempNo).get(3).substring(0,8).compareTo(toDate) > 0) {
+						flights2.remove(temp);
+					} else {
+						for(ArrayList<String> a : flights2.get(temp).values()) {
+							if(a.get(0).equals(fromAirport)) {
+								start = true;
+							}
+							if(start == true && a.get(1).equals(toAirport)) {
+								end = true;
+								break;
+							}
+						}
+						if(start == false || end == false) {
+							flights2.remove(temp);
+						}
 					}
 				}
 			}
