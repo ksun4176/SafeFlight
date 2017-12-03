@@ -49,44 +49,48 @@ public class AddReservation extends HttpServlet {
 			String rep_id = request.getParameter("customer_rep_id");
 			String airline_id = request.getParameter("airline_id");
 			String flightNum = request.getParameter("flightNumber");
-			String legNumber = request.getParameter("legNumber");
+			String tempLegNum = request.getParameter("legNumber");
+			String[] legNums = tempLegNum.split(" ");
 			String flightFare = request.getParameter("flightFare");
 			String date = request.getParameter("date");
-			
-			if(reservation_id != null) {
-				String query = "{CALL recordReservationOld(?, ?, ?, ?, ?, ?)}";
-				CallableStatement stmt = conn.prepareCall(query);
-				stmt.setString(1, reservation_id);
-				stmt.setString(2, airline_id);
-				stmt.setString(3, flightNum);
-				stmt.setString(4, legNumber);
-				stmt.setString(5, flightFare);
-				stmt.setString(6, date);
-				stmt.executeQuery();
-			} else {
-				String query = "{CALL recordReservationNew(?, ?, ?, ?, ?, ?, ?)}";
-				CallableStatement stmt = conn.prepareCall(query);
-				stmt.setString(1, account_id);
-				stmt.setString(2, rep_id);
-				stmt.setString(3, airline_id);
-				stmt.setString(4, flightNum);
-				stmt.setString(5, legNumber);
-				stmt.setString(6, flightFare);
-				stmt.setString(7, date);
-				stmt.executeQuery();
+			for(String l : legNums) {
+				if(reservation_id != null) {
+					String query = "{CALL recordReservationOld(?, ?, ?, ?, ?, ?)}";
+					CallableStatement stmt = conn.prepareCall(query);
+					stmt.setString(1, reservation_id);
+					stmt.setString(2, airline_id);
+					stmt.setString(3, flightNum);
+					stmt.setString(4, l);
+					stmt.setString(5, flightFare);
+					stmt.setString(6, date);
+					stmt.executeQuery();
+				} else {
+					String query = "{CALL recordReservationNew(?, ?, ?, ?, ?, ?, ?)}";
+					CallableStatement stmt = conn.prepareCall(query);
+					stmt.setString(1, account_id);
+					stmt.setString(2, rep_id);
+					stmt.setString(3, airline_id);
+					stmt.setString(4, flightNum);
+					stmt.setString(5, l);
+					stmt.setString(6, flightFare);
+					stmt.setString(7, date);
+					ResultSet rs = stmt.executeQuery();
+					rs.next();
+					reservation_id = rs.getString("ResNo");
+				}
 			}
-			json.put("ok", true);
+			json.put("reservation_id", Integer.parseInt(reservation_id));
 		} catch(IllegalArgumentException e){
 			e.printStackTrace();
-			json.put("ok", false);
+			json.put("reservation_id", -1);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			json.put("ok", false);
+			json.put("reservation_id", -1);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			json.put("ok", false);
+			json.put("reservation_id", -1);
 		}
 		
 		response.setContentType("application/json");
