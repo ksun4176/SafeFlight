@@ -290,6 +290,70 @@ header .links .link .text {
 
 
 
+.editAccount.modal .box {
+	padding:20px 25px 23px;
+	width:500px;
+}
+.editAccount h2 {
+	font-size:20px;
+	margin-bottom:9px;
+}
+.editAccount .error {
+	width:100%;
+	color:#f00;
+	font-size:12px;
+	margin:12px 0 0;
+	display:none;
+}
+.editAccount .error.show { display:block; }
+.editAccount .error:before {content:"Something went wrong. Please check your information.";}
+.editAccount .error.ok {color:#090;}
+.editAccount .error.ok:before {content:"Successfully saved information";}
+.editAccount .submit {
+	cursor:pointer;
+	width:180px;
+	text-align: center;
+	margin-top:20px;
+	font-size:16px;
+	padding:5px 10px;
+	background:#fff;
+	border:1px solid #000;
+}
+.editAccount .submit:hover {
+	background:#eee;
+}
+.editAccount .submit.disabled {
+	color:#aaa;
+	background:#ddd;
+}
+.editAccount .field {
+	display:inline-block;
+	text-align: left;
+	margin-top:3px;
+}
+.editAccount .label {
+	display:block;
+	font-size:12px;
+	color:#555;
+}
+.editAccount .value {
+	width:100%;
+	font-size:14px;
+	padding:2px 3px;
+}
+.editAccount .email,
+.editAccount .address,
+.editAccount .creditcard { margin-top:10px; }
+.editAccount .email,
+.editAccount .address,
+.editAccount .address2,
+.editAccount .name,
+.editAccount .creditcard { width:100%; }
+.editAccount .name .field { width:calc(50% - 9px); margin-right:18px; }
+.editAccount .name .field:last-child { margin-right:0; }
+.editAccount .address2 .field { width:calc(50% - 50px - 18px); margin-right:18px; }
+.editAccount .address2 .zip { width:100px; margin-right:0; }
+
 
 
 
