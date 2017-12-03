@@ -14,6 +14,10 @@ $(function() {
 			url: "/account/get",
 			method: "GET"
 		},
+		editaccount: {
+			url: "/account/edit",
+			method: "POST"
+		},
 		getflights: {
 			url: "/flights/get",
 			method: "GET"

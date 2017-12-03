@@ -34,6 +34,9 @@ if (TYPE === 1) {
 		makeCall(
 			"getaccounts",
 			{
+				data : {
+					customerrep_id : ID
+				},
 				callBack : (r) => {
 					accounts = r ? (r.accounts || []) : [];
 					accounts.forEach((account) => {
@@ -49,7 +52,7 @@ if (TYPE === 1) {
 						$('.accounts').append($acc);
 					});
 
-					editAccount(accounts[0]);
+					//editAccount(accounts[0]);
 				}
 			}
 			);
