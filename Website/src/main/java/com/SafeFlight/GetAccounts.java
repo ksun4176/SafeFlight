@@ -39,51 +39,8 @@ public class GetAccounts extends HttpServlet {
 		try {
 			conn = ConnectionUtils.getMyConnection();
 			String account_num = request.getParameter("account_num");
-			if(account_num == null) {
-				String query = "{CALL getAllCustomers()}";
-				CallableStatement stmt = conn.prepareCall(query);
-				ResultSet rs = stmt.executeQuery();
-				while(rs.next()) {
-					JSONObject o = new JSONObject();
-					int accid = rs.getInt("Id");
-					int accnum = rs.getInt("AccountNo");
-					String ccnum = rs.getString("CreditCardNo");
-					String email = rs.getString("Email");
-					String createdate = rs.getString("CreationDate");
-					int rating = rs.getInt("Rating");
-					String fname = rs.getString("FirstName");
-					String lname = rs.getString("LastName");
-					String address = rs.getString("Address");
-					String city = rs.getString("City");
-					String state = rs.getString("State");
-					String zipcode = rs.getString("ZipCode");
-					String uname = rs.getString("Username");
-					String role = rs.getString("Role");
-					
-					o.put("person_id", accid);
-					o.put("accout_num", accnum);
-					o.put("credit_card_num", ccnum);
-					o.put("email", email);
-					o.put("creation_date", createdate);
-					o.put("rating", rating);
-					o.put("first_name", fname);
-					o.put("last_name", lname);
-					o.put("address", address);
-					o.put("city", city);
-					o.put("state", state);
-					o.put("zipcode", zipcode);
-					o.put("username", uname);
-					if(role.equals("customer")) {
-						o.put("account_type", 0);
-					} else if(role.equals("employee")) {
-						o.put("account_type", 1);
-					} else if(role.equals("manager")) {
-						o.put("account_type", 2);
-					}
-					
-					jArray.add(o);
-				}
-			} else {
+			String rep_id = request.getParameter("customer_rep_id");
+			if(account_num != null) {
 				String query = "{CALL getCustomer(?)}";
 				CallableStatement stmt = conn.prepareCall(query);
 				stmt.setString(1, account_num);
@@ -129,6 +86,95 @@ public class GetAccounts extends HttpServlet {
 				}
 				
 				jArray.add(o);
+			} else if(rep_id != null) {
+				String query = "{CALL getCustomers(?)}";
+				CallableStatement stmt = conn.prepareCall(query);
+				stmt.setString(1, rep_id);
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					JSONObject o = new JSONObject();
+					int accid = rs.getInt("Id");
+					int accnum = rs.getInt("AccountNo");
+					String ccnum = rs.getString("CreditCardNo");
+					String email = rs.getString("Email");
+					String createdate = rs.getString("CreationDate");
+					int rating = rs.getInt("Rating");
+					String fname = rs.getString("FirstName");
+					String lname = rs.getString("LastName");
+					String address = rs.getString("Address");
+					String city = rs.getString("City");
+					String state = rs.getString("State");
+					String zipcode = rs.getString("ZipCode");
+					String uname = rs.getString("Username");
+					String role = rs.getString("Role");
+					
+					o.put("person_id", accid);
+					o.put("accout_num", accnum);
+					o.put("credit_card_num", ccnum);
+					o.put("email", email);
+					o.put("creation_date", createdate);
+					o.put("rating", rating);
+					o.put("first_name", fname);
+					o.put("last_name", lname);
+					o.put("address", address);
+					o.put("city", city);
+					o.put("state", state);
+					o.put("zipcode", zipcode);
+					o.put("username", uname);
+					if(role.equals("customer")) {
+						o.put("account_type", 0);
+					} else if(role.equals("employee")) {
+						o.put("account_type", 1);
+					} else if(role.equals("manager")) {
+						o.put("account_type", 2);
+					}
+					
+					jArray.add(o);
+				}
+			} else {
+				String query = "{CALL getAllCustomers()}";
+				CallableStatement stmt = conn.prepareCall(query);
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					JSONObject o = new JSONObject();
+					int accid = rs.getInt("Id");
+					int accnum = rs.getInt("AccountNo");
+					String ccnum = rs.getString("CreditCardNo");
+					String email = rs.getString("Email");
+					String createdate = rs.getString("CreationDate");
+					int rating = rs.getInt("Rating");
+					String fname = rs.getString("FirstName");
+					String lname = rs.getString("LastName");
+					String address = rs.getString("Address");
+					String city = rs.getString("City");
+					String state = rs.getString("State");
+					String zipcode = rs.getString("ZipCode");
+					String uname = rs.getString("Username");
+					String role = rs.getString("Role");
+					
+					o.put("person_id", accid);
+					o.put("accout_num", accnum);
+					o.put("credit_card_num", ccnum);
+					o.put("email", email);
+					o.put("creation_date", createdate);
+					o.put("rating", rating);
+					o.put("first_name", fname);
+					o.put("last_name", lname);
+					o.put("address", address);
+					o.put("city", city);
+					o.put("state", state);
+					o.put("zipcode", zipcode);
+					o.put("username", uname);
+					if(role.equals("customer")) {
+						o.put("account_type", 0);
+					} else if(role.equals("employee")) {
+						o.put("account_type", 1);
+					} else if(role.equals("manager")) {
+						o.put("account_type", 2);
+					}
+					
+					jArray.add(o);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
