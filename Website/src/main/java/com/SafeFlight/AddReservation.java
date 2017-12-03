@@ -52,27 +52,29 @@ public class AddReservation extends HttpServlet {
 			String legNumber = request.getParameter("legNumber");
 			String flightFare = request.getParameter("flightFare");
 			String date = request.getParameter("date");
-			if (account_id == null || reservation_id == null || rep_id == null 
-					|| airline_id ==null || flightNum == null || legNumber == null || 
-					flightFare == null || date == null) {
-				throw new IllegalArgumentException("Missing Parameters");
-	        }
-			if(!account_id.matches("[0-9]+")) {
-				throw new IllegalArgumentException("Invalid AccountId");
+			
+			if(reservation_id != null) {
+				String query = "{CALL recordReservationOld(?, ?, ?, ?, ?, ?)}";
+				CallableStatement stmt = conn.prepareCall(query);
+				stmt.setString(1, reservation_id);
+				stmt.setString(2, airline_id);
+				stmt.setString(3, flightNum);
+				stmt.setString(4, legNumber);
+				stmt.setString(5, flightFare);
+				stmt.setString(6, date);
+				stmt.executeQuery();
+			} else {
+				String query = "{CALL recordReservationNew(?, ?, ?, ?, ?, ?, ?)}";
+				CallableStatement stmt = conn.prepareCall(query);
+				stmt.setString(1, account_id);
+				stmt.setString(2, rep_id);
+				stmt.setString(3, airline_id);
+				stmt.setString(4, flightNum);
+				stmt.setString(5, legNumber);
+				stmt.setString(6, flightFare);
+				stmt.setString(7, date);
+				stmt.executeQuery();
 			}
-			
-			String query = "{CALL recordReservation(?, ?, ?, ?, ?, ?, ?, ?)}";
-			CallableStatement stmt = conn.prepareCall(query);
-			stmt.setString(1, account_id);
-			stmt.setString(2, reservation_id);
-			stmt.setString(3, rep_id);
-			stmt.setString(4, airline_id);
-			stmt.setString(5, flightNum);
-			stmt.setString(6, legNumber);
-			stmt.setString(7, flightFare);
-			stmt.setString(8, date);
-			ResultSet rs = stmt.executeQuery();
-			
 			json.put("ok", true);
 		} catch(IllegalArgumentException e){
 			e.printStackTrace();

@@ -5,7 +5,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -50,7 +49,7 @@ public class GetAccounts extends HttpServlet {
 					int accnum = rs.getInt("AccountNo");
 					String ccnum = rs.getString("CreditCardNo");
 					String email = rs.getString("Email");
-					Timestamp createdate = rs.getTimestamp("CreationDate");
+					String createdate = rs.getString("CreationDate");
 					int rating = rs.getInt("Rating");
 					String fname = rs.getString("FirstName");
 					String lname = rs.getString("LastName");
@@ -61,7 +60,7 @@ public class GetAccounts extends HttpServlet {
 					String uname = rs.getString("Username");
 					String role = rs.getString("Role");
 					
-					o.put("account_id", accid);
+					o.put("person_id", accid);
 					o.put("accout_num", accnum);
 					o.put("credit_card_num", ccnum);
 					o.put("email", email);
@@ -97,7 +96,7 @@ public class GetAccounts extends HttpServlet {
 				int accnum = rs.getInt("AccountNo");
 				String ccnum = rs.getString("CreditCardNo");
 				String email = rs.getString("Email");
-				Timestamp createdate = rs.getTimestamp("CreationDate");
+				String createdate = rs.getString("CreationDate");
 				int rating = rs.getInt("Rating");
 				String fname = rs.getString("FirstName");
 				String lname = rs.getString("LastName");

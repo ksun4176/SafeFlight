@@ -122,7 +122,7 @@ h1 {
 	margin-bottom:20px;
 	display:none;
 }
-.noflights.show {
+.flights.none .noflights {
 	display:block;
 }
 .noflights img {
@@ -138,6 +138,16 @@ h1 {
 	font-family: "Blogger Sans";
 }
 
+.flights .loader {
+	width:100%;
+	text-align: center;
+	padding:50px 0;
+	display:none;
+}
+.flights.loading .loader {
+	display:block;
+}
+
 .flight {
 	width:100%;
 	height:110px;
@@ -146,6 +156,9 @@ h1 {
 	padding:10px 12px;
 	border:1px solid #113;
 	position:relative;
+}
+.flight.dummy {
+	display:none;
 }
 .flight .upperleft {
 	display:block;

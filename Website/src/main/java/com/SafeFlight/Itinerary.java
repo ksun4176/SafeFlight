@@ -5,7 +5,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,9 +54,9 @@ public class Itinerary extends HttpServlet {
 					int flightNo = rs.getInt("FlightNo");
 					int legNo = rs.getInt("LegNo");
 					String depAirportID = rs.getString("DepAirportID");
-					Timestamp depTime = rs.getTimestamp("DepTime");
+					String depTime = rs.getString("DepTime");
 					String arrAirportID = rs.getString("ArrAirportID");
-					Timestamp arrTime = rs.getTimestamp("ArrTime");
+					String arrTime = rs.getString("ArrTime");
 					boolean onTime = rs.getBoolean("OnTime");
 					o.put("AirlineID",airlineID);
 					o.put("FlightNo", flightNo);

@@ -15,7 +15,6 @@
 						array("Signup", "/signup.php")
 					);
 					$links2 = array(
-						array("Account", "/account.php"),
 						array("Logout", "/portals/account.php?logout")
 					);
 
@@ -25,6 +24,9 @@
 						
 						if ($TYPE == 1 || $TYPE == 2)
 							array_push($links, array("Dashboard", "/dashboard.php"));
+						else
+							array_push($links, array("Account", "/account.php"));
+						
 
 						$links = array_merge($links, $links2);
 					}

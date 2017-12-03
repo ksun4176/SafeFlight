@@ -10,6 +10,8 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -39,154 +41,176 @@ public class Flight extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JSONObject obj = new JSONObject();
-		obj.put("flights", new JSONArray());
-		
-		
 		Connection conn;
+		JSONObject obj = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		
 		try {
-			
+			conn = ConnectionUtils.getMyConnection();
 			String fromAirport = request.getParameter("fromAirportID");
 			String toAirport = request.getParameter("toAirportID");
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
-			conn = ConnectionUtils.getMyConnection();
+
+			if(fromAirport == null || toAirport == null) {
+				throw new IllegalArgumentException("Missing parameters");
+			}
 			
-				
+			//Get all flights and check if days matched DaysOperating
 			String query = "{CALL getFlights()}";
 			CallableStatement stmt = conn.prepareCall(query);
-			
 			ResultSet rs = stmt.executeQuery();
 			
-			ArrayList<Integer> flightNos = new ArrayList<Integer>();
+			//airlineID+flightNo : days+numSeats
+			HashMap<String,String> flights = new HashMap<String,String>();
 			
 			while(rs.next()) {
-				String days2 = rs.getString("DaysOperating");
-				int flightNo = rs.getInt("FlightNo");
-				if (fromDate != null && toDate != null) {
-					System.out.println("filter by date");
-					String days = DBUtils.getDaysOfWeek(fromDate, toDate);
-					if (!DBUtils.MatchDays(days, days2).equals("0000000")) {
-						flightNos.add(flightNo);
-					}
-				}
-				else {
-					flightNos.add(flightNo);
-				}
-			}
-			if (fromAirport != null && toAirport != null) {
-				System.out.println("filter by airport");
-				ArrayList<Integer> test = new ArrayList<Integer>();
-
-				for (int flightNo: flightNos) {
-					query = "{CALL getFirstLeg(?)}";
-					stmt = conn.prepareCall(query);
-					stmt.setInt(1, flightNo);
-					
-					rs = stmt.executeQuery();
-					
-					rs.next();
-					String depAirport = rs.getString("DepAirportID");
-					
-					query = "{CALL getLastLeg(?)}";
-					stmt = conn.prepareCall(query);
-					stmt.setInt(1, flightNo);
-					
-					rs = stmt.executeQuery();
-					
-					rs.next();
-					String arrAirport = rs.getString("ArrAirportID");
-					
-					
-					if (depAirport.equals(fromAirport) && arrAirport.equals(toAirport)) {
-						test.add(flightNo);
-					}
-
-				}
-				
-				flightNos = test;
-				
-			}
-			JSONArray arr = new JSONArray();
-			
-			for (int flightNo: flightNos) {
-				query = "{CALL getFlight(?)}";
-				stmt = conn.prepareCall(query);
-				stmt.setInt(1, flightNo);
-				rs = stmt.executeQuery();
-				rs.next();
-				
 				String airlineID = rs.getString("AirlineID");
-				String daysOperating = rs.getString("DaysOperating");
-				
-				query = "{CALL getFirstLeg(?)}";
+				String flightNo = rs.getString("FlightNo");
+				String days = rs.getString("DaysOperating");
+				int numSeats = rs.getInt("NoOfSeats");
+				query = "{CALL seatsLeft(?,?,?)}";
 				stmt = conn.prepareCall(query);
-				stmt.setInt(1, flightNo);
-				rs = stmt.executeQuery();
-				rs.next();
-				
-				String depAirportID = rs.getString("DepAirportID");
-				Time depTimeDate = rs.getTime("DepTime");
-				String depTime = depTimeDate.toString();
-
-				
-				query = "{CALL getLastLeg(?)}";
-				stmt = conn.prepareCall(query);
-				stmt.setInt(1, flightNo);
-				rs = stmt.executeQuery();
-				rs.next();
-				
-				String arrAirportID = rs.getString("ArrAirportID");
-				Time arrTimeDate = rs.getTime("ArrTime");
-				String arrTime = arrTimeDate.toString();
-				int legNo = rs.getInt("LegNo");
-				
-				JSONObject flight = new JSONObject();
-				flight.put("airline_id", airlineID);
-				flight.put("flightNumber", flightNo);
-				flight.put("LegNumber", legNo);
-				flight.put("depAirportID", depAirportID);
-	        		flight.put("arrAirportID", arrAirportID);
-	        		flight.put("depTime", depTime);
-	        		flight.put("arrTime", arrTime);
-	        		flight.put("daysOfWeek", daysOperating);
-	        		
-	        		query = "{CALL getFare(?)}";
-				stmt = conn.prepareCall(query);
-				stmt.setInt(1, flightNo);
-				rs = stmt.executeQuery();
-				
-				JSONObject fare = new JSONObject();
-				JSONObject oneway = new JSONObject();
-				JSONObject roundtrip = new JSONObject();
-				while(rs.next()) {
-					if (rs.getString("FareType").equals("one-way")) {
-						oneway.put(rs.getString("Class"), rs.getBigDecimal("Fare"));
+				stmt.setString(1, airlineID);
+				stmt.setString(2, flightNo);
+				stmt.setInt(3, numSeats);
+				ResultSet rs2 = stmt.executeQuery();
+				rs2.next();
+				if(rs2.getInt("SeatsLeft") != 0) {
+					if (fromDate != null) {
+						int days2 = DBUtils.getDaysOfWeek(fromDate);
+						if (days.charAt(days2) == '1') {
+							flights.put(airlineID.concat(flightNo),days);
+						}
 					}
-					else if (rs.getString("FareType").equals("roundtrip")) {
-						roundtrip.put(rs.getString("Class"), rs.getBigDecimal("Fare"));
+					else {
+						flights.put(airlineID.concat(flightNo),days);
 					}
 				}
-				fare.put("one-way", oneway);
-				fare.put("roundtrip", roundtrip);
-				flight.put("price", fare);
-	        		arr.add(flight);
+			}
+			
+			query = "{CALL getLegs()}";
+			stmt = conn.prepareCall(query);
+			rs = stmt.executeQuery();
+			
+			//airlineID+flightNo : legNo : {depAirport,arrAirport, depTime, arrTime}
+			HashMap<String,HashMap<Integer,ArrayList<String>>> flights2 = new HashMap<String,HashMap<Integer,ArrayList<String>>>();
+			
+			String temp = null;
+			while(rs.next()) {
+				String airlineID = rs.getString("AirlineID");
+				String flightNo = rs.getString("FlightNo");
+				int legNo = rs.getInt("LegNo");
+				String depAirport = rs.getString("DepAirportID");
+				String arrAirport = rs.getString("ArrAirportID");
+				String depTime = rs.getString("DepTime");
+				String arrTime = rs.getString("ArrTime");
+				if(temp != null && legNo == 1) {
+					if(flights2.containsKey(temp)) {
+						boolean start = false;
+						boolean end = false;
+						for(ArrayList<String> a : flights2.get(temp).values()) {
+							if(a.get(0).equals(fromAirport)) {
+								start = true;
+							}
+							if(start == true && a.get(1).equals(toAirport)) {
+								end = true;
+								break;
+							}
+						}
+						if(start == false || end == false) {
+							flights2.remove(temp);
+						}
+					}
+				}
+				if(flights.containsKey(airlineID.concat(flightNo))) {
+					temp = airlineID.concat(flightNo);
+					if(depAirport.equals(fromAirport) || arrAirport.equals(toAirport)) {
+						if(!flights2.containsKey(temp)) {
+							flights2.put(temp, new HashMap<Integer,ArrayList<String>>());
+						}
+						flights2.get(temp).put(legNo, new ArrayList<String>());
+						flights2.get(temp).get(legNo).add(depAirport);
+						flights2.get(temp).get(legNo).add(arrAirport);
+						flights2.get(temp).get(legNo).add(depTime);
+						flights2.get(temp).get(legNo).add(arrTime);
+					}
+				}
+			}
+
+			//airlineID+flightNo : fareType : {economy$,first$}
+			HashMap<String,HashMap<String,ArrayList<Float>>> fares = new HashMap<String,HashMap<String,ArrayList<Float>>>(); 
+			query = "{CALL getFares()}";
+			stmt = conn.prepareCall(query);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				String tempName = rs.getString("AirlineID").concat(rs.getString("FlightNo"));
+				if(flights2.containsKey(tempName)) {
+					String fareType = rs.getString("FareType");
+					if(!fares.containsKey(tempName)) {
+						fares.put(tempName, new HashMap<String,ArrayList<Float>>());
+					}
+					if(!fares.get(tempName).containsKey(fareType)) {
+						fares.get(tempName).put(fareType, new ArrayList<Float>());
+					}
+					fares.get(tempName).get(fareType).add(rs.getFloat("Fare"));
+				}
+			}
+			
+			
+			Set<String> keys = flights2.keySet();
+			for(String key : keys) {
+				//add info from flights hashmap
+				JSONObject flight = new JSONObject();
+				flight.put("airline_id",key.substring(0, 2));
+				flight.put("flightNumber", key.substring(2));
+        			flight.put("daysOfWeek", flights.get(key));
+        			
+        			//add info from flights2 hashmap
+        			JSONObject legs = new JSONObject();
+        			HashMap<Integer,ArrayList<String>> temp2 = flights2.get(key);
+        			for(int key2 : temp2.keySet()) {
+        				JSONObject legsInfo = new JSONObject();
+        				legsInfo.put("depAirportID",temp2.get(key2).get(0));
+        				legsInfo.put("arrAirportID", temp2.get(key2).get(1));
+        				legsInfo.put("depTime", temp2.get(key2).get(2));
+        				legsInfo.put("arrTime", temp2.get(key2).get(3));
+        				legs.put(key2, legsInfo);
+        			}
+        			flight.put("legs", legs);
+        			
+        			//add info from fares hashmap
+    				JSONObject fare = new JSONObject();
+    				HashMap<String,ArrayList<Float>> temp3 = fares.get(key);
+    				for(String key2 : temp3.keySet()) {
+    					JSONObject faresInfo = new JSONObject();
+    					faresInfo.put("economy", temp3.get(key2).get(0));
+    					faresInfo.put("first", temp3.get(key2).get(1));
+    					fare.put(key2, faresInfo);
+    				}
+    				flight.put("prices", fare);
+    				jArray.add(flight);
 			}
 	        
-	        obj.put("flights", arr);
+	        obj.put("flights", jArray);
 	        
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			obj.put("flights", null);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			obj.put("flights", null);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			obj.put("flights", null);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			obj.put("flights", null);
 		}
-
-        System.out.println("returning");
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(obj);
