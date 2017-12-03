@@ -151,6 +151,48 @@ $(function() {
 	})
 
 
+	var returnFlights = (r) => {
+		$(".flights").removeClass("loading")
+		if (!r.flights || !r.flights.length) {
+			$(".flights").classClass("none");
+			return;
+		}
+
+		r.flights.forEach((flight) => {console.log(flight);
+			var $flight = $(".flight.dummy").clone(true, true);
+			$flight.removeClass("dummy");
+
+			$flight.find(".airline").html(flight.airline_id);
+			$flight.find(".airports").html(flight.depAirportID+" - "+flight.arrAirportID);
+
+			$(".flights").append($flight);
+		})
+	}
+	function getFlights() {
+		$(".flights").removeClass("none").addClass("loading");
+		$(".flights .flight").not(".dummy").remove();
+
+		var numOfSeats = parseInt($("#numberofseats").val());
+
+		makeCall("getflights", {
+			data: {
+				seats: numOfSeats
+			},
+			callBack: returnFlights
+		});
+	}
+	getFlights();
+
+
+
+
+
+
+
+
+
+
+
 
 	
 

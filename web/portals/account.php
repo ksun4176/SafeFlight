@@ -22,4 +22,4 @@
 	if ($account_type == 1)
 		header( 'Location: /dashboard.php' );
 	else
-		header( 'Location: /login.php' );
+		header( 'Location: /account.php' );

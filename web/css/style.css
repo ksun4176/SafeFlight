@@ -167,6 +167,65 @@ header .links .link .text {
 	color:#335;
 }
 
+
+.spinner {
+	position:relative;
+	overflow:visible;
+	font-size:0;
+	display:inline-block;
+	width:0px;
+	height:0px;
+}
+.spinner:before,
+.spinner:after {
+	position:absolute;
+	display:inline-block;
+	content:".";
+	left:-16px;
+	top:-16px;
+	width:32px;
+	height:32px;
+	border-radius:50%;
+}
+.spinner:before {
+	border:3px solid #ccc;
+}
+@-webkit-keyframes spin1 {
+	0% { -webkit-transform: rotate(0deg);}
+	100% { -webkit-transform: rotate(360deg);}
+}
+@-moz-keyframes spin1 {
+	0% { -moz-transform: rotate(0deg);}
+	100% { -moz-transform: rotate(360deg);}
+}
+@-keyframes spin1 {
+	0% { transform: rotate(0deg);}
+	100% { transform: rotate(360deg);}
+} 
+.spinner:after {
+	border:3px solid #00a;
+	border-bottom-color:transparent;
+	border-right-color:transparent;
+	border-left-color:transparent;
+	-webkit-animation: spin1 1.1s infinite linear;
+	-moz-animation: spin1 1.1s infinite linear;
+	animation: spin1 1.1s infinite linear;
+}
+.spinner span {
+	display:inline-block;
+	position:absolute;
+	top:25px;
+	left:-77px;
+	text-align: center;
+	width:160px;
+}
+.spinner span:before {
+	content:"Loading";
+	font-size:14px;
+	color:#666;
+	font-style: italic;
+}
+
 .modal {
 	position:absolute;
 	left:0;
@@ -217,10 +276,6 @@ header .links .link .text {
 	left:50%;
 	top:50%;
 	top:calc(50% - 9px);
-	width:0px;
-	height:0px;
-	overflow:visible;
-	font-size:0;
 }
 .modal.loading .box > * {
 	opacity:0;
@@ -229,55 +284,7 @@ header .links .link .text {
 	display:block;
 	opacity:1;
 }
-.modal .spinner:before,
-.modal .spinner:after {
-	display:inline-block;
-	content:".";
-	position:absolute;
-	left:-16px;
-	top:-16px;
-	width:32px;
-	height:32px;
-	border-radius:50%;
-}
-.modal .spinner:before {
-	border:3px solid #ccc;
-}
-@-webkit-keyframes spin1 {
-	0% { -webkit-transform: rotate(0deg);}
-	100% { -webkit-transform: rotate(360deg);}
-}
-@-moz-keyframes spin1 {
-	0% { -moz-transform: rotate(0deg);}
-	100% { -moz-transform: rotate(360deg);}
-}
-@-keyframes spin1 {
-	0% { transform: rotate(0deg);}
-	100% { transform: rotate(360deg);}
-} 
-.modal .spinner:after {
-	border:3px solid #00a;
-	border-bottom-color:transparent;
-	border-right-color:transparent;
-	border-left-color:transparent;
-	-webkit-animation: spin1 1.1s infinite linear;
-	-moz-animation: spin1 1.1s infinite linear;
-	animation: spin1 1.1s infinite linear;
-}
-.modal .spinner span {
-	display:inline-block;
-	position:absolute;
-	top:25px;
-	left:-77px;
-	text-align: center;
-	width:160px;
-}
-.modal .spinner span:before {
-	content:"Loading";
-	font-size:14px;
-	color:#666;
-	font-style: italic;
-}
+
 
 
 
