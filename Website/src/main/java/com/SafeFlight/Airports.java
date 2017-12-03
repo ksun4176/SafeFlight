@@ -45,7 +45,7 @@ public class Airports extends HttpServlet {
 
 		    // Testing SQL
 		    Statement statement = conn.createStatement();
-			String query = "{CALL getAirports}";
+			String query = "{CALL getAirports()}";
 			CallableStatement stmt = conn.prepareCall(query);
 			ResultSet rs = stmt.executeQuery();
 			

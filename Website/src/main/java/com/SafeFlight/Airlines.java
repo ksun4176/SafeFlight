@@ -45,7 +45,7 @@ public class Airlines extends HttpServlet {
 
 		    // Testing SQL
 		    Statement statement = conn.createStatement();
-			String query = "{CALL getAirlines}";
+			String query = "{CALL getAirlines()}";
 			CallableStatement stmt = conn.prepareCall(query);
 			ResultSet rs = stmt.executeQuery();
 			
@@ -66,7 +66,7 @@ public class Airlines extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        airlines.put("airports", airline);
+        airlines.put("airlines", airline);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(airlines);
