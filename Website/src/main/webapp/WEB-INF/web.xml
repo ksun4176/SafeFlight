@@ -119,6 +119,18 @@
   	<description></description>
   	<servlet-class>com.SafeFlight.MostActiveFlights</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>Monthly</servlet-name>
+  	<display-name>Monthly</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.Monthly</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AirportFlights</servlet-name>
+  	<display-name>AirportFlights</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.AirportFlights</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
   	<url-pattern>/flights</url-pattern>
@@ -173,7 +185,15 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>MostActiveFlights</servlet-name>
-  	<url-pattern>/report/mostactiveflights</url-pattern>
+  	<url-pattern>/reports/mostactiveflights</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Monthly</servlet-name>
+  	<url-pattern>/reports/monthly</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AirportFlights</servlet-name>
+  	<url-pattern>/reports/airportflights</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
