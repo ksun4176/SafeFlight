@@ -380,7 +380,7 @@ $(function() {
 
 	getAirlines();
 
-	/*
+	//*
 	$("#flyingfrom").attr("airport_id", "JFK")
 	$("#flyingto").attr("airport_id", "LAX")
 	getFlights();
