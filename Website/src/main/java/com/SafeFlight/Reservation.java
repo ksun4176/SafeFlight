@@ -47,62 +47,11 @@ public class Reservation extends HttpServlet {
 		JSONArray reservations = new JSONArray();
 		try {
 			conn = ConnectionUtils.getMyConnection();
+			String airlineId = request.getParameter("airline_id");
 			String flightNumber  = request.getParameter("flightNumber");
 			String account_id = request.getParameter("account_id");
 			String reservation_id = request.getParameter("reservation_id");
-			if (flightNumber == null) {
-				if (account_id == null) {
-					//Reservation_id
-					String query = "{CALL getReservationR(?)}";
-					CallableStatement stmt = conn.prepareCall(query);
-					stmt.setString(1, reservation_id);
-					ResultSet rs = stmt.executeQuery();
-					JSONObject o = new JSONObject();
-					if(rs.next()) {
-			        		int ResNo = rs.getInt("ResNo");
-			        		Date ResDate = rs.getDate("ResDate");
-			        		double BookingFee = rs.getDouble("BookingFee");
-			        		double TotalFare = rs.getDouble("TotalFare");
-			        		int RepID = rs.getInt("RepID");
-			        		int AccountNo = rs.getInt("AccountNo");
-	
-			        		o.put("resveration_id", ResNo);
-			        		o.put("ResDate", ResDate.toString());
-			        		o.put("bookingFee", BookingFee);
-			        		o.put("totalFare", TotalFare);
-			        		o.put("customer_rep_id", RepID);
-			        		o.put("account_id", AccountNo);
-			        		reservations.add(o);
-					}
-				}
-				else {
-					//account_id
-					String query = "{CALL getReservationC(?)}";
-					CallableStatement stmt = conn.prepareCall(query);
-					stmt.setString(1, account_id);
-					ResultSet rs = stmt.executeQuery();
-					JSONObject o = new JSONObject();
-					while(rs.next()) {
-			        		int ResNo = rs.getInt("ResNo");
-			        		Date ResDate = rs.getDate("ResDate");
-			        		double BookingFee = rs.getDouble("BookingFee");
-			        		double TotalFare = rs.getDouble("TotalFare");
-			        		int RepID = rs.getInt("RepID");
-			        		int AccountNo = rs.getInt("AccountNo");
-	
-			        		o.put("resveration_id", ResNo);
-			        		o.put("ResDate", ResDate.toString());
-			        		o.put("bookingFee", BookingFee);
-			        		o.put("totalFare", TotalFare);
-			        		o.put("customer_rep_id", RepID);
-			        		o.put("account_id", AccountNo);
-			        		reservations.add(o);			
-					}
-				}
-			}
-			else {
-				//flightNumber
-				//return all reservations in flightnumber
+			if(flightNumber != null && airlineId != null) {
 				String airlineID = request.getParameter("airline_id");
 				String query = "{CALL getReservationF(?, ?)}";
 				CallableStatement stmt = conn.prepareCall(query);
@@ -127,12 +76,61 @@ public class Reservation extends HttpServlet {
 		        		o.put("account_id", AccountNo);
 		        		reservations.add(o);
 				}
+			} else if (account_id != null) {
+				String query = "{CALL getReservationC(?)}";
+				CallableStatement stmt = conn.prepareCall(query);
+				stmt.setString(1, account_id);
+				ResultSet rs = stmt.executeQuery();
+				JSONObject o = new JSONObject();
+				while(rs.next()) {
+		        		int ResNo = rs.getInt("ResNo");
+		        		Date ResDate = rs.getDate("ResDate");
+		        		double BookingFee = rs.getDouble("BookingFee");
+		        		double TotalFare = rs.getDouble("TotalFare");
+		        		int RepID = rs.getInt("RepID");
+		        		int AccountNo = rs.getInt("AccountNo");
+	
+		        		o.put("resveration_id", ResNo);
+		        		o.put("ResDate", ResDate.toString());
+		        		o.put("bookingFee", BookingFee);
+		        		o.put("totalFare", TotalFare);
+		        		o.put("customer_rep_id", RepID);
+		        		o.put("account_id", AccountNo);
+		        		reservations.add(o);		
+				}
+			} else if(reservation_id != null) {
+				//Reservation_id
+				String query = "{CALL getReservationR(?)}";
+				CallableStatement stmt = conn.prepareCall(query);
+				stmt.setString(1, reservation_id);
+				ResultSet rs = stmt.executeQuery();
+				JSONObject o = new JSONObject();
+				if(rs.next()) {
+			     	int ResNo = rs.getInt("ResNo");
+			     	Date ResDate = rs.getDate("ResDate");
+			    		double BookingFee = rs.getDouble("BookingFee");
+			        	double TotalFare = rs.getDouble("TotalFare");
+			    		int RepID = rs.getInt("RepID");
+			    		int AccountNo = rs.getInt("AccountNo");
+	
+			    		o.put("resveration_id", ResNo);
+			        	o.put("ResDate", ResDate.toString());
+			    		o.put("bookingFee", BookingFee);
+			    		o.put("totalFare", TotalFare);
+			    		o.put("customer_rep_id", RepID);
+		     		o.put("account_id", AccountNo);
+		     		reservations.add(o);
+				}
+			}else {
+				throw new IllegalArgumentException("Missing Parameters");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		json.put("reservations", reservations);
