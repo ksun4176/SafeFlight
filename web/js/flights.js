@@ -23,11 +23,12 @@ $(function() {
 		airportCb.push(callBack);
 		if (airportRequestSent) return;
 		airportRequestSent = true;
-		makeCall("getairports", { callBack: (r) => {
-			if (!r || !r.airports) return;
+		makeCall("getcities", { callBack: (r) => {
+			console.log(r)
+			if (!r || !r.cities) return;
 			airports = [];
-			r.airports.forEach((airport) => {
-				airports.push([airport.name, airport.city, airport.country, airport.airport_id]);
+			r.cities.forEach((airport) => {
+				airports.push([airport.city, airport.country, airport.city+","+airport.country]);
 			});
 			for(var i=0;i<airportCb.length;i++) {
 				airportCb[i](airports);
@@ -64,8 +65,8 @@ $(function() {
 			listed = [];
 			for(var i=0;i<airports.length;i++) {
 				var a = airports[i];
-				var string = a[1]+", "+a[2]+" ["+a[0]+"]";
-				if (matchCriteria(a[0].toLowerCase()) || matchCriteria(a[1].toLowerCase()) || matchCriteria(a[2].toLowerCase()) || matchCriteria(a[3].toLowerCase()) ||
+				var string = a[0]+", "+a[1];
+				if (matchCriteria(a[0].toLowerCase()) || matchCriteria(a[1].toLowerCase()) ||
 					string.toLowerCase() == criteria) {
 					$dropdown.append(
 						$("<div>")
@@ -85,8 +86,8 @@ $(function() {
 				ind = parseInt($(this).attr("index"));
 			}
 			var a = airports[ind];
-			$this.val(a[1]+", "+a[2]+" ["+a[0]+"]");
-			$this.attr("airport_id", a[3]);
+			$this.val(a[0]+", "+a[1]);
+			$this.attr("airport_id", a[2]);
 			if (getFlights)
 				getFlights();
 		}
@@ -380,7 +381,7 @@ $(function() {
 
 	getAirlines();
 
-	//*
+	/*
 	$("#flyingfrom").attr("airport_id", "JFK")
 	$("#flyingto").attr("airport_id", "LAX")
 	getFlights();

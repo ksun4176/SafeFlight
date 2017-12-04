@@ -37,6 +37,10 @@ $(function() {
 			method: "POST"
 		},
 
+		getcities: {
+			url: "/flights/cities",
+			method: "GET"
+		},
 		getflights: {
 			url: "/flights/get",
 			method: "GET"

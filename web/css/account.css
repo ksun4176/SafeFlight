@@ -13,7 +13,90 @@ h1 {
 	margin:20px 0 15px;
 }
 
+h2 {
+	font-size:24px;
+	margin:20px 0 12px;
+}
 
+.editprofile {
+	font-size:16px;
+	padding:5px 20px;
+	background:#fff;
+	border:1px solid #000;
+	text-align: center;
+	width:250px;
+	cursor:pointer;
+}
+.editprofile:hover {
+	background:#ddd;
+}
+
+
+.resfilter {
+	padding:5px 10px;
+	width:150px;
+	cursor:pointer;
+	border-radius: 0;
+}
+.reservations {
+	display:block;
+	width:100%;
+	margin-top:10px;
+}
+.reservation {
+	display:block;
+	border-bottom:1px solid #000;
+	padding:2px 0 3px;
+}
+.reservations .reservation:last-child {
+	border-bottom:none;
+}
+.reservation.top {
+	border-bottom:2px solid #000;
+}
+.reservation .column {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:16px;
+}
+.reservation.top .column {
+	font-weight:bold;
+}
+.reservation .column.edit {
+	width:40px;
+	text-align: left;
+}
+.reservation.top .column.edit {
+	visibility:hidden;
+}
+.reservation .column.edit span {
+	display:inline-block;
+	font-size:12px;
+	cursor:pointer;
+	border:1px solid rgba(0,0,0,0.5);
+	border-radius:2px;
+	padding:1px 3px;
+	background:#fff;
+}
+.reservation .column.resno {
+	width:50px;
+}
+.reservation .column.date {
+	width:80px;
+}
+.reservation .column.fare {
+	width:100px;
+}
+.reservation .column.fee {
+	width:100px;
+}
+.reservation .column.address {
+	min-width:0;
+	width:calc(100% - 40px - 50px - 80px - 100px - 100px);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
 
 
 
