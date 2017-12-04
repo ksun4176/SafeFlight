@@ -22,12 +22,13 @@ $(function() {
 		getreservations: {
 			url: "/reservations/get",
 			method: "POST",
-			dummy : () => {
+			adummy : () => {
 				var arr = [], ind = 0;;
 				for(var i=0;i<5;i++) arr.push({
 					reservation_id:(ind += Math.floor(Math.random()*10)+2),
 					totalFare: Math.floor(Math.random()*500) + 200+"DUMMYDATADONTUSE"
 				})
+				//arr.push({reservation_id:15, totalFare:300})
 				return {reservations:arr}
 			}
 		},

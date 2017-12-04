@@ -326,7 +326,7 @@ $(function() {
 		var price = flight.prices["one-way"][selchoice];
 		var legs = [];
 		for(var i=0;i<flight.legs.length;i++) legs.push(flight.legs[i].leg);
-		legs = legs.join("+");
+		legs = legs.join(" ");
 		var date = flight.legs[0].depTime;
 		date = date.getFullYear()+""+(1+date.getMonth())+""+date.getDate();
 
@@ -342,6 +342,9 @@ $(function() {
 			data.account_id = parseInt($(".bookFlight .customer").val());
 			data.customer_rep_id = ID;
 		}
+		var res_id = parseInt($(".bookFlight .reservation").val())
+		if (res_id > 0)
+			data.reservation_id = res_id;
 
 		makeCall("createreservation", {
 			data: data,
