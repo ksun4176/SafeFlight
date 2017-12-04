@@ -155,6 +155,12 @@
   	<description></description>
   	<servlet-class>com.SafeFlight.DeleteReservation</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>GetCity</servlet-name>
+  	<display-name>GetCity</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.GetCity</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
   	<url-pattern>/flights</url-pattern>
@@ -234,6 +240,10 @@
   <servlet-mapping>
   	<servlet-name>DeleteReservation</servlet-name>
   	<url-pattern>/reservations/delete</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>GetCity</servlet-name>
+  	<url-pattern>/flights/cities</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
