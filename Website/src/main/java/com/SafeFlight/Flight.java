@@ -148,7 +148,11 @@ public class Flight extends HttpServlet {
 								flights2.get(temp).get(legNo).add(depTime);
 								flights2.get(temp).get(legNo).add(arrTime);
 								tempNo = legNo;
-								done = false;
+								if(arrAirport.equals(toAirport)) {
+									done = true;
+								} else {
+									done = false;
+								}
 							}
 						} else {
 							if(!flights2.containsKey(temp)) {
@@ -160,7 +164,11 @@ public class Flight extends HttpServlet {
 							flights2.get(temp).get(legNo).add(depTime);
 							flights2.get(temp).get(legNo).add(arrTime);
 							tempNo = legNo;
-							done = false;
+							if(arrAirport.equals(toAirport)) {
+								done = true;
+							} else {
+								done = false;
+							}
 						}
 					} else if(arrAirport.equals(toAirport)) {
 						if(!flights2.containsKey(temp)) {
