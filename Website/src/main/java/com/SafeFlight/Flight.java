@@ -47,19 +47,42 @@ public class Flight extends HttpServlet {
 		
 		try {
 			conn = ConnectionUtils.getMyConnection();
-			String fromAirport = request.getParameter("fromAirportID");
-			String toAirport = request.getParameter("toAirportID");
+			String from = request.getParameter("fromAirport");
+			String to = request.getParameter("toAirport");
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
 
-			if(fromAirport == null || toAirport == null) {
+			if(from == null || to == null) {
 				throw new IllegalArgumentException("Missing parameters");
 			}
+			//Get all airports at from, to
+			String[] tempLoc = from.split(",");
+			String query = "{CALL getAirportAtCity(?,?)}";
+			CallableStatement stmt = conn.prepareCall(query);
+			stmt.setString(1, tempLoc[0]);
+			stmt.setString(2, tempLoc[1]);
+			ResultSet rs = stmt.executeQuery();
+			ArrayList<String> fromAirports = new ArrayList<String>();
+			while(rs.next()) {
+				fromAirports.add(rs.getString("Id"));
+			}
+			
+			tempLoc = to.split(",");
+			query = "{CALL getAirportAtCity(?, ?)}";
+			stmt = conn.prepareCall(query);
+			stmt.setString(1, tempLoc[0]);
+			stmt.setString(2, tempLoc[1]);
+			rs = stmt.executeQuery();
+			ArrayList<String> toAirports = new ArrayList<String>();
+			while(rs.next()) {
+				toAirports.add(rs.getString("Id"));
+			}
+			
 			
 			//Get all flights and check if days matched DaysOperating
-			String query = "{CALL getFlights()}";
-			CallableStatement stmt = conn.prepareCall(query);
-			ResultSet rs = stmt.executeQuery();
+			query = "{CALL getFlights()}";
+			stmt = conn.prepareCall(query);
+			rs = stmt.executeQuery();
 			
 			//airlineID+flightNo : days+numSeats
 			HashMap<String,String> flights = new HashMap<String,String>();
@@ -120,10 +143,10 @@ public class Flight extends HttpServlet {
 							flights2.remove(temp);
 						} else {
 							for(ArrayList<String> a : flights2.get(temp).values()) {
-								if(a.get(0).equals(fromAirport)) {
+								if(fromAirports.contains(a.get(0))) {
 									start = true;
 								}
-								if(start == true && a.get(1).equals(toAirport)) {
+								if(start == true && toAirports.contains(a.get(1))) {
 									end = true;
 									break;
 								}
@@ -136,7 +159,7 @@ public class Flight extends HttpServlet {
 				}
 				if(flights.containsKey(airlineID.concat(flightNo))) {
 					temp = airlineID.concat(flightNo);
-					if(depAirport.equals(fromAirport)) {
+					if(fromAirports.contains(depAirport)) {
 						if(fromDate != null && legNo == 1) {
 							if(depTime.compareTo(fromDate) > 0) {
 								if(!flights2.containsKey(temp)) {
@@ -148,7 +171,7 @@ public class Flight extends HttpServlet {
 								flights2.get(temp).get(legNo).add(depTime);
 								flights2.get(temp).get(legNo).add(arrTime);
 								tempNo = legNo;
-								if(arrAirport.equals(toAirport)) {
+								if(toAirports.contains(arrAirport)) {
 									done = true;
 								} else {
 									done = false;
@@ -164,13 +187,13 @@ public class Flight extends HttpServlet {
 							flights2.get(temp).get(legNo).add(depTime);
 							flights2.get(temp).get(legNo).add(arrTime);
 							tempNo = legNo;
-							if(arrAirport.equals(toAirport)) {
+							if(toAirports.contains(arrAirport)) {
 								done = true;
 							} else {
 								done = false;
 							}
 						}
-					} else if(arrAirport.equals(toAirport)) {
+					} else if(toAirports.contains(arrAirport)) {
 						if(!flights2.containsKey(temp)) {
 							flights2.put(temp, new HashMap<Integer,ArrayList<String>>());
 						}
@@ -199,10 +222,10 @@ public class Flight extends HttpServlet {
 						flights2.remove(temp);
 					} else {
 						for(ArrayList<String> a : flights2.get(temp).values()) {
-							if(a.get(0).equals(fromAirport)) {
+							if(fromAirports.contains(a.get(0))) {
 								start = true;
 							}
-							if(start == true && a.get(1).equals(toAirport)) {
+							if(start == true && toAirports.contains(a.get(1))) {
 								end = true;
 								break;
 							}
