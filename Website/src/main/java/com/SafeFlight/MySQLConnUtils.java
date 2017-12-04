@@ -11,7 +11,7 @@ public class MySQLConnUtils {
    public static Connection getMySQLConnection() throws SQLException,
            ClassNotFoundException {
 //       String hostName = "my-db-instance.ckej4fsuw7km.us-east-1.rds.amazonaws.com ";
-	   String hostName = "safeflights.cj3ctewc09t0.us-east-1.rds.amazonaws.com";
+	   String hostName = "safelight-backup.cj3ctewc09t0.us-east-1.rds.amazonaws.com";
        String dbName = "SafeFlights";
        String userName = "root";
        String password = "password";
