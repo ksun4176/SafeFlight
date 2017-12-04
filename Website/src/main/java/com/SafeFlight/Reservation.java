@@ -112,7 +112,7 @@ public class Reservation extends HttpServlet {
 			    		int RepID = rs.getInt("RepID");
 			    		int AccountNo = rs.getInt("AccountNo");
 	
-			    		o.put("resveration_id", ResNo);
+			    		o.put("reservation_id", ResNo);
 			        	o.put("ResDate", ResDate.toString());
 			    		o.put("bookingFee", BookingFee);
 			    		o.put("totalFare", TotalFare);
