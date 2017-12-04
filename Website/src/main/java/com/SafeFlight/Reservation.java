@@ -67,7 +67,7 @@ public class Reservation extends HttpServlet {
 		        		int RepID = rs.getInt("RepID");
 		        		int AccountNo = rs.getInt("AccountNo");
 
-		        		o.put("resveration_id", ResNo);
+		        		o.put("reservation_id", ResNo);
 		        		o.put("ResDate", ResDate.toString());
 		        		o.put("bookingFee", BookingFee);
 		        		o.put("totalFare", TotalFare);
@@ -80,16 +80,16 @@ public class Reservation extends HttpServlet {
 				CallableStatement stmt = conn.prepareCall(query);
 				stmt.setString(1, account_id);
 				ResultSet rs = stmt.executeQuery();
-				JSONObject o = new JSONObject();
 				while(rs.next()) {
+					JSONObject o = new JSONObject();
 		        		int ResNo = rs.getInt("ResNo");
 		        		Date ResDate = rs.getDate("ResDate");
 		        		double BookingFee = rs.getDouble("BookingFee");
 		        		double TotalFare = rs.getDouble("TotalFare");
 		        		int RepID = rs.getInt("RepID");
 		        		int AccountNo = rs.getInt("AccountNo");
-	
-		        		o.put("resveration_id", ResNo);
+		        		System.out.println(ResNo);
+		        		o.put("reservation_id", ResNo);
 		        		o.put("ResDate", ResDate.toString());
 		        		o.put("bookingFee", BookingFee);
 		        		o.put("totalFare", TotalFare);
