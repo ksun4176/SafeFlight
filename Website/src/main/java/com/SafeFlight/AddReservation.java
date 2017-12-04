@@ -46,7 +46,6 @@ public class AddReservation extends HttpServlet {
 			conn = ConnectionUtils.getMyConnection();
 			String account_id = request.getParameter("account_id");
 			String reservation_id = request.getParameter("reservation_id");
-			String rep_id = request.getParameter("customer_rep_id");
 			String airline_id = request.getParameter("airline_id");
 			String flightNum = request.getParameter("flightNumber");
 			String tempLegNum = request.getParameter("legNumber");
@@ -65,8 +64,15 @@ public class AddReservation extends HttpServlet {
 					stmt.setString(6, date);
 					stmt.executeQuery();
 				} else {
-					String query = "{CALL recordReservationNew(?, ?, ?, ?, ?, ?, ?)}";
+					String query = "{CALL getOpenEmployee()}";
 					CallableStatement stmt = conn.prepareCall(query);
+					ResultSet rs = stmt.executeQuery();
+					if(!rs.next()) {
+						throw new SQLException("Rep Not Found");
+					}
+					String rep_id = rs.getString("Id");
+					query = "{CALL recordReservationNew(?, ?, ?, ?, ?, ?, ?)}";
+					stmt = conn.prepareCall(query);
 					stmt.setString(1, account_id);
 					stmt.setString(2, rep_id);
 					stmt.setString(3, airline_id);
@@ -74,7 +80,7 @@ public class AddReservation extends HttpServlet {
 					stmt.setString(5, l);
 					stmt.setString(6, flightFare);
 					stmt.setString(7, date);
-					ResultSet rs = stmt.executeQuery();
+					rs = stmt.executeQuery();
 					rs.next();
 					reservation_id = rs.getString("ResNo");
 				}
