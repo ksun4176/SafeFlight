@@ -176,6 +176,8 @@ public class GetAccounts extends HttpServlet {
 					jArray.add(o);
 				}
 			}
+			
+			ConnectionUtils.close(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

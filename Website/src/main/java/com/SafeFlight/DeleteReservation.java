@@ -49,6 +49,7 @@ public class DeleteReservation extends HttpServlet {
 			stmt.setString(1, resno);
 			stmt.executeQuery();
 			json.put("ok", true);
+			ConnectionUtils.close(conn);
 		} catch(SQLException e) {
 			e.printStackTrace();
 			json.put("ok", false);

@@ -61,6 +61,7 @@ public class AirportFlights extends HttpServlet {
 		        	o.put("legNumber", legNumber);
 		        	flights.add(o);
 		    }
+			ConnectionUtils.close(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

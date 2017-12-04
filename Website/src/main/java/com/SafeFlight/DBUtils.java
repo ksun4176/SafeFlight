@@ -40,10 +40,11 @@ public class DBUtils {
 		   else if (role.equals("manager")) {
 			   o.put("accountType", 2);
 		   }
-		   
+			ConnectionUtils.close(conn);
 		   return o;
 		}
 		
+		ConnectionUtils.close(conn);
 		return null;
 	}
 	

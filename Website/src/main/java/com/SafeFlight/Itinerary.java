@@ -69,6 +69,7 @@ public class Itinerary extends HttpServlet {
 					jArray.add(o);
 				}
 			}
+			ConnectionUtils.close(conn);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

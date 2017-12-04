@@ -59,6 +59,7 @@ public class Airlines extends HttpServlet {
 		        	o.put("name", name);
 		        airline.add(o);
 		     }
+			ConnectionUtils.close(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

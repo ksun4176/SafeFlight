@@ -76,6 +76,7 @@ public class Monthly extends HttpServlet {
 		        	o.put("account_id", AccountNo);
 		        	reservations.add(o);
 		     }
+			ConnectionUtils.close(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

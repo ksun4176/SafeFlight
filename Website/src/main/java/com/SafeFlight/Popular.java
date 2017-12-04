@@ -39,8 +39,7 @@ public class Popular extends HttpServlet {
 		
 		try {
 			Connection conn = ConnectionUtils.getMyConnection();
-			 System.out.println("Get connection " + conn);
-		        
+
 		        // Testing SQL
 		        Statement statement = conn.createStatement();
 		        String sql = "{CALL getMostActiveFlights}";
@@ -57,6 +56,7 @@ public class Popular extends HttpServlet {
 		        		o.put("Amount", Amount);
 		        		flights.add(o);
 		        }
+				ConnectionUtils.close(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

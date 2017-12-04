@@ -86,6 +86,8 @@ public class EditEmployee extends HttpServlet {
 			rs = stmt.executeQuery();
 
 			json.put("ok",true);
+			
+			ConnectionUtils.close(conn);
 		} catch(IllegalArgumentException e){
 			e.printStackTrace();
 			json.put("ok",false);

@@ -269,7 +269,7 @@ public class Flight extends HttpServlet {
 			}
 	        
 	        obj.put("flights", jArray);
-	        
+			ConnectionUtils.close(conn);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

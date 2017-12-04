@@ -122,6 +122,7 @@ public class Reservation extends HttpServlet {
 			}else {
 				throw new IllegalArgumentException("Missing Parameters");
 			}
+			ConnectionUtils.close(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

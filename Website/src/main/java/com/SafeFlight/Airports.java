@@ -63,6 +63,7 @@ public class Airports extends HttpServlet {
 		        	o.put("country", country);
 		        airport.add(o);
 		     }
+			ConnectionUtils.close(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

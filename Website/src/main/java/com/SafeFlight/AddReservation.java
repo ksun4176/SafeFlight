@@ -91,6 +91,7 @@ public class AddReservation extends HttpServlet {
 				}
 			}
 			json.put("reservation_id", Integer.parseInt(reservation_id));
+			ConnectionUtils.close(conn);
 		} catch(IllegalArgumentException e){
 			e.printStackTrace();
 			json.put("reservation_id", -1);

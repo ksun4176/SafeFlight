@@ -78,6 +78,7 @@ public class Revenue extends HttpServlet {
 			} else {
 				throw new IllegalArgumentException("Expects an argument");
 			}
+			ConnectionUtils.close(conn);
 		} catch(SQLException e) {
 			e.printStackTrace();
 			json.put("Revenue", -1);

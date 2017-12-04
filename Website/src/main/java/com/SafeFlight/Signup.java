@@ -94,7 +94,7 @@ public class Signup extends HttpServlet {
 			
 			o.put("account_id", id);
 			
-			
+			ConnectionUtils.close(conn);
 		} catch (ClassNotFoundException e) {
 			// onError set return id to -1
 			e.printStackTrace();

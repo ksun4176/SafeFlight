@@ -54,6 +54,7 @@ public class MailingList extends HttpServlet {
 		        		o.put("Email", email);
 		        		jArray.add(o);
 		        }
+				ConnectionUtils.close(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
