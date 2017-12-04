@@ -220,6 +220,11 @@ $(function() {
 		if (hour == 0) hour = 12;
 		return (hour)+":"+padTwo(date.getMinutes())+ampm;
 	}
+	function updatePrice($el, price) {
+		$el.find("div").html("$"+Math.floor(price));		
+		$el.find("span").html("."+padTwo((price*100) % 100));
+		$el.attr("price", price);
+	}
 
 
 	var flights = [];
@@ -232,8 +237,6 @@ $(function() {
 
 		r.flights.forEach((flight, index) => {
 			flight.legs = transformFlightLeg(flight.legs);
-
-			console.log(flight);
 			
 			var $flight = $(".flight.dummy").clone(true, true);
 			$flight.removeClass("dummy");
@@ -253,23 +256,132 @@ $(function() {
 			$flight.find(".timerange").html(
 				buildHumanTime(flight.legs[0].depTime) + " - " +
 				buildHumanTime(flight.legs[flight.legs.length-1].arrTime));
+			updatePrice($flight.find(".price"), flight.prices["one-way"].economy);
+			
 
 			$(".flights").append($flight);
 		});
 		flights = r.flights;
 	}
 
+	$(".bookFlight .prices .choice").click(function() {
+		$(".bookFlight .prices .choice").removeClass("selected");
+		$(this).addClass("selected");
+	})
+
+	var activeFlight = null;
+	$(".flight.dummy .select").click(function(e) {
+		var index = parseInt($(this).closest(".flight").attr("flight"));
+		var flight = flights[index];
+		activeFlight = flight;
+		
+		$(".bookFlight").addClass("show");
+		$(".bookFlight .flightdetail").html(getAirlineName(flight.airline_id)+" "+flight.flightNumber);
+		$(".bookFlight .date").html(buildDepDate(flight.legs)+"<span>"+
+			buildHumanTime(flight.legs[0].depTime) + " - " +
+			buildHumanTime(flight.legs[flight.legs.length-1].arrTime)+"</span>");
+		$(".bookFlight .legs").html(buildLegString(flight.legs));
+		for (var i in flight.prices["one-way"]) {
+			if (i == "economy")
+				updatePrice($(".bookFlight .economy .price"), flight.prices["one-way"][i])
+			else if (i == "first")
+				updatePrice($(".bookFlight .firstclass .price"), flight.prices["one-way"][i])
+		}
+		if (TYPE == 1)
+			$(".bookFlight .customer").trigger("change");
+		else if (TYPE == 0) {
+			makeCall("getreservations", {
+				data: {account_id: ID},
+				callBack : populateReservations
+			});
+		}
+	});
+
+	function populateReservations(r) {
+		$(".bookFlight .reservation option").not("[value=-1]").remove();
+		if (r && r.reservations) {
+			r.reservations.forEach((res) => {
+				$(".bookFlight .reservation").append(
+					$("<option></option>").attr("value", res.reservation_id)
+						.html("Reservation "+res.reservation_id+" - Total Fare: $"+res.totalFare)
+					);
+			});
+		}
+	}
+	$(".bookFlight .customer").on("change", function() {
+		var account_id = $(this).val();
+		
+		makeCall("getreservations", {
+			data: {account_id: account_id},
+			callBack : populateReservations
+		});
+	})
+
+	$(".bookFlight .book").click(function() {
+		var flight = activeFlight;
+		if (!flight) return;
+		console.log(flight);
+		
+		var selchoice = $(".bookFlight .prices .choice.selected").attr("selectprice");
+		var price = flight.prices["one-way"][selchoice];
+		var legs = [];
+		for(var i=0;i<flight.legs.length;i++) legs.push(flight.legs[i].leg);
+		legs = legs.join("+");
+		var date = flight.legs[0].depTime;
+		date = date.getFullYear()+""+(1+date.getMonth())+""+date.getDate();
+
+		var data = {
+			account_id : ID, // CUSTOMER ID NOT LOGGED IN ID
+			airline_id : flight.airline_id,
+			flightNumber : flight.flightNumber,
+			legNumber : legs,
+			flightFare : price,
+			date : date
+		};
+		if (TYPE == 1) {
+			data.account_id = parseInt($(".bookFlight .customer").val());
+			data.customer_rep_id = ID;
+		}
+
+		makeCall("createreservation", {
+			data: data,
+			callBack : (r) => {
+				console.log(r)
+			}
+		})
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	getAirlines();
 
-	//$("#flyingfrom").attr("airport_id", "JFK")
-	//$("#flyingto").attr("airport_id", "LAX")
-	//getFlights();
-
-
-
-
-
-
+	/*
+	$("#flyingfrom").attr("airport_id", "JFK")
+	$("#flyingto").attr("airport_id", "LAX")
+	getFlights();
+	//*/
 
 
 
@@ -279,6 +391,9 @@ $(function() {
 	
 
 });
+
+
+
 
 
 

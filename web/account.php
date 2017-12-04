@@ -12,6 +12,7 @@
 		<link rel=icon href=/img/favicon.ico>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/account.css" />
 
         <script type="text/javascript">var TYPE=<?=$TYPE?>;var ID=<?=$ID?>;</script>
 		<script src="js/vendor/jmin.js"></script>
@@ -19,6 +20,7 @@
 		<script src="js/script.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/profileedit.js"></script>
+        <script src="js/account.js"></script>
 	</head>
 
 	<body>
@@ -28,17 +30,7 @@
     	<div id="container">
     		<div id="content">
 
-                <?php if ($TYPE == 0) { ?>
-
-                    <h1>Account</h1>
-
-                    
-
-                <?php } else if ($TYPE == 2) { ?>
-
-                    <h1>Manager Dashboard</h1>
-
-                <?php } ?>
+                <h1>Account</h1>
     			
 
 

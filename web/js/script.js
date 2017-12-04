@@ -24,6 +24,7 @@ function transformFlightLeg(leg) {
 		l[i] = leg[i];
 		l[i].arrTime = new Date(l[i].arrTime);
 		l[i].depTime = new Date(l[i].depTime);
+		l[i].leg = i;
 	}
 	l.shift();
 	return l;

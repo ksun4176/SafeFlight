@@ -18,6 +18,24 @@ $(function() {
 			url: "/account/edit",
 			method: "POST"
 		},
+
+		getreservations: {
+			url: "/reservations/get",
+			method: "POST",
+			dummy : () => {
+				var arr = [], ind = 0;;
+				for(var i=0;i<5;i++) arr.push({
+					reservation_id:(ind += Math.floor(Math.random()*10)+2),
+					totalFare: Math.floor(Math.random()*500) + 200+"DUMMYDATADONTUSE"
+				})
+				return {reservations:arr}
+			}
+		},
+		createreservation: {
+			url: "/reservations/create",
+			method: "POST"
+		},
+
 		getflights: {
 			url: "/flights/get",
 			method: "GET"
