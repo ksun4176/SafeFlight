@@ -52,7 +52,7 @@ public class GetEmployee extends HttpServlet {
 				String address = rs.getString("Address");
 				String city = rs.getString("City");
 				String state = rs.getString("State");
-				int zipcode = rs.getInt("ZipCode");
+				String zipcode = rs.getString("ZipCode");
 				String username = rs.getString("Username");
 				String role = rs.getString("Role");
 				
