@@ -130,6 +130,9 @@ h1 {
 	width:70px;
 	margin-bottom:12px;
 }
+.pick .noflights img {
+	opacity:0;
+}
 .noflights .text {
 	display:inline-block;
 	width:100%;
@@ -137,6 +140,8 @@ h1 {
 	font-size:22px;
 	font-family: "Blogger Sans";
 }
+.noflights .text:before { content:"No flights were found"; }
+.pick .noflights .text:before { content:"Search for a flight on the left"; }
 
 .flights .loader {
 	width:100%;
@@ -172,6 +177,10 @@ h1 {
 	display:inline-block;
 	width:120px;
 }
+.flight .upperleft2 .column2 {
+	overflow:visible;
+	white-space: nowrap;
+}
 .flight .upperleft > div {
 	display:inline-block;
 	margin-bottom:2px;
@@ -191,29 +200,110 @@ h1 {
 	position:absolute;
 	top:10px;
 	right:12px;
-	font-size:20px;
+}
+.flight .price > * {
 	font-weight:bold;
 }
-.flight .price span {
-	font-size:14px;
-	font-weight:bold;
-	vertical-align: top;
+.flight .stops {
+	position:absolute;
+	top:51px;
+	left:172px;
+	font-size:15px;
+	color:#444;
 }
 .flight .select {
 	position:absolute;
 	bottom:10px;
 	right:12px;
-	padding:8px 15px;
-	background:linear-gradient(to top,#ffbe00 0,#ffcb00 100%);
-	border-radius:3px;
+}
+
+
+.price div {
+	display:inline-block;
+	vertical-align: top;
+	font-size:20px;
+}
+.price span {
+	font-size:14px;
+	vertical-align: top;
+}
+
+.bookFlight .box {
+	min-width:400px;
+	min-height:200px;
+	padding:14px 18px 18px;
+}
+.bookFlight h2 {
+	font-size:26px;
+	border-bottom:1px solid #005;
+}
+.bookFlight .flightdetail {
+	font-size:18px;
+	margin-top:10px;
+}
+.bookFlight .date {
+	font-size:14px;
+	color:#555;
+	margin-top:5px;
+}
+.bookFlight .date span {
+	display:inline-block;
+	margin-left:30px;
+}
+.bookFlight .legs {
 	font-size:15px;
+	margin-top:5px;
+}
+.bookFlight .prices {
+	width:100%;
+	margin-top:8px;
+	margin-bottom:14px;
+}
+.bookFlight .prices .choice {
+	display:inline-block;
+	width:50%;
+	text-align: center;
+	border-right:1px solid #eef;
 	cursor:pointer;
 }
-.flight .select:hover {
-	background:linear-gradient(to top,#ffce20 0,#ffdb20 100%);
+.bookFlight .prices .choice:hover { opacity:0.8; }
+.bookFlight .prices .choice.selected:hover { opacity:1; }
+.bookFlight .prices .choice:last-child { border-right:none; }
+.bookFlight .prices .choice .type {
+	padding:5px 0;
+	background:#338;
+	color:#fff;
+	font-size:17px;
 }
-
-
+.bookFlight .prices .choice .price {
+	padding:5px 0;
+	background:#eee;
+	color:#333;
+	font-size:16px;
+}
+.bookFlight .prices .choice.selected .price {
+	background:#fff;
+	color:#000;
+}
+.bookFlight .customerlabel {
+	font-size:12px;
+	color:#555;
+	margin-bottom:3px;
+}
+.bookFlight select {
+	font-size:14px;
+	display:block;
+	width:100%;
+	padding:2px 5px;
+	border-radius:0;
+	cursor:pointer;
+}
+.bookFlight .customer {
+	margin-bottom:10px;
+}
+.bookFlight .book {
+	margin-top:16px;
+}
 
 
 
