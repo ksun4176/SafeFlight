@@ -181,7 +181,6 @@ public class Flight extends HttpServlet {
 						flights2.get(temp).get(legNo).add(arrTime);	
 						tempNo = legNo;
 						done = true;
-						System.out.println(temp+" has ended at leg#: "+legNo);
 					} else if(legNo > 1 && flights2.containsKey(temp) && !done) {
 						flights2.get(temp).put(legNo, new ArrayList<String>());
 						flights2.get(temp).get(legNo).add(depAirport);

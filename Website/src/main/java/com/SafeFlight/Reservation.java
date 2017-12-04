@@ -88,7 +88,6 @@ public class Reservation extends HttpServlet {
 		        		double TotalFare = rs.getDouble("TotalFare");
 		        		int RepID = rs.getInt("RepID");
 		        		int AccountNo = rs.getInt("AccountNo");
-		        		System.out.println(ResNo);
 		        		o.put("reservation_id", ResNo);
 		        		o.put("ResDate", ResDate.toString());
 		        		o.put("bookingFee", BookingFee);
