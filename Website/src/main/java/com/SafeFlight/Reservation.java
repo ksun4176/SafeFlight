@@ -52,10 +52,9 @@ public class Reservation extends HttpServlet {
 			String account_id = request.getParameter("account_id");
 			String reservation_id = request.getParameter("reservation_id");
 			if(flightNumber != null && airlineId != null) {
-				String airlineID = request.getParameter("airline_id");
 				String query = "{CALL getReservationF(?, ?)}";
 				CallableStatement stmt = conn.prepareCall(query);
-				stmt.setString(1, airlineID);
+				stmt.setString(1, airlineId);
 				stmt.setString(2, flightNumber);
 				
 				ResultSet rs = stmt.executeQuery();
