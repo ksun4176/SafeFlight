@@ -22,6 +22,14 @@ $(function() {
 			url: "/flights/get",
 			method: "GET"
 		},
+		getairports: {
+			url: "/flights/airports",
+			method: "GET"
+		},
+		getairlines: {
+			url: "/flights/airlines",
+			method: "GET"
+		},
 		getmailinglist: {
 			url: "/account/mailinglist",
 			method: "GET"

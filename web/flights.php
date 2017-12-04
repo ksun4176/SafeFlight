@@ -39,8 +39,10 @@
     				<div class="labelsmall labelcloser">Flying to</div>
     				<input class="input locationinput" id="flyingto" />
 
-    				<div class="labelsmall">Departing on</div>
+    				<div class="labelsmall">Departs after</div>
     				<input class="input dateinput" id="departing" />
+                    <div class="labelsmall labelcloser">Arrives before</div>
+                    <input class="input dateinput" id="arriving" />
 
     				<div class="labelsmall">With Seats for</div>
     				<select class="input personinput" id="numberofseats">
@@ -50,14 +52,14 @@
     			</div>
     			<div id="right">
 
-                    <div class="flights">
+                    <div class="flights none pick">
                         <div class="loader">
                             <div class="spinner"><span></span></div>
                         </div>
 
                         <div class="noflights">
                             <img src="img/papers.png" />
-                            <div class="text">No flights were found</div>
+                            <div class="text"></div>
                         </div>
                         
         				<? for($i=0;$i<1;$i++) { ?>
@@ -65,7 +67,7 @@
         					<div class="upperleft">
         						<div class="column1 timerange">11:35am - 5:40pm</div>
         						<div class="column2 time">5h 40m</div>
-        						<div class="stops"></div>
+        						<div class="date"></div>
         					</div>
         					<div class="upperleft upperleft2">
         						<div class="column1 airline">JetBlue Airways</div>
@@ -75,6 +77,7 @@
         						Operates on: Monday, Wednesday, Friday
         					</div>
         					<div class="price">$125<span>.55</span></div>
+                            <div class="stops"></div>
         					<div class="select">Select</div>
         				</div>
         				<? } ?>

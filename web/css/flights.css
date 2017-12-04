@@ -130,6 +130,9 @@ h1 {
 	width:70px;
 	margin-bottom:12px;
 }
+.pick .noflights img {
+	opacity:0;
+}
 .noflights .text {
 	display:inline-block;
 	width:100%;
@@ -137,6 +140,8 @@ h1 {
 	font-size:22px;
 	font-family: "Blogger Sans";
 }
+.noflights .text:before { content:"No flights were found"; }
+.pick .noflights .text:before { content:"Search for a flight on the left"; }
 
 .flights .loader {
 	width:100%;
@@ -172,6 +177,10 @@ h1 {
 	display:inline-block;
 	width:120px;
 }
+.flight .upperleft2 .column2 {
+	overflow:visible;
+	white-space: nowrap;
+}
 .flight .upperleft > div {
 	display:inline-block;
 	margin-bottom:2px;
@@ -198,6 +207,13 @@ h1 {
 	font-size:14px;
 	font-weight:bold;
 	vertical-align: top;
+}
+.flight .stops {
+	position:absolute;
+	top:51px;
+	left:172px;
+	font-size:15px;
+	color:#444;
 }
 .flight .select {
 	position:absolute;
