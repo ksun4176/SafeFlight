@@ -165,8 +165,8 @@ $(function() {
 
 		var data = {
 			seats: numOfSeats,
-			fromAirportID : fromAirport,
-			toAirportID : toAirport
+			fromAirport : fromAirport,
+			toAirport : toAirport
 		};
 		if (fromDate)
 			data.fromDate = fromDate;
