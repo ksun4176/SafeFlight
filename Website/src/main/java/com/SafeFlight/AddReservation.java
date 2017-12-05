@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * Servlet implementation class AddReservation
@@ -50,9 +53,12 @@ public class AddReservation extends HttpServlet {
 			String airline_id = request.getParameter("airline_id");
 			String flightNum = request.getParameter("flightNumber");
 			String tempLegNum = request.getParameter("legNumber");
-			String[] legNums = tempLegNum.split(" ");
 			String flightFare = request.getParameter("flightFare");
 			String date = request.getParameter("date");
+			String people = request.getParameter("persons");
+			String flightClass = request.getParameter("flightClass");
+			String[] legNums = tempLegNum.split(" ");
+			
 			for(String l : legNums) {
 				if(reservation_id != null) {
 					String query = "{CALL recordReservationOld(?, ?, ?, ?, ?, ?)}";
@@ -90,6 +96,49 @@ public class AddReservation extends HttpServlet {
 					reservation_id = rs.getString("ResNo");
 				}
 			}
+			if(people != null) {
+				JSONParser parser = new JSONParser();
+				JSONArray peopleArray = (JSONArray) parser.parse(people.substring(9,people.length()-1));
+				for(Object temp : peopleArray) {
+					JSONObject o = (JSONObject) temp;
+					Long tempId = (Long) o.get("account_id");
+					System.out.println(tempId);
+					String query;
+					CallableStatement stmt;
+					ResultSet rs;
+					if(tempId == null) {
+						String fname = (String) o.get("first_name");
+						String lname = (String) o.get("last_name");
+						String address = (String) o.get("address");
+						String city = (String) o.get("city");
+						String state = (String) o.get("state");
+						String zip = (String) o.get("zip");
+						query = "{CALL addPerson(?,?,?,?,?,?)}";
+						stmt = conn.prepareCall(query);
+						stmt.setString(1, fname);
+						stmt.setString(2, lname);
+						stmt.setString(3, address);
+						stmt.setString(4, city);
+						stmt.setString(5, state);
+						stmt.setString(6, zip);
+						rs = stmt.executeQuery();
+						rs.next();
+						tempId = rs.getLong("Id");
+					}
+					query = "{CALL addPassenger(?,?)}";
+					stmt = conn.prepareCall(query);
+					stmt.setLong(1, tempId);
+					stmt.setString(2, account_id);
+					stmt.executeQuery();
+					query = "{CALL addRPassenger(?,?,?,?,'')}";
+					stmt = conn.prepareCall(query);
+					stmt.setString(1, reservation_id);
+					stmt.setLong(2, tempId);
+					stmt.setString(3, account_id);
+					stmt.setString(4, flightClass);
+					stmt.executeQuery();
+				}
+			}
 			json.put("reservation_id", Integer.parseInt(reservation_id));
 			ConnectionUtils.close(conn);
 		} catch(IllegalArgumentException e){
@@ -100,6 +149,10 @@ public class AddReservation extends HttpServlet {
 			e.printStackTrace();
 			json.put("reservation_id", -1);
 		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			json.put("reservation_id", -1);
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			json.put("reservation_id", -1);
