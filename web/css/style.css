@@ -325,20 +325,22 @@ header .links .link .text {
 .editAccount .error:before {content:"Something went wrong. Please check your information.";}
 .editAccount .error.ok {color:#090;}
 .editAccount .error.ok:before {content:"Successfully saved information";}
-.editAccount .submit {
+.editAccount .button {
+	display:inline-block;
 	cursor:pointer;
 	width:180px;
 	text-align: center;
 	margin-top:20px;
+	margin-right:15px;
 	font-size:16px;
 	padding:5px 10px;
 	background:#fff;
 	border:1px solid #000;
 }
-.editAccount .submit:hover {
+.editAccount .button:hover {
 	background:#eee;
 }
-.editAccount .submit.disabled {
+.editAccount .button.disabled {
 	color:#aaa;
 	background:#ddd;
 }

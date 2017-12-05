@@ -10,12 +10,22 @@ $(function() {
 			url: "/account/login",
 			method: "POST"
 		},
+
 		getaccounts: {
 			url: "/account/get",
 			method: "GET"
 		},
 		editaccount: {
 			url: "/account/edit",
+			method: "POST"
+		},
+		
+		getemployees: {
+			url: "/account/get/employee",
+			method: "GET"
+		},
+		editemployee: {
+			url: "/account/edit/employee",
 			method: "POST"
 		},
 
