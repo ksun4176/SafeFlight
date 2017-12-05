@@ -15,6 +15,7 @@
         <link rel="stylesheet" type="text/css" href="css/account.css" />
 
         <script type="text/javascript">var TYPE=<?=$TYPE?>;var ID=<?=$ID?>;</script>
+        <script type="text/javascript">var DISPLAY_RES=<?=isset($_GET['res'])?$_GET['res']:-1?>;</script>
 		<script src="js/vendor/jmin.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/script.js"></script>
@@ -53,7 +54,7 @@
 
                 <div class="reservations">
                     <div class="reservation top" res-id="-1">
-                        <div class="column edit"><span>edit</span></div>
+                        <div class="column edit"><span>view/edit</span></div>
                         <div class="column resno">Res #</div>
                         <div class="column date">Date</div>
                         <div class="column fare">Total Fare</div>
@@ -64,6 +65,30 @@
 
     		</div>
     	</div>
+
+        <div class="modal" id="resit">
+            <div>
+                <div class="box">
+                    <div class="spinner"><span></span></div>
+                    <h2>Reservation <span class='num'>1</span> Itinerary</h2>
+                    <div class="flight dummy">
+                        <div class="row">
+                            <div class="num">AA690</div>
+                            <div class="stops">AA - BB - CC</div>
+                        </div>
+                        <div class="airline">American Airlines</div>
+                        <div class="row row2">
+                            <div class="date">Dec 19</div>
+                            <div class="time">4:50pm-8:30pm</div>
+                        </div>
+                        <div class="expando"></div>
+                    </div>
+                    <div class="deleted">Deleted Reservation</div>
+                    <div class="button1 ok">Ok</div>
+                    <div class="button1 delete">Delete</div>
+                </div>
+            </div>
+        </div>
 
 	</body>
 	

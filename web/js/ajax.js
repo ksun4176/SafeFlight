@@ -19,6 +19,38 @@ $(function() {
 			method: "POST"
 		},
 
+		getreservation: {
+			url: "/reservations/itinerary",
+			method: "GET",
+			transform : function(r) {
+				if (!r || !r.Flights || !r.Flights.length) return [];
+				var flights = {};
+				r.Flights.forEach((leg) => {
+					var air = leg.AirlineID+""+leg.FlightNo;
+					if (!flights.hasOwnProperty(air)) {
+						flights[air] = {
+							airline_id : leg.AirlineID,
+							flight_num : leg.FlightNo,
+							legs : [0]
+						}
+					}
+					var flegs = flights[air].legs;
+					flegs[leg.LegNo] = leg;
+					leg.ArrTime = new Date(leg.ArrTime)
+					leg.DepTime = new Date(leg.DepTime)
+				});
+				var f = [];
+				for(var i in flights) {
+					if (flights.hasOwnProperty(i)) {
+						flights[i].legs.shift();
+						flights[i].DepTime = flights[i].legs[0].DepTime;
+						flights[i].ArrTime = flights[i].legs[flights[i].legs.length-1].ArrTime;
+						f.push(flights[i]);
+					}
+				}
+				return f.sort((a,b) => a.DepTime - b.DepTime);
+			}
+		},
 		getreservations: {
 			url: "/reservations/get",
 			method: "POST",
@@ -35,6 +67,14 @@ $(function() {
 		createreservation: {
 			url: "/reservations/create",
 			method: "POST"
+		},
+		deletereservation: {
+			url: "/reservations/delete",
+			method: "POST",
+			transform : function(r) {
+				if (!r || !r.ok) return false;
+				return true;
+			}
 		},
 
 		getcities: {
@@ -81,14 +121,16 @@ $(function() {
 			return true;
 		}
 
+		var transform = ajaxCall.transform || ((a) => a);
+
 		$.ajax(
 			ENDPOINT + ajaxCall.url,
 			{
 				method: ajaxCall.method || "GET",
 				dataType: "json",
 				data: data,
-				success: callback,
-				error: () => callback(null)
+				success: (response) => callback(transform(response)),
+				error: () => callback(transform(null))
 			}
 			);
 		return true;
