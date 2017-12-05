@@ -53,15 +53,13 @@ public class DBUtils {
 			return 7;
 		}
 		DateFormat df = new SimpleDateFormat("YYYY-MM-DD");
-		Date fDate = null;
+		Date fDate = df.parse(fromDate);
 //		Date tDate = null;
 //		int dayOfWeekFrom = 0;
 //		int dayOfWeekTo = 0;
-		
-		fDate = df.parse(fromDate);
 		Calendar c = Calendar.getInstance();
 		c.setTime(fDate);
-		return c.get(Calendar.DAY_OF_WEEK);
+		return c.get(Calendar.DAY_OF_WEEK) - 1;
 //		if(toDate != null) {
 //			tDate = df.parse(toDate);
 //			Calendar d = Calendar.getInstance();

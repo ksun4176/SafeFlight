@@ -3,7 +3,6 @@ package com.SafeFlight;
 import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -14,6 +13,8 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -51,6 +52,10 @@ public class Flight extends HttpServlet {
 			String to = request.getParameter("toAirport");
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
+			int seats = Integer.parseInt(request.getParameter("seats"));
+			boolean roundtrip = Boolean.parseBoolean(request.getParameter("roundtrip"));
+			String backBeforeDate = request.getParameter("backBeforeDate");
+			
 
 			if(from == null || to == null) {
 				throw new IllegalArgumentException("Missing parameters");
@@ -66,7 +71,6 @@ public class Flight extends HttpServlet {
 			while(rs.next()) {
 				fromAirports.add(rs.getString("Id"));
 			}
-			
 			tempLoc = to.split(",");
 			query = "{CALL getAirportAtCity(?, ?)}";
 			stmt = conn.prepareCall(query);
@@ -78,7 +82,6 @@ public class Flight extends HttpServlet {
 				toAirports.add(rs.getString("Id"));
 			}
 			
-			
 			//Get all flights and check if days matched DaysOperating
 			query = "{CALL getFlights()}";
 			stmt = conn.prepareCall(query);
@@ -86,7 +89,10 @@ public class Flight extends HttpServlet {
 			
 			//airlineID+flightNo : days+numSeats
 			HashMap<String,String> flights = new HashMap<String,String>();
-			
+			int fromDays = 7;
+			if(fromDate != null) {
+				fromDays = DBUtils.getDaysOfWeek(fromDate);
+			}
 			while(rs.next()) {
 				String airlineID = rs.getString("AirlineID");
 				String flightNo = rs.getString("FlightNo");
@@ -99,11 +105,22 @@ public class Flight extends HttpServlet {
 				stmt.setInt(3, numSeats);
 				ResultSet rs2 = stmt.executeQuery();
 				rs2.next();
-				if(rs2.getInt("SeatsLeft") != 0) {
-					if (fromDate != null) {
-						int fromDays = DBUtils.getDaysOfWeek(fromDate);
-						if (days.charAt(fromDays) == '1') {
-							flights.put(airlineID.concat(flightNo),days);
+				if(rs2.getInt("SeatsLeft") >= seats) {
+					if (fromDays != 7 ) {
+						DateFormat df = new SimpleDateFormat("YYYY-MM-DD");
+						Date fDate = df.parse(fromDate);
+						Date tDate;
+						if(backBeforeDate == null) {
+							tDate = df.parse(toDate);
+						} else {
+							tDate = df.parse(backBeforeDate);
+						}
+						long diff = (tDate.getTime() - fDate.getTime())/(24*60*60*1000);
+						for(int i = 0;i < diff;i++) {
+							if(days.charAt((fromDays+i)%7) == '1') {
+								flights.put(airlineID.concat(flightNo),days);
+								break;
+							}
 						}
 					}
 					else {
@@ -237,6 +254,124 @@ public class Flight extends HttpServlet {
 				}
 			}
 
+			HashMap<String,HashMap<Integer,ArrayList<String>>> flights3 = new HashMap<String,HashMap<Integer,ArrayList<String>>>();
+			if(roundtrip) {
+				rs.beforeFirst();
+				temp = null;
+				tempNo = 0;
+				done = false;
+				while(rs.next()) {
+					String airlineID = rs.getString("AirlineID");
+					String flightNo = rs.getString("FlightNo");
+					int legNo = rs.getInt("LegNo");
+					String depAirport = rs.getString("DepAirportID");
+					String arrAirport = rs.getString("ArrAirportID");
+					String depTime = rs.getString("DepTime");
+					String arrTime = rs.getString("ArrTime");
+					if(temp != null && legNo == 1) {
+						if(flights3.containsKey(temp)) {
+							boolean start = false;
+							boolean end = false;
+							if(backBeforeDate != null && flights3.get(temp).get(tempNo).get(3).substring(0,8).compareTo(backBeforeDate) > 0) {
+								flights3.remove(temp);
+							} else {
+								for(ArrayList<String> a : flights3.get(temp).values()) {
+									if(toAirports.contains(a.get(0))) {
+										start = true;
+									}
+									if(start == true && fromAirports.contains(a.get(1))) {
+										end = true;
+										break;
+									}
+								}
+								if(start == false || end == false) {
+									flights3.remove(temp);
+								}
+							}
+						}
+					}
+					if(flights.containsKey(airlineID.concat(flightNo))) {
+						temp = airlineID.concat(flightNo);
+						if(toAirports.contains(depAirport)) {
+//							if(fromDate != null && legNo == 1) {
+//								if(depTime.compareTo(fromDate) > 0) {
+//									if(!flights3.containsKey(temp)) {
+//										flights3.put(temp, new HashMap<Integer,ArrayList<String>>());
+//									}
+//									flights3.get(temp).put(legNo, new ArrayList<String>());
+//									flights3.get(temp).get(legNo).add(depAirport);
+//									flights3.get(temp).get(legNo).add(arrAirport);
+//									flights3.get(temp).get(legNo).add(depTime);
+//									flights3.get(temp).get(legNo).add(arrTime);
+//									tempNo = legNo;
+//									if(fromAirports.contains(arrAirport)) {
+//										done = true;
+//									} else {
+//										done = false;
+//									}
+//								}
+//							} else {
+							if(!flights3.containsKey(temp)) {
+								flights3.put(temp, new HashMap<Integer,ArrayList<String>>());
+							}
+							flights3.get(temp).put(legNo, new ArrayList<String>());
+							flights3.get(temp).get(legNo).add(depAirport);
+							flights3.get(temp).get(legNo).add(arrAirport);
+							flights3.get(temp).get(legNo).add(depTime);
+							flights3.get(temp).get(legNo).add(arrTime);
+							tempNo = legNo;
+							if(fromAirports.contains(arrAirport)) {
+								done = true;
+							} else {
+								done = false;
+							}
+//							}
+						} else if(fromAirports.contains(arrAirport)) {
+							if(!flights3.containsKey(temp)) {
+								flights3.put(temp, new HashMap<Integer,ArrayList<String>>());
+							}
+							flights3.get(temp).put(legNo, new ArrayList<String>());
+							flights3.get(temp).get(legNo).add(depAirport);
+							flights3.get(temp).get(legNo).add(arrAirport);
+							flights3.get(temp).get(legNo).add(depTime);
+							flights3.get(temp).get(legNo).add(arrTime);	
+							tempNo = legNo;
+							done = true;
+						} else if(legNo > 1 && flights3.containsKey(temp) && !done) {
+							flights3.get(temp).put(legNo, new ArrayList<String>());
+							flights3.get(temp).get(legNo).add(depAirport);
+							flights3.get(temp).get(legNo).add(arrAirport);
+							flights3.get(temp).get(legNo).add(depTime);
+							flights3.get(temp).get(legNo).add(arrTime);
+							tempNo = legNo;
+						}
+					}
+				}
+				if(temp != null) {
+					if(flights3.containsKey(temp)) {
+						boolean start = false;
+						boolean end = false;
+						if(backBeforeDate != null && flights3.get(temp).get(tempNo).get(3).substring(0,8).compareTo(backBeforeDate) > 0) {
+							flights3.remove(temp);
+						} else {
+							for(ArrayList<String> a : flights3.get(temp).values()) {
+								if(toAirports.contains(a.get(0))) {
+									start = true;
+								}
+								if(start == true && fromAirports.contains(a.get(1))) {
+									end = true;
+									break;
+								}
+							}
+							if(start == false || end == false) {
+								flights3.remove(temp);
+							}
+						}
+					}
+				}
+			}
+			
+			
 			//airlineID+flightNo : fareType : {economy$,first$}
 			HashMap<String,HashMap<String,ArrayList<Float>>> fares = new HashMap<String,HashMap<String,ArrayList<Float>>>(); 
 			query = "{CALL getFares()}";
@@ -253,12 +388,20 @@ public class Flight extends HttpServlet {
 						fares.get(tempName).put(fareType, new ArrayList<Float>());
 					}
 					fares.get(tempName).get(fareType).add(rs.getFloat("Fare"));
+				} else if(flights3.containsKey(tempName)) {
+					String fareType = rs.getString("FareType");
+					if(!fares.containsKey(tempName)) {
+						fares.put(tempName, new HashMap<String,ArrayList<Float>>());
+					}
+					if(!fares.get(tempName).containsKey(fareType)) {
+						fares.get(tempName).put(fareType, new ArrayList<Float>());
+					}
+					fares.get(tempName).get(fareType).add(rs.getFloat("Fare"));
 				}
 			}
 			
-			
-			Set<String> keys = flights2.keySet();
-			for(String key : keys) {
+
+			for(String key : flights2.keySet()) {
 				//add info from flights hashmap
 				JSONObject flight = new JSONObject();
 				flight.put("airline_id",key.substring(0, 2));
@@ -288,7 +431,40 @@ public class Flight extends HttpServlet {
     					fare.put(key2, faresInfo);
     				}
     				flight.put("prices", fare);
-    				jArray.add(flight);
+    				if(roundtrip) {
+    					for(String key2 : flights3.keySet()) {
+	        				HashMap<Integer,ArrayList<String>> temp4 = flights3.get(key2);
+    						if(temp2.get(Collections.max(temp2.keySet())).get(3).compareTo(temp4.get(Collections.min(temp4.keySet())).get(2)) < 0) {
+    							flight.put("airline_id2",key2.substring(0,2));
+    							flight.put("flightNumber2", key2.substring(2));
+    							flight.put("daysOfWeek2", flights.get(key));
+    							JSONObject legs2 = new JSONObject();
+    		        				for(int key3 : temp4.keySet()) {
+	    		        				JSONObject legsInfo = new JSONObject();
+	    		        				legsInfo.put("depAirportID",temp4.get(key3).get(0));
+	    		        				legsInfo.put("arrAirportID", temp4.get(key3).get(1));
+	    		        				legsInfo.put("depTime", temp4.get(key3).get(2));
+	    		        				legsInfo.put("arrTime", temp4.get(key3).get(3));
+	    		        				legs2.put(key3, legsInfo);
+	    		        			}
+	    		        			flight.put("legs2", legs2);
+	    		        			
+	    		        			//add info from fares hashmap
+	    		    				JSONObject fare2 = new JSONObject();
+	    		    				HashMap<String,ArrayList<Float>> temp5 = fares.get(key);
+	    		    				for(String key3 : temp3.keySet()) {
+	    		    					JSONObject faresInfo = new JSONObject();
+	    		    					faresInfo.put("economy", temp5.get(key3).get(0));
+	    		    					faresInfo.put("first", temp5.get(key3).get(1));
+	    		    					fare.put(key3, faresInfo);
+	    		    				}
+	    		    				flight.put("prices2", fare);
+	    		    				jArray.add(flight);
+    						}
+    					}
+    				} else {
+    					jArray.add(flight);
+    				}
 			}
 	        
 	        obj.put("flights", jArray);

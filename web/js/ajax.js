@@ -19,6 +19,11 @@ $(function() {
 			url: "/account/edit",
 			method: "POST"
 		},
+		deleteaccount: {
+			url: "/account/delete",
+			method: "POST",
+			dummy: {ok:true}
+		},
 		
 		getemployees: {
 			url: "/account/get/employee",
@@ -106,7 +111,12 @@ $(function() {
 		getmailinglist: {
 			url: "/account/mailinglist",
 			method: "GET"
-		}
+		},
+
+		getmonthlyreport: {
+			url: "/reports/month",
+			method: "GET"
+		},
 	}
 
 	makeCall = function(call, options) {

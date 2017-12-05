@@ -87,7 +87,6 @@ else if (TYPE === 2) {
 				callBack : (r) => {
 					employees = r ? (r.employees || []) : [];
 					employees.forEach((employee) => {
-						console.log(employee);
 						var $acc = $(".accountse .account.top").clone(true, true);
 						$acc.removeClass("top");
 						$acc.attr("employee-id", employee.id);
