@@ -102,7 +102,6 @@ public class AddReservation extends HttpServlet {
 				for(Object temp : peopleArray) {
 					JSONObject o = (JSONObject) temp;
 					Long tempId = (Long) o.get("account_id");
-					System.out.println(tempId);
 					String query;
 					CallableStatement stmt;
 					ResultSet rs;
