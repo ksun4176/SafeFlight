@@ -13,6 +13,11 @@ $(function() {
 		}
 	}
 
+	$("#left .option").click(function() {
+		$("#left .option.selected").removeClass("selected");
+		$(this).addClass("selected");
+	})
+
 	var airports = null;
 	var airportCb = [], airportRequestSent = false;
 	function getAirports(callBack) {
@@ -24,7 +29,6 @@ $(function() {
 		if (airportRequestSent) return;
 		airportRequestSent = true;
 		makeCall("getcities", { callBack: (r) => {
-			console.log(r)
 			if (!r || !r.cities) return;
 			airports = [];
 			r.cities.forEach((airport) => {
@@ -231,7 +235,7 @@ $(function() {
 	var flights = [];
 	var returnFlights = (r) => {
 		$(".flights").removeClass("loading pick")
-		if (!r.flights || !r.flights.length) {
+		if (!r || !r.flights || !r.flights.length) {
 			$(".flights").addClass("none").removeClass("pick");
 			return;
 		}
@@ -381,9 +385,9 @@ $(function() {
 
 	getAirlines();
 
-	/*
-	$("#flyingfrom").attr("airport_id", "JFK")
-	$("#flyingto").attr("airport_id", "LAX")
+	//*
+	$("#flyingfrom").attr("airport_id", "New York City,United States")
+	$("#flyingto").attr("airport_id", "Los Angeles,United States")
 	getFlights();
 	//*/
 

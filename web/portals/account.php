@@ -19,7 +19,7 @@
 	setcookie("account_id", $account_id, time()+$monthsec, "/", "", 0);
 	setcookie("account_type", $account_type, time()+$monthsec, "/", "", 0);
 
-	if ($account_type == 1)
+	if ($account_type >= 1)
 		header( 'Location: /dashboard.php' );
 	else
 		header( 'Location: /account.php' );

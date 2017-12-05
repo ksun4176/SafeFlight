@@ -23,7 +23,7 @@ public class ConnectionUtils {
     
     public static void close(Connection conn) {
     		try {
-				conn.close();
+    				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

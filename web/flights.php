@@ -33,22 +33,32 @@
 
     			<div id="left">
 
-    				<div class="label">I am looking for a flight:</div>
+                    <div class="option">
+                        <div class="title">Best Seller Flights</div>
+                    </div>
+                    <div class="option">
+                        <div class="title">Personal Suggestions</div>
+                    </div>
+                    <div class="option selected">
+                        <div class="title">Search Flights</div>
+                        <div class="expand t3">
+            				<div class="label">I am looking for a flight:</div>
 
-    				<div class="labelsmall">Flying from</div>
-    				<input class="input locationinput" id="flyingfrom" />
-    				<div class="labelsmall labelcloser">Flying to</div>
-    				<input class="input locationinput" id="flyingto" />
+            				<div class="labelsmall">Flying from</div>
+            				<input class="input locationinput" id="flyingfrom" />
+            				<div class="labelsmall labelcloser">Flying to</div>
+            				<input class="input locationinput" id="flyingto" />
 
-    				<div class="labelsmall">Departs after</div>
-    				<input class="input dateinput" id="departing" />
-                    <div class="labelsmall labelcloser">Arrives before</div>
-                    <input class="input dateinput" id="arriving" />
+            				<div class="labelsmall">Departs after</div>
+            				<input class="input dateinput" id="departing" />
+                            <div class="labelsmall labelcloser">Arrives before</div>
+                            <input class="input dateinput" id="arriving" />
 
-    				<div class="labelsmall">With Seats for</div>
-    				<select class="input personinput" id="numberofseats">
-    				</select>
-
+            				<div class="labelsmall">With Seats for</div>
+            				<select class="input personinput" id="numberofseats">
+            				</select>
+                        </div>
+                    </div>
 
     			</div>
     			<div id="right">
@@ -123,7 +133,7 @@
                                     <select class="reservation">
                                         <option value='-1' selected>New Reservation</option>
                                     </select>
-                                    <div class="book button1">Book Now</div>
+                                    <div class="book button1">Select Flight</div>
                                 </div>
                             </div>
                         </div>

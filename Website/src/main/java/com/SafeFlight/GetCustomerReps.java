@@ -1,11 +1,11 @@
 package com.SafeFlight;
 
 import java.io.IOException;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,15 +16,15 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- * Servlet implementation class MailingList
+ * Servlet implementation class GetCustomerReps
  */
-public class MailingList extends HttpServlet {
+public class GetCustomerReps extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MailingList() {
+    public GetCustomerReps() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,25 +32,31 @@ public class MailingList extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		JSONObject json = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		
 		try {
 			Connection conn = ConnectionUtils.getMyConnection();
-			 System.out.println("Get connection " + conn);
 		        
-		        // Testing SQL
 		        Statement statement = conn.createStatement();
-		        String sql = "{CALL getMailingList()}";
+		        String sql = "{CALL getCustomerRepresentatives()}";
 		        ResultSet rs = statement.executeQuery(sql);
 		        
 		        while(rs.next()) {
-		        		String email = rs.getString("email");
 		        		JSONObject o = new JSONObject();
-		        		o.put("Email", email);
+
+		        		o.put("ssn", rs.getInt("SSN"));
+		        		o.put("startDate", rs.getDate("StartDate").toString());
+		        		o.put("hourlyRate", rs.getDouble("HourlyRate"));
+		        		o.put("firstName", rs.getString("FirstName"));
+		        		o.put("lastName", rs.getString("LastName"));
+		        		o.put("address", rs.getString("Address"));
+		        		o.put("city", rs.getString("City"));
+		        		o.put("state", rs.getString("State"));
+		        		o.put("zipCode", rs.getInt("ZipCode"));
+		        		o.put("revenue", rs.getDouble("Revenue"));
+		        		
 		        		jArray.add(o);
 		        }
 				ConnectionUtils.close(conn);
@@ -61,7 +67,7 @@ public class MailingList extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        json.put("emails", jArray);
+        json.put("custReps", jArray);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(json);

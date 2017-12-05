@@ -34,7 +34,7 @@
 
                     <h1>Customer Representative Dashboard</h1>
 
-                    <div id="miniheader">
+                    <div id="miniheader" class="miniheader">
                         Customers
                         <span>Get mailing list</span>
                     </div>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div class="accounts">
+                    <div class="accounts accounts1">
                         <div class="account top" account-id="-1">
                             <div class="column edit"><span>edit</span></div>
                             <div class="column username">Username</div>
@@ -59,9 +59,36 @@
                         </div>
                     </div>
 
+                    <div class="miniheader">
+                        Employees
+                    </div>
+                    <div class="accounts accountse accounts2">
+                        <div class="account top" account-id="-1">
+                            <div class="column edit"><span>edit</span></div>
+                            <div class="column username">Username</div>
+                            <div class="column name">Name</div>
+                            <div class="column email">SSN</div>
+                            <div class="column address">Address</div>
+                        </div>
+                    </div>
+
                 <?php } else if ($TYPE == 2) { ?>
 
                     <h1>Manager Dashboard</h1>
+
+                    <div id="miniheader">
+                        Employees
+                    </div>
+
+                    <div class="accounts accountse">
+                        <div class="account top" account-id="-1">
+                            <div class="column edit"><span>edit</span></div>
+                            <div class="column username">Username</div>
+                            <div class="column name">Name</div>
+                            <div class="column email">SSN</div>
+                            <div class="column address">Address</div>
+                        </div>
+                    </div>
 
                 <?php } ?>
     			

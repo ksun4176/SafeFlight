@@ -156,10 +156,23 @@
   	<servlet-class>com.SafeFlight.DeleteReservation</servlet-class>
   </servlet>
   <servlet>
+
+  	<servlet-name>GetCustomerReps</servlet-name>
+  	<display-name>GetCustomerReps</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.GetCustomerReps</servlet-class>
+  </servlet>
+  <servlet>
   	<servlet-name>GetCity</servlet-name>
   	<display-name>GetCity</display-name>
   	<description></description>
   	<servlet-class>com.SafeFlight.GetCity</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>GetCustomersByRevenue</servlet-name>
+  	<display-name>GetCustomersByRevenue</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.GetCustomersByRevenue</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
@@ -219,7 +232,7 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>Monthly</servlet-name>
-  	<url-pattern>/reports/monthly</url-pattern>
+  	<url-pattern>/reports/month</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>AirportFlights</servlet-name>
@@ -242,8 +255,16 @@
   	<url-pattern>/reservations/delete</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+  	<servlet-name>GetCustomerReps</servlet-name>
+  	<url-pattern>/reports/customerrepresentative</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
   	<servlet-name>GetCity</servlet-name>
   	<url-pattern>/flights/cities</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>GetCustomersByRevenue</servlet-name>
+  	<url-pattern>/reports/customer</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
