@@ -55,7 +55,7 @@ h1 {
 }
 #left .option.selected .expand {
 	padding:4px 10px 10px;
-	max-height:360px;
+	max-height:400px;
 }
 #left .label {
 	font-size:15px;
@@ -102,6 +102,28 @@ h1 {
 	cursor:pointer;
 	background-image:url('./../img/icons/person.png');
 	padding-left:25px;
+}
+#left .return {
+	display:block;
+	overflow: hidden;
+	width:100%;
+	margin-top:3px;
+	max-height:25px;
+}
+#left .return.expandreturn { max-height:80px; }
+#left .return .checkbox {
+	display: inline-block;
+	vertical-align: middle;
+	width:16px;
+	height:16px;
+	-webkit-appearance:checkbox;
+	appearance:checkbox;
+	margin:5px 5px 0 2px;
+	cursor:pointer;
+}
+#left .return .labelreturn {
+	display:inline-block;
+	vertical-align: middle;
 }
 
 .locationwrapper .dropdown {
@@ -333,9 +355,84 @@ h1 {
 	margin-top:16px;
 }
 
-
-
-
+.passengers .box {
+	min-width:400px;
+	min-height:200px;
+	padding:14px 18px 18px;
+}
+.passengers h2 {
+	font-size:26px;
+	border-bottom:1px solid #005;
+}
+.passengers .pages {
+	position:absolute;
+	top:23;
+	right:18px;
+	text-align: right;
+	width:120px;
+}
+.passengers .pages .count {
+	display:inline-block;
+	width:68px;
+	text-align: center;
+}
+.passengers .pages .count span {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:17px;
+	margin:0 1px;
+}
+.passengers .pages .count:before {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:0;
+	content:".";
+	width:16px;
+	height:16px;
+	background-image:url('./../img/icons/person.png');
+	background-size:cover;
+	background-repeat: no-repeat;
+	margin-right:2px;
+}
+.passengers .pages .arrow {
+	display:inline-block;
+	vertical-align: middle;
+	width:0;
+	height:0;
+	border-top:6px solid transparent;
+	border-bottom:6px solid transparent;
+	cursor:pointer;
+}
+.passengers .pages .arrow.hidden { visibility: hidden; }
+.passengers .pages .arrow.left { border-right:8px solid #005; }
+.passengers .pages .arrow.left:hover { border-right:8px solid #55a;  }
+.passengers .pages .arrow.right { border-left:8px solid #005; }
+.passengers .pages .arrow.right:hover { border-left:8px solid #55a;  }
+.passengers .accountToggle {
+	cursor:pointer;
+	width:200px;
+	display:block;
+	margin:16px 0 0;
+	font-size:14px;
+}
+.passengers .editAccountForm {
+	margin:8px 0 8px 0;
+}
+.passengers .value { background:#fff; }
+.passengers .value:disabled { background:#e8e8e8; }
+.passengers .book {
+	margin:9px 0 0;
+}
+.passengers .message {
+	display:none;
+	margin:10px 0 2px;
+	font-size:14px;
+	color:#f00;
+}
+.passengers .message.show { display:block; }
+.passengers .message.ok:before { content:"Flight Successfully Booked!"; color:#090; }
+.passengers .message.people:before { content:"Please make sure all passenger information is filled out correctly"; }
+.passengers .message.error:before { content:"Failed to book flight"; }
 
 
 

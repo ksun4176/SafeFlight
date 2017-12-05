@@ -15,6 +15,7 @@
         <link rel="stylesheet" type="text/css" href="css/dashboard.css" />
 
         <script type="text/javascript">var TYPE=<?=$TYPE?>;var ID=<?=$ID?>;</script>
+        <script type="text/javascript">var DISPLAY_RES=<?=isset($_GET['res'])?$_GET['res']:-1?>;</script>
 		<script src="js/vendor/jmin.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/script.js"></script>
@@ -96,6 +97,8 @@
 
     		</div>
     	</div>
+
+        <? include __DIR__."/modal/resit.php"; ?>
 
 	</body>
 	

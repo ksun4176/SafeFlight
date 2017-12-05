@@ -98,7 +98,7 @@ public class AddReservation extends HttpServlet {
 			}
 			if(people != null) {
 				JSONParser parser = new JSONParser();
-				JSONArray peopleArray = (JSONArray) parser.parse(people.substring(9,people.length()-1));
+				JSONArray peopleArray = (JSONArray) parser.parse(people.substring(11,people.length()-1));
 				for(Object temp : peopleArray) {
 					JSONObject o = (JSONObject) temp;
 					Long tempId = (Long) o.get("account_id");

@@ -63,13 +63,13 @@ $(function() {
 						f.push(flights[i]);
 					}
 				}
-				return f.sort((a,b) => a.DepTime - b.DepTime);
+				return f.sort((a,b) => b.DepTime - a.DepTime);
 			}
 		},
 		getreservations: {
 			url: "/reservations/get",
 			method: "POST",
-			adummy : () => {
+			_dummy : () => {
 				var arr = [], ind = 0;;
 				for(var i=0;i<5;i++) arr.push({
 					reservation_id:(ind += Math.floor(Math.random()*10)+2),
@@ -81,7 +81,10 @@ $(function() {
 		},
 		createreservation: {
 			url: "/reservations/create",
-			method: "POST"
+			method: "POST",
+			_dummy : {
+				reservation_id:26
+			}
 		},
 		deletereservation: {
 			url: "/reservations/delete",
