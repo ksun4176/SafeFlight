@@ -110,13 +110,15 @@ public class Flight extends HttpServlet {
 						DateFormat df = new SimpleDateFormat("YYYY-MM-DD");
 						Date fDate = df.parse(fromDate);
 						Date tDate;
-						if(backBeforeDate == null) {
+						if(roundtrip && backBeforeDate != null) {
+							tDate = df.parse(backBeforeDate);
+						} else if(toDate != null) {
 							tDate = df.parse(toDate);
 						} else {
-							tDate = df.parse(backBeforeDate);
+							tDate = fDate;
 						}
 						long diff = (tDate.getTime() - fDate.getTime())/(24*60*60*1000);
-						for(int i = 0;i < diff;i++) {
+						for(int i = 0;i <= diff;i++) {
 							if(days.charAt((fromDays+i)%7) == '1') {
 								flights.put(airlineID.concat(flightNo),days);
 								break;
