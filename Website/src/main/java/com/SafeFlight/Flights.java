@@ -37,7 +37,6 @@ public class Flights extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Servlet is called.");
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		JSONObject json = new JSONObject();
 		JSONArray jArray = new JSONArray();
@@ -69,8 +68,8 @@ public class Flights extends HttpServlet {
 		        		
 		        		
 		        		jArray.add(o);
-		        		ConnectionUtils.close(conn);
 		        }
+        		ConnectionUtils.close(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

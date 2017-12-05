@@ -71,6 +71,20 @@ public class AddReservation extends HttpServlet {
 					stmt.setString(6, date);
 					stmt.executeQuery();
 				} else {
+					// Get rep id from customer info
+					if (rep_id == null) {
+						String query = "{CALL getRepByCustId(?)}";
+						CallableStatement stmt = conn.prepareCall(query);
+						stmt.setString(1, account_id);
+						
+						ResultSet rs = stmt.executeQuery();
+						if(!rs.next()) {
+							throw new SQLException("Rep Not Found");
+						}
+						rep_id = rs.getString("RepId");
+					}
+					
+					// if still not found, assign employee with least reservation
 					if(rep_id == null) {
 						String query = "{CALL getOpenEmployee()}";
 						CallableStatement stmt = conn.prepareCall(query);

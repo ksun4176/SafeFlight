@@ -41,6 +41,7 @@ public class Signup extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		Connection conn;
 		JSONObject o = new JSONObject();
 		try {
@@ -55,11 +56,27 @@ public class Signup extends HttpServlet {
 			String zip = request.getParameter("zip");
 			String email = request.getParameter("email");
 			String ccnum = request.getParameter("creditCardNo");
+			
+			String rep_id = request.getParameter("customer_rep_id");
+			
 			if(!zip.matches("[0-9]{5}")) {
 				throw new IllegalArgumentException("Invalid ZipCode");
 			}
 			if(!ccnum.matches("[0-9]{16}")) {
 				throw new IllegalArgumentException("Invalid Credit Card Number");
+			}
+			
+			if (rep_id == null) {
+
+				String query = "{CALL getOpenEmployee()}";
+				CallableStatement stmt = conn.prepareCall(query);
+				ResultSet rs = stmt.executeQuery();
+				if(!rs.next()) {
+					throw new SQLException("Rep Not Found");
+				}
+				rep_id = rs.getString("Id");
+				
+
 			}
 			
 			String query = "{CALL addPerson(?, ?, ?, ?, ?, ?)}";
@@ -84,12 +101,13 @@ public class Signup extends HttpServlet {
 			stmt.setString(4, "customer"); 
 			stmt.executeQuery();
 			
-			query = "{CALL addCustomer(?, ?, ?, ?)}";
+			query = "{CALL addCustomer(?, ?, ?, ?, ?)}";
 			stmt = conn.prepareCall(query);
 			stmt.setInt(1, id);
 			stmt.setString(2, ccnum);
 			stmt.setString(3, email);
 			stmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
+			stmt.setString(5, rep_id);
 			stmt.executeQuery();
 			
 			o.put("account_id", id);
