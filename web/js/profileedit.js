@@ -80,7 +80,33 @@ $(function() {
 					} else {
 						$modal.find(".value").attr("disabled", false);
 						$this.removeClass("disabled");
-						$modal.find(".error").addClass("show");
+						$modal.find(".error").addClass("show").removeClass("delete");
+					}
+				}
+			});
+	});
+	$modal.find(".delete").click(function() {
+		if ($(this).hasClass("disabled")) return;
+		$modal.find(".value").attr("disabled", true);
+		var $this = $modal.find(".button").addClass("disabled");
+
+		var id = emp ? acc.id : acc.person_id;
+		makeCall(
+			"deleteaccount",
+			{
+				data: {
+					account_id: id
+				},
+				callBack : (r) => {
+					if (r && r.ok) {
+						$modal.find(".error").addClass("show ok delete");
+						setTimeout(() => {
+							window.location.href = window.location.href;
+						}, 1000);
+					} else {
+						$modal.find(".value").attr("disabled", false);
+						$this.removeClass("disabled");
+						$modal.find(".error").addClass("show delete");
 					}
 				}
 			});

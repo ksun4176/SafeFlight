@@ -323,8 +323,10 @@ header .links .link .text {
 }
 .editAccount .error.show { display:block; }
 .editAccount .error:before {content:"Something went wrong. Please check your information.";}
-.editAccount .error.ok {color:#090;}
+.editAccount .error.delete:before {content:"Something went wrong. Account could not be deleted.";}
 .editAccount .error.ok:before {content:"Successfully saved information";}
+.editAccount .error.ok.delete:before {content:"Successfully deleted account.";}
+.editAccount .error.ok {color:#090;}
 .editAccount .button {
 	display:inline-block;
 	cursor:pointer;
