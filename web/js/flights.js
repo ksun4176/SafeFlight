@@ -535,7 +535,7 @@ $(function() {
 		for(var i=0;i<flight.legs.length;i++) legs.push(flight.legs[i].leg);
 		legs = legs.join(" ");
 		var date = flight.legs[0].depTime;
-		date = date.getFullYear()+""+(1+date.getMonth())+""+date.getDate();
+		date = date.getFullYear()+""+padTwo(1+date.getMonth())+""+padTwo(date.getDate());
 		var priceClass = $(".bookFlight .prices .choice.selected").attr("selectprice"),
 			price = flight.prices[priceClass];
 
