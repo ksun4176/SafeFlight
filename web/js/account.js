@@ -118,8 +118,11 @@ $(function() {
 			account_num : ID
 		},
 		callBack : (r) => {
-			if (r && r.accounts && r.accounts.length)
+			if (r && r.accounts && r.accounts.length) {
 				account = r.accounts[0];
+				if (EDIT_PROFILE)
+					$(".editprofile").click();
+			}
 		}
 	});
 

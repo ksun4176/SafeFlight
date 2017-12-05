@@ -80,37 +80,52 @@
                             <div class="text"></div>
                         </div>
                         
-        				<? for($i=0;$i<1;$i++) { ?>
         				<div class="flight dummy">
-        					<div class="upperleft">
-        						<div class="column1 timerange">11:35am - 5:40pm</div>
-        						<div class="column2 time">5h 40m</div>
-        						<div class="date"></div>
-        					</div>
-        					<div class="upperleft upperleft2">
-        						<div class="column1 airline">JetBlue Airways</div>
-        						<div class="column2 airports">JFK - LAS</div>
-        					</div>
-        					<div class="bottomleft">
-        						Operates on: Monday, Wednesday, Friday
-        					</div>
+                            <div class="block1">
+            					<div class="upperleft">
+            						<div class="column1 timerange">11:35am - 5:40pm</div>
+            						<div class="column2 time">5h 40m</div>
+            						<div class="date"></div>
+            					</div>
+            					<div class="upperleft upperleft2">
+            						<div class="column1 airline">JetBlue Airways</div>
+            						<div class="column2 airports">JFK - LAS</div>
+            					</div>
+                                <div class="stops"></div>
+                            </div>
+                            <div class="block2">
+                                <div class="upperleft">
+                                    <div class="column1 timerange">11:35am - 5:40pm</div>
+                                    <div class="column2 time">5h 40m</div>
+                                    <div class="date"></div>
+                                </div>
+                                <div class="upperleft upperleft2">
+                                    <div class="column1 airline">JetBlue Airways</div>
+                                    <div class="column2 airports">JFK - LAS</div>
+                                </div>
+                                <div class="stops"></div>
+                            </div>
+                            <div class="bottomleft">
+                                Operates on: Monday, Wednesday, Friday
+                            </div>
         					<div class="price"><div>$125</div><span>.55</span></div>
-                            <div class="stops"></div>
         					<?php if ($TYPE ==  0 || $TYPE == 1) { ?>
                                 <div class="select button1">Select</div>
                             <? } else if ($TYPE == -1) { ?>
                                 <div class="select button1 disabled">Login to Book</div>
                             <? } ?>
         				</div>
-        				<? } ?>
 
                         <div class="modal bookFlight">
                             <div>
                                 <div class="box">
                                     <h2>Book Flight</h2>
-                                    <div class="flightdetail"></div>
-                                    <div class="date"></div>
-                                    <div class="legs"></div>
+                                    <div class="flightdetail fa"></div>
+                                    <div class="date fa"></div>
+                                    <div class="legs fa"></div>
+                                    <div class="flightdetail fb"></div>
+                                    <div class="date fb"></div>
+                                    <div class="legs fb"></div>
                                     <div class="prices">
                                         <div class="choice economy selected" selectprice="economy">
                                             <div class="type">Economy</div>

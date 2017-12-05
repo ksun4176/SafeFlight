@@ -263,28 +263,61 @@ $(function() {
 		}
 
 		r.flights.forEach((flight, index) => {
-			flight.legs = transformFlightLeg(flight.legs);
-			
 			var $flight = $(".flight.dummy").clone(true, true);
 			$flight.removeClass("dummy");
 			$flight.attr("flight", index);
-
-			$flight.find(".airline").html(getAirlineName(flight.airline_id));
-			$flight.find(".airports").html(buildLegString(flight.legs));
-			if (flight.legs.length == 1)
-				$flight.find(".stops").html("Direct");
-			else if (flight.legs.length == 2)
-				$flight.find(".stops").html("1 Stop");
-			else
-				$flight.find(".stops").html(flight.legs.length-1 + " Stops");
-			$flight.find(".bottomleft").html(buildOperates(flight.daysOfWeek));
-			$flight.find(".date").html(buildDepDate(flight.legs));
-			$flight.find(".time").html(buildTime(flight.legs));
-			$flight.find(".timerange").html(
-				buildHumanTime(flight.legs[0].depTime) + " - " +
-				buildHumanTime(flight.legs[flight.legs.length-1].arrTime));
-			updatePrice($flight.find(".price"), flight.prices["one-way"].economy);
 			
+			flight.legs = transformFlightLeg(flight.legs);
+			flight.prices = flight.prices["one-way"];
+			flight.totalPrices = {};
+			for(var i in flight.prices)
+				flight.totalPrices[i] = flight.prices[i];
+			if (!!flight.prices2) {
+				flight.legs2 = transformFlightLeg(flight.legs2);
+				flight.prices2 = flight.prices2["one-way"];
+				for(var i in flight.prices2)
+					flight.totalPrices[i] += flight.prices2[i];
+				flight.return = {
+					airline_id: flight.airline_id2,
+					flightNumber: flight.flightNumber2,
+					daysOfWeek: flight.daysOfWeek2,
+					legs: flight.legs2,
+					prices: flight.prices2
+				}
+				delete flight.airline_id2;
+				delete flight.flightNumber2;
+				delete flight.daysOfWeek2;
+				delete flight.legs2;
+				delete flight.prices2;
+			}
+
+			var proc = [[$flight.find(".block1"), flight]];
+			if (flight.return) {
+				$flight.addClass("roundtrip");
+				proc.push([$flight.find(".block2"), flight.return]);
+			}
+			
+			proc.forEach((pro) => {
+				var $block = pro[0],
+					flight = pro[1];
+
+				$block.find(".airline").html(getAirlineName(flight.airline_id));
+				$block.find(".airports").html(buildLegString(flight.legs));
+				if (flight.legs.length == 1)
+					$block.find(".stops").html("Direct");
+				else if (flight.legs.length == 2)
+					$block.find(".stops").html("1 Stop");
+				else
+					$block.find(".stops").html(flight.legs.length-1 + " Stops");
+				$block.find(".bottomleft").html(buildOperates(flight.daysOfWeek));
+				$block.find(".date").html(buildDepDate(flight.legs));
+				$block.find(".time").html(buildTime(flight.legs));
+				$block.find(".timerange").html(
+					buildHumanTime(flight.legs[0].depTime) + " - " +
+					buildHumanTime(flight.legs[flight.legs.length-1].arrTime));
+			});
+			
+			updatePrice($flight.find(".price"), flight.totalPrices.economy);
 
 			$(".flights").append($flight);
 		});
@@ -300,20 +333,36 @@ $(function() {
 	$(".flight.dummy .select").click(function(e) {
 		if ($(this).hasClass("disabled")) return;
 		var index = parseInt($(this).closest(".flight").attr("flight"));
-		var flight = flights[index];
+		var flight = flights[index],
+			flightr = flight.return;
 		activeFlight = flight;
+		if (!!flightr)
+			$(".bookFlight").addClass("showreturn");
+		else
+			$(".bookFlight").removeClass("showreturn");
 		
 		$(".bookFlight").addClass("show");
-		$(".bookFlight .flightdetail").html(getAirlineName(flight.airline_id)+" "+flight.flightNumber);
-		$(".bookFlight .date").html(buildDepDate(flight.legs)+"<span>"+
+		$(".bookFlight .flightdetail.fa").html(getAirlineName(flight.airline_id)+" "+flight.flightNumber);
+		if (flightr) {
+			$(".bookFlight .flightdetail.fb").html(getAirlineName(flightr.airline_id)+" "+flightr.flightNumber);
+		}
+		$(".bookFlight .date.fa").html(buildDepDate(flight.legs)+"<span>"+
 			buildHumanTime(flight.legs[0].depTime) + " - " +
 			buildHumanTime(flight.legs[flight.legs.length-1].arrTime)+"</span>");
-		$(".bookFlight .legs").html(buildLegString(flight.legs));
-		for (var i in flight.prices["one-way"]) {
+		if (flightr) {
+			$(".bookFlight .date.fb").html(buildDepDate(flightr.legs)+"<span>"+
+				buildHumanTime(flightr.legs[0].depTime) + " - " +
+				buildHumanTime(flightr.legs[flightr.legs.length-1].arrTime)+"</span>");
+		}
+		$(".bookFlight .legs.fa").html(buildLegString(flight.legs));
+		if (flightr) {
+			$(".bookFlight .legs.fb").html(buildLegString(flightr.legs));
+		}
+		for (var i in flight.prices) {
 			if (i == "economy")
-				updatePrice($(".bookFlight .economy .price"), flight.prices["one-way"][i])
+				updatePrice($(".bookFlight .economy .price"), flight.totalPrices[i])
 			else if (i == "first")
-				updatePrice($(".bookFlight .firstclass .price"), flight.prices["one-way"][i])
+				updatePrice($(".bookFlight .firstclass .price"), flight.totalPrices[i])
 		}
 		if (TYPE == 1)
 			$(".bookFlight .customer").trigger("change");
@@ -346,14 +395,12 @@ $(function() {
 		});
 	})
 
-	var price, priceClass, account_id;
+	var account_id;
 
 	$(".bookFlight .book").click(function() {
 		var flight = activeFlight;
 		if (!flight) return;
 		
-		priceClass = $(".bookFlight .prices .choice.selected").attr("selectprice");
-		price = flight.prices["one-way"][priceClass];
 		seats = parseInt($("#numberofseats").val());
 		account_id = (TYPE == 1) ? parseInt($(".bookFlight .customer").val()) : ID;
 		$(".bookFlight").removeClass("show");
@@ -473,17 +520,24 @@ $(function() {
 			$(".passengers .message").addClass("show people");
 			return;
 		}
-
-		var $this = $(this).addClass("disabled");
-		$(".passengers .accountToggle, .passengers .value").attr("disabled", true);
 		
 		var flight = activeFlight;
 		if (!flight) return;
+
+		var $this = $(this).addClass("disabled");
+		$(".passengers .accountToggle, .passengers .value").attr("disabled", true);
+
+		bookFlight(flight, !!flight.return);
+	});
+
+	function bookFlight(flight, bookReturn=false, reservation_id=-1) {
 		var legs = [];
 		for(var i=0;i<flight.legs.length;i++) legs.push(flight.legs[i].leg);
 		legs = legs.join(" ");
 		var date = flight.legs[0].depTime;
-		date = date.getFullYear()+""+(1+date.getMonth())+""+date.getDate();
+		date = date.getFullYear()+""+padTwo(1+date.getMonth())+""+padTwo(date.getDate());
+		var priceClass = $(".bookFlight .prices .choice.selected").attr("selectprice"),
+			price = flight.prices[priceClass];
 
 		var data = {
 			account_id : account_id,
@@ -500,6 +554,8 @@ $(function() {
 		var res_id = parseInt($(".bookFlight .reservation").val())
 		if (res_id > 0)
 			data.reservation_id = res_id;
+		if (reservation_id > -1)
+			data.reservation_id = reservation_id;
 		var persons = [];
 		for(var i=0;i<seats;i++) {
 			if (passengers[i] === true)
@@ -512,19 +568,24 @@ $(function() {
 		data.persons = JSON.stringify({
 			persons : persons
 		});
+		
 
 		makeCall("createreservation", {
 			data: data,
 			callBack : (r) => {
 				if (r && r.reservation_id > -1) {
-					$(".passengers .message").addClass("show ok");
-					setTimeout(function() {
-						if (TYPE == 0) {
-							window.location.href = "/account.php?res="+r.reservation_id;
-						} else if (TYPE == 1) {
-							window.location.href = "/dashboard.php?res="+r.reservation_id;
-						}
-					},1000);
+					if (bookReturn && flight.return) {
+						bookFlight(flight.return, false, r.reservation_id);
+					} else {
+						$(".passengers .message").addClass("show ok");
+						setTimeout(function() {
+							if (TYPE == 0) {
+								window.location.href = "/account.php?res="+r.reservation_id;
+							} else if (TYPE == 1) {
+								window.location.href = "/dashboard.php?res="+r.reservation_id;
+							}
+						},1000);
+					}
 				} else {
 					$(".passengers .message").addClass("show error");
 					$this.removeClass("disabled");
@@ -532,8 +593,7 @@ $(function() {
 				}
 			}
 		});
-
-	});
+	}
 
 
 
@@ -561,9 +621,10 @@ $(function() {
 
 	getAirlines();
 
-	//*
+	/*
 	$("#flyingfrom").attr("airport_id", "New York City,United States")
 	$("#flyingto").attr("airport_id", "Los Angeles,United States")
+	$(".return input").prop("checked", true);
 	//$("#numberofseats").val(2);
 	getFlights();
 	//*/
