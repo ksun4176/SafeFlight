@@ -54,6 +54,13 @@
                             <div class="labelsmall labelcloser">Arrives before</div>
                             <input class="input dateinput" id="arriving" />
 
+                            <div class="return t3">
+                                <input class="checkbox" type="checkbox" />
+                                <div class="labelsmall labelreturn">With a return flight</div>
+                                <div class="labelsmall labelcloser">That returns by</div>
+                                <input class="input dateinput" id="returning" />
+                            </div>
+
             				<div class="labelsmall">With Seats for</div>
             				<select class="input personinput" id="numberofseats">
             				</select>
@@ -89,7 +96,11 @@
         					</div>
         					<div class="price"><div>$125</div><span>.55</span></div>
                             <div class="stops"></div>
-        					<div class="select button1">Select</div>
+        					<?php if ($TYPE ==  0 || $TYPE == 1) { ?>
+                                <div class="select button1">Select</div>
+                            <? } else if ($TYPE == -1) { ?>
+                                <div class="select button1 disabled">Login to Book</div>
+                            <? } ?>
         				</div>
         				<? } ?>
 
@@ -112,7 +123,7 @@
                                     </div>
                                     <? if ($TYPE == 1) {
                                         $ch = curl_init();
-                                        curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Website/account/get?customerrep_id=".$ID); 
+                                        curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Website/account/get?customer_rep_id=".$ID); 
                                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
                                         $output = curl_exec($ch); 
                                         $output = json_decode($output);
@@ -137,6 +148,61 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="modal passengers">
+                            <div>
+                                <div class="box">
+                                    <h2>Passenger Details</h2>
+                                    <div class="pages">
+                                        <div class="arrow left"></div>
+                                        <div class="count">
+                                            <span class="on">1</span>
+                                            <span>/</span>
+                                            <span class="total">4</span>
+                                        </div>
+                                        <div class="arrow right"></div>
+                                    </div>
+                                    <select class="accountToggle">
+                                        <option value="myaccount">Use Account Details</option>
+                                        <option value="fillin">Fill In Passenger Info</option>
+                                    </select>
+                                    <div class="editAccountForm">
+                                        <div class="name">
+                                            <div class="field firstName">
+                                                <div class="label">First Name</div>
+                                                <input class="value" />
+                                            </div>
+                                            <div class="field lastName">
+                                                <div class="label">Last Name</div>
+                                                <input class="value" />
+                                            </div>
+                                        </div>
+                                        <div class="field address">
+                                            <div class="label">Address</div>
+                                            <input class="value" />
+                                        </div>
+                                        <div class="address2">
+                                            <div class="field city">
+                                                <div class="label">City</div>
+                                                <input class="value" />
+                                            </div>
+                                            <div class="field state">
+                                                <div class="label">State</div>
+                                                <input class="value" />
+                                            </div>
+                                            <div class="field zip">
+                                                <div class="label">Zip Code</div>
+                                                <input class="value" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="message"></div>
+                                    <div class="book button1">Book Now</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
 
                     </div>
 

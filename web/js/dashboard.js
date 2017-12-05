@@ -76,6 +76,7 @@ else if (TYPE === 2) {
 
 	});
 }
+
 	var employees = [];
 	$(function() {
 
@@ -101,9 +102,48 @@ else if (TYPE === 2) {
 				}
 			}
 			);
-
-		
-
 	});
+
+
+if (DISPLAY_RES > -1) {
+	$(function() {
+		var res_id = DISPLAY_RES;
+		
+		$("#resit").addClass("show loading");
+		makeCall("getreservation", {
+			data: { reservation_id: res_id },
+			callBack : (r) => {
+				$("#resit .flight").not(".dummy").remove();
+				$("#resit").removeClass("loading delete");
+				$("#resit").attr("res-id", res_id);
+				if (r) {
+					$("#resit h2 .num").html(res_id);
+					r.forEach((f) => {
+						var $f = $("#resit .flight.dummy").clone(true, true);
+						$f.removeClass("dummy");
+						$f.find(".num").html(f.airline_id+""+f.flight_num);
+						$f.find(".stops").html(buildLegString(f.legs, "DepAirportID", "ArrAirportID"));
+						$f.find(".date").html(buildDate(f.DepTime));
+						$f.find(".airline").html(getAirlineName(f.airline_id));
+						$f.find(".time").html(buildHumanTime(f.DepTime)+" - "+buildHumanTime(f.ArrTime));
+						f.legs.forEach((leg) => {
+							$f.find(".expando").append(
+								"<div><div>"+buildHumanTime(leg.DepTime)+" - "+buildHumanTime(leg.ArrTime)+"</div>"+
+								"<span>"+getAirportName(leg.DepAirportID)+" - "+getAirportName(leg.ArrAirportID)+
+								"</span></div>");
+						});
+						$f.insertAfter($("#resit .flight.dummy"));
+					});
+				}
+			}
+		})
+	})
+}
+
+
+
+
+
+
 
 

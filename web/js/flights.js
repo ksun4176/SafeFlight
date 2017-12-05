@@ -147,7 +147,21 @@ $(function() {
 	})
 	$(".dateinput").on('change', function() {
 		getFlights();
-	})
+	});
+
+	$("#numberofseats").on('change', function() {
+		getFlights();
+	});
+
+	$("#left .return .checkbox").on('change', function() {
+		if (this.checked) {
+			$("#left .return").addClass("expandreturn");
+			$("#returning").val("");
+		} else {
+			$("#left .return").removeClass("expandreturn");
+		}
+		getFlights();
+	});
 
 
 	function transformDate(str) {
@@ -161,6 +175,8 @@ $(function() {
 			fromAirport = $("#flyingfrom").attr("airport_id"),
 			toAirport = $("#flyingto").attr("airport_id"),
 			numOfSeats = parseInt($("#numberofseats").val());
+		var roundTrip = $("#left .return .checkbox").get(0).checked,
+			returnBy = transformDate($("#returning").val());
 
 		if (!fromAirport || !toAirport) {
 			$(".flights").addClass("none pick");
@@ -170,12 +186,18 @@ $(function() {
 		var data = {
 			seats: numOfSeats,
 			fromAirport : fromAirport,
-			toAirport : toAirport
+			toAirport : toAirport,
+			roundtrip : false
 		};
 		if (fromDate)
 			data.fromDate = fromDate;
 		if (toDate)
 			data.toDate = toDate;
+		if (roundTrip) {
+			data.roundtrip = true;
+			if (returnBy)
+				data.backBeforeDate = returnBy;
+		}
 
 		$(".flights").removeClass("none").addClass("loading");
 		$(".flights .flight").not(".dummy").remove();
@@ -276,6 +298,7 @@ $(function() {
 
 	var activeFlight = null;
 	$(".flight.dummy .select").click(function(e) {
+		if ($(this).hasClass("disabled")) return;
 		var index = parseInt($(this).closest(".flight").attr("flight"));
 		var flight = flights[index];
 		activeFlight = flight;
@@ -295,6 +318,7 @@ $(function() {
 		if (TYPE == 1)
 			$(".bookFlight .customer").trigger("change");
 		else if (TYPE == 0) {
+			$(".bookFlight .reservation option").not("[value=-1]").remove();
 			makeCall("getreservations", {
 				data: {account_id: ID},
 				callBack : populateReservations
@@ -303,7 +327,6 @@ $(function() {
 	});
 
 	function populateReservations(r) {
-		$(".bookFlight .reservation option").not("[value=-1]").remove();
 		if (r && r.reservations) {
 			r.reservations.forEach((res) => {
 				$(".bookFlight .reservation").append(
@@ -315,6 +338,7 @@ $(function() {
 	}
 	$(".bookFlight .customer").on("change", function() {
 		var account_id = $(this).val();
+		$(".bookFlight .reservation option").not("[value=-1]").remove();
 		
 		makeCall("getreservations", {
 			data: {account_id: account_id},
@@ -322,13 +346,139 @@ $(function() {
 		});
 	})
 
+	var price, priceClass, account_id;
+
 	$(".bookFlight .book").click(function() {
 		var flight = activeFlight;
 		if (!flight) return;
-		console.log(flight);
 		
-		var selchoice = $(".bookFlight .prices .choice.selected").attr("selectprice");
-		var price = flight.prices["one-way"][selchoice];
+		priceClass = $(".bookFlight .prices .choice.selected").attr("selectprice");
+		price = flight.prices["one-way"][priceClass];
+		seats = parseInt($("#numberofseats").val());
+		account_id = (TYPE == 1) ? parseInt($(".bookFlight .customer").val()) : ID;
+		$(".bookFlight").removeClass("show");
+		updatePassengersModal(true);
+	});
+
+	var passengers = [], seats = 0, userDetails = false,
+		onPPage = 0;
+	function getUserDetails() {
+		makeCall("getaccounts", {
+			data:{account_num:account_id},
+			callBack : (r) => {
+				if (r && r.accounts && r.accounts[0]) {
+					userDetails = r.accounts[0];
+					fillInUserDetails();
+				}
+			}
+		})
+	}
+	function fillInUserDetails() {
+		$(".passengers .firstName .value").val(userDetails.first_name);
+		$(".passengers .lastName .value").val(userDetails.last_name);
+		$(".passengers .address .value").val(userDetails.address);
+		$(".passengers .state .value").val(userDetails.state);
+		$(".passengers .city .value").val(userDetails.city);
+		$(".passengers .zip .value").val(userDetails.zipcode);
+	}
+	var mapPassenger = ([
+			["first_name", "firstName"],
+			["last_name", "lastName"],
+			["address", "address"],
+			["city", "city"],
+			["state", "state"],
+			["zip", "zip"],
+		]);
+	function updatePassengersModal(justOpened=false) {
+		if (justOpened) {
+			passengers = [true];
+			onPPage = 0;
+			userDetails = false;
+		}
+		$(".passengers").addClass("show");
+		$(".passengers .total").html(seats);
+		$(".passengers .on").html(onPPage+1);
+		$(".passengers .arrow").removeClass("hidden");
+		if (onPPage == 0) $(".passengers .arrow.left").addClass("hidden");
+		if (onPPage == seats - 1) $(".passengers .arrow.right").addClass("hidden");
+		$(".passengers .accountToggle").attr("disabled", false);
+		if (passengers[onPPage] === true) {
+			$(".passengers .accountToggle").val("myaccount");
+			$(".passengers .field .value").attr("disabled", true);
+			if (!!userDetails)
+				fillInUserDetails();
+			else
+				getUserDetails();
+		} else {
+			$(".passengers .accountToggle").val("fillin");
+			$(".passengers .field .value").attr("disabled", false);
+			if (!!passengers[onPPage]) {
+				mapPassenger.forEach((a) => {
+					$(".passengers ."+a[1]+" .value").val(passengers[onPPage][a[0]])
+				});
+			} else {
+				$(".passengers .field .value").val("");
+			}
+		}
+	}
+	function savePassengerPage() {
+		if (passengers[onPPage] !== true) {
+			passengers[onPPage] = {};
+			mapPassenger.forEach((a) => {
+				passengers[onPPage][a[0]] = $(".passengers ."+a[1]+" .value").val();
+			});
+		}
+	}
+	$(".passengers .accountToggle").on("change", function() {
+		if ($(this).val() == "myaccount") {
+			passengers[onPPage] = true;
+			updatePassengersModal();
+		} else if ($(this).val() == "fillin") {
+			passengers[onPPage] = false;
+			updatePassengersModal();
+		}
+	});
+	$(".passengers .arrow").click(function() {
+		if ($(".passengers .book").hasClass("disabled")) return;
+		savePassengerPage();
+		onPPage += $(this).hasClass("left") ? -1 : 1;
+		onPPage = Math.max(Math.min(onPPage, seats-1), 0);
+		updatePassengersModal();
+	});
+	$(".passengers .book").click(function() {
+		if ($(this).hasClass("disabled")) return;
+		savePassengerPage();
+		$(".passengers .message").removeClass("show ok people error");
+
+		var error = false;
+		for(var i=0;i<seats;i++) {
+			if (!passengers[i]) {
+				error = true;
+				break;
+			}
+			if (passengers[i] !== true) {
+				for(var j in passengers[i]) {
+					if (passengers[i].hasOwnProperty(j))
+						if (passengers[i][j].trim() == "") {
+							error = true;
+							break;
+						}
+				}
+				if (!passengers[i].zip.match(/^[\d]{5}$/))
+					error = true;
+			}
+			if (error) break;
+		}
+		if (error) {
+			$(".passengers .message").addClass("show people");
+			return;
+		}
+
+		var $this = $(this).addClass("disabled");
+		$(".passengers .accountToggle, .passengers .value").attr("disabled", true);
+		
+		var flight = activeFlight;
+		if (!flight) return;
 		var legs = [];
 		for(var i=0;i<flight.legs.length;i++) legs.push(flight.legs[i].leg);
 		legs = legs.join(" ");
@@ -336,27 +486,53 @@ $(function() {
 		date = date.getFullYear()+""+(1+date.getMonth())+""+date.getDate();
 
 		var data = {
-			account_id : ID, // CUSTOMER ID NOT LOGGED IN ID
+			account_id : account_id,
 			airline_id : flight.airline_id,
 			flightNumber : flight.flightNumber,
 			legNumber : legs,
-			flightFare : price,
-			date : date
+			flightFare : price * seats,
+			flightClass : priceClass,
+			date : date,
 		};
 		if (TYPE == 1) {
-			data.account_id = parseInt($(".bookFlight .customer").val());
 			data.customer_rep_id = ID;
 		}
 		var res_id = parseInt($(".bookFlight .reservation").val())
 		if (res_id > 0)
 			data.reservation_id = res_id;
+		var persons = [];
+		for(var i=0;i<seats;i++) {
+			if (passengers[i] === true)
+				persons.push({
+					account_id: account_id
+				});
+			else
+				persons.push(passengers[i]);
+		}
+		data.persons = JSON.stringify({
+			persons : persons
+		});
 
 		makeCall("createreservation", {
 			data: data,
 			callBack : (r) => {
-				console.log(r)
+				if (r && r.reservation_id > -1) {
+					$(".passengers .message").addClass("show ok");
+					setTimeout(function() {
+						if (TYPE == 0) {
+							window.location.href = "/account.php?res="+r.reservation_id;
+						} else if (TYPE == 1) {
+							window.location.href = "/dashboard.php?res="+r.reservation_id;
+						}
+					},1000);
+				} else {
+					$(".passengers .message").addClass("show error");
+					$this.removeClass("disabled");
+					updatePassengersModal();
+				}
 			}
-		})
+		});
+
 	});
 
 
@@ -388,6 +564,7 @@ $(function() {
 	//*
 	$("#flyingfrom").attr("airport_id", "New York City,United States")
 	$("#flyingto").attr("airport_id", "Los Angeles,United States")
+	//$("#numberofseats").val(2);
 	getFlights();
 	//*/
 

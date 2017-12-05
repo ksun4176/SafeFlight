@@ -7,7 +7,7 @@ $(function() {
 
 	var $modal = $("<div>")
 		.addClass("modal editAccount");
-	$modal.append("<div><div class='box'></div></div>");
+	$modal.append("<div><div class='box editAccountForm'></div></div>");
 	var $box = $modal.find(".box");
 	function buildThing(className, label, placeholder="") {
 		return $("<div>")
@@ -112,7 +112,7 @@ $(function() {
 			});
 	});
 
-	editAccount = (account, title="Edit Account", showdelete=false, employee=true) => {
+	editAccount = (account, title="Edit Account", showdelete=false, employee=false) => {
 		emp = employee;
 		acc = account;
 		$modal.addClass("show");
