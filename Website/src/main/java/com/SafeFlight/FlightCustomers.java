@@ -67,14 +67,15 @@ public class FlightCustomers extends HttpServlet {
 					String zip = rs2.getString("ZipCode");
 					String email = rs2.getString("Email");
 					
-					person.put("account_id", account_id);
+					
 					person.put("firstName", firstName);
 					person.put("lastName", lastName);
-					person.put("address", address);
+					person.put("zipCode", zip);
+					person.put("Address", address);
 					person.put("city", city);
 					person.put("state",state);
-					person.put("zip", zip);
 					person.put("email", email);
+					person.put("account_id", account_id);
 					customer.add(person);
 				}
 				ConnectionUtils.close(conn2);
