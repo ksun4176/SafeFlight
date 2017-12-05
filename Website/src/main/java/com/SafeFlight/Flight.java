@@ -158,7 +158,7 @@ public class Flight extends HttpServlet {
 					if(flights2.containsKey(temp)) {
 						boolean start = false;
 						boolean end = false;
-						if(toDate != null && flights2.get(temp).get(tempNo).get(3).substring(0,8).compareTo(toDate) > 0) {
+						if(toDate != null && flights2.get(temp).get(tempNo).get(3).substring(0,10).compareTo(toDate) > 0) {
 							flights2.remove(temp);
 						} else {
 							for(ArrayList<String> a : flights2.get(temp).values()) {
@@ -274,7 +274,7 @@ public class Flight extends HttpServlet {
 						if(flights3.containsKey(temp)) {
 							boolean start = false;
 							boolean end = false;
-							if(backBeforeDate != null && flights3.get(temp).get(tempNo).get(3).substring(0,8).compareTo(backBeforeDate) > 0) {
+							if(backBeforeDate != null && flights3.get(temp).get(tempNo).get(3).substring(0,10).compareTo(backBeforeDate) > 0) {
 								flights3.remove(temp);
 							} else {
 								for(ArrayList<String> a : flights3.get(temp).values()) {
