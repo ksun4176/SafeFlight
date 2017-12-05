@@ -15,6 +15,10 @@ $(function() {
 			url: "/account/get",
 			method: "GET"
 		},
+		createaccount: {
+			url: "/account/signup",
+			method: "POST"
+		},
 		editaccount: {
 			url: "/account/edit",
 			method: "POST"

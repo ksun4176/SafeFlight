@@ -215,6 +215,9 @@ h1 {
 .flight.dummy {
 	display:none;
 }
+.flight .block2 { display:none; }
+.flight.roundtrip { height:170px; }
+.flight.roundtrip .block2 { display: block; margin-top:5px; }
 .flight .upperleft {
 	display:block;
 	text-align: left;
@@ -255,9 +258,8 @@ h1 {
 	font-weight:bold;
 }
 .flight .stops {
-	position:absolute;
-	top:51px;
-	left:172px;
+	display:block;
+	margin:-1px 0 0 160px;
 	font-size:15px;
 	color:#444;
 }
@@ -283,6 +285,12 @@ h1 {
 	min-height:200px;
 	padding:14px 18px 18px;
 }
+.bookFlight .fb {
+	display:none;
+}
+.bookFlight.showreturn .fb {
+	display:block;
+}
 .bookFlight h2 {
 	font-size:26px;
 	border-bottom:1px solid #005;
@@ -291,6 +299,7 @@ h1 {
 	font-size:18px;
 	margin-top:10px;
 }
+.bookFlight .flightdetail.fb { margin-top:6px; }
 .bookFlight .date {
 	font-size:14px;
 	color:#555;
