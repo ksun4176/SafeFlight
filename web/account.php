@@ -83,9 +83,9 @@
                         </div>
                         <div class="expando"></div>
                     </div>
-                    <div class="deleted">Deleted Reservation</div>
+                    <div class="deleted">Cancelled Reservation</div>
                     <div class="button1 ok">Ok</div>
-                    <div class="button1 delete">Delete</div>
+                    <div class="button1 delete">Cancel Reservation</div>
                 </div>
             </div>
         </div>
