@@ -35,7 +35,7 @@ if (TYPE === 1) {
 			"getaccounts",
 			{
 				data : {
-					customerrep_id : ID
+					customer_rep_id : ID
 				},
 				callBack : (r) => {
 					accounts = r ? (r.accounts || []) : [];

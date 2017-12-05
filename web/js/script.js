@@ -30,6 +30,24 @@ function transformFlightLeg(leg) {
 	return l;
 }
 
+var months = "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec".split(",");
+function buildDate(time) {
+	return months[(time.getMonth())]+" "+time.getDate();
+}
+function padTwo(a) {return (a < 10) ? ("0"+a) : (""+a);}
+function buildHumanTime(date) {
+	var hour = date.getHours(), ampm = "am";
+	if (hour >= 12) { hour -= 12; ampm = "pm"; }
+	if (hour == 0) hour = 12;
+	return (hour)+":"+padTwo(date.getMinutes())+ampm;
+}
+function buildLegString(l, a="depAirportID", b="arrAirportID") {
+	var str = "";
+	for(var i=0;i<l.length;i++) str += l[i][a]+" - ";
+	str += l[l.length-1][b];
+	return str;
+}
+
 
 $(function() {
 
@@ -44,6 +62,8 @@ $(function() {
 
 var getAirlines = () => true;
 var getAirlineName = () => "";
+var getAirports = () => true;
+var getAirportName = () => "";
 $(function() {
 	var madeCall = false;
 	var airlines = {};
@@ -62,7 +82,25 @@ $(function() {
 		if (airlines.hasOwnProperty(id)) return airlines[id];
 		return "";
 	}
-
+})
+$(function() {
+	var madeCall = false;
+	var airports = {};
+	getAirports = () => {
+		if (madeCall) return;
+		madeCall = true;
+		makeCall("getairports", {callBack:(r) => {
+			if (r && r.airports) {
+				for(var i=0;i<r.airports.length;i++) {
+					airports[r.airports[i].airport_id] = r.airports[i].name;
+				}
+			}
+		}})
+	}
+	getAirportName = (id) => {
+		if (airports.hasOwnProperty(id)) return airports[id];
+		return "";
+	}
 })
 
 
