@@ -98,7 +98,7 @@ public class Popular extends HttpServlet {
 		        		if(temp != null) {
 		        			fares.put(temp, fareInfo);
 		        		}
-		        		o.put("price", fares);
+		        		o.put("prices", fares);
 		        		jArray.add(o);
 		        }
 
