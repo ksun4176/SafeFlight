@@ -26,9 +26,13 @@ $(function() {
 		deleteaccount: {
 			url: "/account/delete",
 			method: "POST",
-			dummy: {ok:true}
+			adummy: {ok:true}
 		},
 		
+		createemployee: {
+			url: "/account/signup/employee",
+			method: "POST"
+		},
 		getemployees: {
 			url: "/account/get/employee",
 			method: "GET"
@@ -105,6 +109,10 @@ $(function() {
 
 		getflights: {
 			url: "/flights/get",
+			method: "GET"
+		},
+		getairportflights: {
+			url: "/reports/airportflights",
 			method: "GET"
 		},
 		getpopularflights: {

@@ -24,7 +24,7 @@ $(function() {
 
 	var airports = null;
 	var airportCb = [], airportRequestSent = false;
-	function getAirports(callBack) {
+	function getCities(callBack) {
 		if (airports != null) {
 			callBack(airports);
 			return;
@@ -102,7 +102,7 @@ $(function() {
 
 		$this.on("focus", function() {
 			$dropdown.addClass("visible");
-			getAirports((airports) => {
+			getCities((airports) => {
 				populateDropdown($this.val());
 			});
 		}).on("blur", function() {
@@ -131,7 +131,7 @@ $(function() {
 				return false;
 			}
 
-			getAirports((airports) => {
+			getCities((airports) => {
 				populateDropdown($this.val());
 			});
 		});
@@ -174,6 +174,27 @@ $(function() {
 		return a[2]+"-"+a[0]+"-"+a[1];
 	}
 	function getFlights() {
+		if ($(".allflights.option").hasClass("selected")) {
+			$(".flights").removeClass("none pick").addClass("loading");
+			$(".flights .flight").not(".dummy").remove();
+			makeCall("getflights", {
+				data: {
+					all : true
+				},
+				callBack: returnFlights
+			});
+		}
+		if ($(".airportflights.option").hasClass("selected")) {
+			var airport_id = $(".airportflights .airports").val();
+			$(".flights").removeClass("none pick").addClass("loading");
+			$(".flights .flight").not(".dummy").remove();
+			makeCall("getairportflights", {
+				data: {
+					airport_id : airport_id
+				},
+				callBack: returnFlights
+			});
+		}
 		if ($(".bestflights.option").hasClass("selected")) {
 			$(".flights").removeClass("none pick").addClass("loading");
 			$(".flights .flight").not(".dummy").remove();
@@ -334,7 +355,7 @@ $(function() {
 					$block.find(".stops").html("1 Stop");
 				else
 					$block.find(".stops").html(flight.legs.length-1 + " Stops");
-				$block.find(".bottomleft").html(buildOperates(flight.daysOfWeek));
+				$block.closest(".flight").find(".bottomleft").html(buildOperates(flight.daysOfWeek));
 				$block.find(".date").html(buildDepDate(flight.legs));
 				$block.find(".time").html(buildTime(flight.legs));
 				$block.find(".timerange").html(
@@ -628,22 +649,6 @@ $(function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	getAirlines();
 
 	/*
@@ -656,12 +661,38 @@ $(function() {
 
 
 
+	if (TYPE == 2) {
+		makeCall("getairports", {callBack:(r) => {
+			if (r && r.airports) {
+				r.airports.forEach((a) => {
+					var $opt = $("<option></option>");
+					$opt.html(a.name+": "+a.city+", "+a.country);
+					$opt.val(a.airport_id);
+					$(".airportflights .airports").append($opt);
+				});
+			}
+		}});
+
+		$(".airportflights .airports").on("change", function() {
+			getFlights();
+		});
+
+	}
 
 
 
-	
+
 
 });
+
+
+
+
+
+
+
+
+
 
 
 

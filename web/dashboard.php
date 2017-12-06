@@ -98,8 +98,9 @@
 
                     <h1>Manager Dashboard</h1>
 
-                    <div id="miniheader">
+                    <div class="miniheader">
                         Employees
+                        <span class="createaccountclick">Create Account</span>
                     </div>
 
                     <div class="accounts accountse">
@@ -109,6 +110,61 @@
                             <div class="column name">Name</div>
                             <div class="column email">SSN</div>
                             <div class="column address">Address</div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="createaccount">
+                        <div>
+                            <div class="box">
+                                <div class="spinner"><span></span></div>
+                                <h2>Create Employee</h2>
+                                <div class="label">First Name</div>
+                                <input class="input firstName" />
+                                <div class="label">Last Name</div>
+                                <input class="input lastName" />
+                                <div class="label">SSN</div>
+                                <input class="input ssn" />
+                                <div class="label">Username</div>
+                                <input class="input username" />
+                                <div class="label">Password</div>
+                                <input class="input password" type="password" />
+                                <div class="message message1"></div>
+                                <div class="button button2">Create</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="miniheader">Reservations</div>
+                    <div class="fields listreservations">
+                        <div class="label labeli">Flight</div>
+                        <select class="flights"><option value=-1>--</option></select>
+                        <div class="label labeli">OR</div>
+                        <div class="label labeli">Customer</div>
+                        <select class="customers"><option value=-1>--</option></select>
+                    </div>
+
+                    <div class="openmodalbuttons">
+                        <div class="salesreport button2">Get Sales Report</div>
+
+                    </div>
+
+
+                    <div class="modal" id="salesreport">
+                        <div>
+                            <div class="box">
+                                <h2>Sales Report</h2>
+                                <div class="label">Month</div>
+                                <select class="date month"></select>
+                                <div class="label">Year</div>
+                                <select class="date year"></select>
+                                <div class="spinnerbox">
+                                    <div class="spinner"><span></span></div>
+                                </div>
+                                <div class="stuff">
+                                    <div class="stats"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

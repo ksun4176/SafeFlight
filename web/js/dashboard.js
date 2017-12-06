@@ -77,6 +77,82 @@ else if (TYPE === 2) {
 			editAccount(employee, "Edit Employee", true, true);
 		})
 
+
+		for(var i=1;i<=12;i++) {
+			$("#salesreport .month").append("<option value='"+i+"' "+(i==12?"selected":"")+">"+i+"</option>")
+		}
+		for(var i=2010;i<=2017;i++) {
+			$("#salesreport .year").append("<option value='"+i+"' "+(i==2017?"selected":"")+">"+i+"</option>")
+		}
+		$("#salesreport .date").on("change", function() {
+			loadReports();
+		});
+		$(".salesreport").click(function() {
+			$("#salesreport").addClass("show");
+			loadReports();
+		})
+		function loadReports() {
+			var month = $("#salesreport .month").val(),
+				year = $("#salesreport .year").val();
+			$("#salesreport").addClass("loadingsales");
+			makeCall("getmonthlyreport", {
+				data: {
+					month: month,
+					year : year
+				},
+				callBack : (r) => {
+					$("#salesreport").removeClass("loadingsales");
+					if (r && r.reservations) {
+						var ress = r.reservations;
+						var totalFare = 0, totalFee = 0;
+						var accs = [], reps = [];
+						ress.forEach((res) => {
+							totalFare += res.totalFare;
+							totalFee += res.bookingFee;
+							if (accs.indexOf(res.account_id) == -1) accs.push(res.account_id);
+							if (reps.indexOf(res.customer_rep_id) == -1) reps.push(res.customer_rep_id);
+						});
+
+						$("#salesreport .stats").html("Reservations: "+ress.length+"<br>"+
+							"Total Fare: $"+totalFare.toFixed(2)+"<br>"+
+							"Total Booking Fees: $"+totalFee.toFixed(2)+"<br>"+
+							"Active Customers: "+accs.length+"<br>"+
+							"Active Customer Representatives: "+reps.length+"<br>"
+							);
+					}
+				}
+			})
+		}
+
+		makeCall("getflights", {
+			data: {
+				all : true
+			},
+			callBack: (r) => {
+				if (r && r.flights) {
+					r.flights.forEach((f) => {
+						var thing = f.airline_id + "" + f.flightNumber;
+						$(".listreservations .flights").append(
+							"<option value='"+thing+"''>"+thing+"</option");
+					})
+				}
+			}
+		});
+		makeCall("getaccounts", {
+			callBack: (r) => {
+				if (r && r.accounts) {
+					r.accounts.forEach((a) => {
+						$(".listreservations .customers").append(
+							"<option value="+a.person_id+">"+a.first_name+" "+a.last_name+" &lt;"+a.email+"&gt;</option");
+					})
+				}
+			}
+		});
+		$(".listreservations select").on("change", function() {
+			$(".listreservations select").not(this).val(-1);
+		})
+
+
 		
 
 	});
@@ -103,6 +179,11 @@ $(function() {
 
 					$('.accountse').append($acc);
 				});
+
+				if (TYPE == 2 && EDIT_ACCOUNT > -1) {
+					$(".accountse .account[employee-id="+EDIT_ACCOUNT+"] .edit span").click();
+					EDIT_ACCOUNT = -1;
+				}
 			}
 		}
 		);
@@ -112,32 +193,56 @@ $(function() {
 	$(".createaccountclick").click(function() {
 		$("#createaccount").addClass("show");
 		$("#createaccount .input").val("");
-		$("#createaccount .message").removeClass("show ok error");
+		$("#createaccount .message").removeClass("show ok error empty exist");
 	});
 
 	$("#createaccount .button").click(function() {
 		var data = {};
+		$("#createaccount .message").removeClass("show ok error empty exist");
 
 		var readFields = [],
 			call;
 		if (TYPE == 1) {
-			call = "createaccount"
+			call = "createaccount";
 			data.customer_rep_id = ID;
 			readFields = ["username", "password", "firstName", "lastName"];
 			data.address = data.city = data.state = data.email = data.zip = data.creditCardNo = "";
+		} else if (TYPE == 2) {
+			call = "createemployee";
+			readFields = ["username", "password", "firstName", "lastName", "ssn"];
+			data.address = data.city = data.state = data.zip = "";
+			data.hourlyRate = 0;
+		}
+		for(var i=0;i<readFields.length;i++) {
+			var f = readFields[i];
+			data[f] = $("#createaccount .input."+f).val().trim();
+			if (data[f] == "") {
+				$("#createaccount .message").addClass("show error empty");
+				return;
+			}
 		}
 
-		readFields.forEach((f) => {
-			data[f] = $("#createaccount .input."+f).val();
-		});
-
+		var $this = $(this).addClass("disabled");
+		$("#createaccount .input").attr("disabled", true);
 		makeCall(call, {
 			data: data,
 			callBack : (r) => {
-				if (r && r.account_id > 0) {
-
+				if (r) {
+					var field = (TYPE == 2) ? "employee_id" : "account_id";
+					if (r[field] > 0) {
+						$("#createaccount .message").addClass("show ok");
+						setTimeout(function() {
+							window.location.href = "/dashboard.php?acc="+r[field];
+						}, 1000);
+					} else {
+						$this.removeClass("disabled");
+						$("#createaccount .message").addClass("show error exist");
+						$("#createaccount .input").attr("disabled", false);
+					}
 				} else {
+					$this.removeClass("disabled");
 					$("#createaccount .message").addClass("show error");
+					$("#createaccount .input").attr("disabled", false);
 				}
 			}
 		})

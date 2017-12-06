@@ -19,7 +19,7 @@
 		<script src="js/script.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/portals.js"></script>
-        <script src="js/alogin.js"></script>
+        <script src="js/login.js"></script>
 	</head>
 
 	<body>
@@ -32,6 +32,10 @@
 
     			<h1>Sign Up</h1>
 
+                <div class="label">First Name</div>
+                <input class="loginInput" type="text" id="firstName" placeholder="first name" value="" />
+                <div class="label">Last Name</div>
+                <input class="loginInput" type="password" id="lastName" placeholder="last name" value="" />
                 <div class="label">Username</div>
                 <input class="loginInput" type="text" id="username" placeholder="username" value="" />
                 <div class="label">Password</div>
@@ -41,7 +45,7 @@
 
                 <div class="error">Invalid Login Credentials</div>
 
-                <input type="button" id="gobutton" value="Go" />
+                <input type="button" id="gobutton" class="signupbutton" value="Go" />
 
     		</div>
     	</div>

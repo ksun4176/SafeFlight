@@ -128,7 +128,80 @@ h1 {
 }
 #createaccount .message.ok:before { content:"Account Created"; }
 #createaccount .message.error:before { content:"Failed to create account. Check all fields"; }
+#createaccount .message.empty:before { content:"Please fill in all fields properly"; }
+#createaccount .message.exist:before { content:"Username already exists"; }
 
+.openmodalbuttons {
+	margin-top:26px;
+	margin-bottom:30px;
+}
+
+#salesreport .box {
+	min-width:500px;
+}
+#salesreport h2 {
+	margin-bottom:5px;
+}
+#salesreport .label {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:15px;
+	color:#333;
+	margin-right:3px;
+}
+#salesreport .date {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:14px;
+	width:40px;
+	cursor:pointer;
+	padding:2px 3px;
+	margin-right:8px;
+}
+#salesreport .year { width:60px; }
+#salesreport .spinnerBox {
+	display:none;
+	text-align: center;
+	height:80px;
+	padding-top:33px;
+	overflow: hidden;
+}
+#salesreport.loadingsales .spinnerBox {
+	position:relative;
+	display:block;
+}
+#salesreport.loadingsales .stuff {
+	display:none;
+}
+#salesreport .stats {
+	font-size:16px;
+	margin:5px 0 5px;
+}
+
+.fields {
+	display:block;
+	margin:3px 0 5px;
+}
+.fields .label {
+	display:block;
+	font-size:14px;
+	color:#333;
+}
+.fields .labeli {
+	display:inline-block;
+	vertical-align: middle;
+	margin-right:5px;
+}
+.fields select {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:14px;
+	cursor:pointer;
+	padding:2px 3px;
+	margin-right:8px;
+}
+
+.listreservations.fields select { width:150px; }
 
 
 
