@@ -150,7 +150,8 @@
                                 Operates on: Monday, Wednesday, Friday
                             </div>
         					<div class="price"><div>$125</div><span>.55</span></div>
-        					<?php if ($TYPE ==  0 || $TYPE == 1) { ?>
+        					<div class="reverseauction">Has Reverse Auction</div>
+                            <?php if ($TYPE ==  0 || $TYPE == 1) { ?>
                                 <div class="select button1">Select</div>
                             <? } else if ($TYPE == -1) { ?>
                                 <div class="select button1 disabled">Login to Book</div>
@@ -178,6 +179,10 @@
                                             <div class="type">First</div>
                                             <div class="price"><div></div><span></span></div>
                                         </div>
+                                        <div class="choice auction" selectprice="auction">
+                                            <div class="type">Auction</div>
+                                            <div class="price"><div>$---</div><span>.--</span></div>
+                                        </div>
                                     </div>
                                     <? if ($TYPE == 1) { ?>
                                         <div class="customerlabel">Book under customer:</div>
@@ -196,6 +201,25 @@
                                         <option value='-1' selected>New Reservation</option>
                                     </select>
                                     <div class="book button1">Select Flight</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal revauction">
+                            <div>
+                                <div class="box">
+                                    <h2>Reverse Auction</h2>
+                                    <div class="labelbid">Enter your bid:</div>
+                                    <input type="number" min="10" step="10" />
+                                    <div class="message1"></div>
+                                    <div class="placebid button1">Place Bid</div>
+                                    <div class="labelbid labelbid2">Bid History</div>
+                                    <div class="bids datasets">
+                                        <div class="bid dataset top">
+                                            <div class="column id">ID</div>
+                                            <div class="column amount">Bid Amount</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

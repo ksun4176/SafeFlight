@@ -119,7 +119,24 @@ $(function() {
 
 		getflights: {
 			url: "/flights/get",
-			method: "GET"
+			method: "GET",
+			transform:function(r) {
+				if (!r || !r.flights) return r;
+				r.flights.forEach((f) => {
+					if (Math.random() < 1) {
+						f.hasAuction = true;
+						f.bidHistory = [];
+						for(var i=0;i<5;i++) {
+							f.bidHistory.push({
+								account_id: Math.floor(Math.random()*30)+5,
+								name: "Random Name",
+								bid: Math.floor(Math.random()*50)*10+20
+							});
+						}
+					}
+				});
+				return r;
+			}
 		},
 		getairportflights: {
 			url: "/reports/airportflights",
@@ -134,6 +151,14 @@ $(function() {
 			method: "GET",
 			adummy: {
 				flights:[]
+			}
+		},
+
+		makebid : {
+			url: "/flights/makebid",
+			method: "POST",
+			dummy: {
+				ok: true
 			}
 		},
 

@@ -364,6 +364,9 @@ $(function() {
 			});
 			
 			updatePrice($flight.find(".price"), flight.totalPrices.economy);
+			if (flight.hasAuction) {
+				$flight.find(".reverseauction").addClass("show");
+			}
 
 			$(".flights").append($flight);
 		});
@@ -414,6 +417,14 @@ $(function() {
 			else if (i == "first")
 				updatePrice($(".bookFlight .firstclass .price"), flight.totalPrices[i])
 		}
+
+		if (flight.hasAuction)
+			$(".bookFlight .prices").addClass("showauction");
+		else
+			$(".bookFlight .prices").removeClass("showauction");
+		$(".bookFlight .prices .choice").removeClass("selected");
+		$(".bookFlight .prices .choice:first-child").addClass("selected");
+
 		if (TYPE == 1)
 			$(".bookFlight .customer").trigger("change");
 		else if (TYPE == 0) {
@@ -445,16 +456,79 @@ $(function() {
 		});
 	})
 
-	var account_id;
+	var account_id, priceClass, price;
 
 	$(".bookFlight .book").click(function() {
 		var flight = activeFlight;
 		if (!flight) return;
-		
-		seats = parseInt($("#numberofseats").val());
+
 		account_id = (TYPE == 1) ? parseInt($(".bookFlight .customer").val()) : ID;
+		priceClass = $(".bookFlight .prices .choice.selected").attr("selectprice");
+		price = flight.prices[priceClass];
+		seats = parseInt($("#numberofseats").val());
+		
+		if (priceClass == "auction") {
+			$(".bookFlight").removeClass("show");
+			$(".revauction").addClass("show");
+			$(".revauction .message1").removeClass("show ok error");
+			$(".revauction .bids .bid").not(".top").remove();
+			flight.bidHistory.forEach((b) => {
+				var $row = $(".revauction .bid.top").clone(true, true);
+				$row.removeClass("top");
+				$row.find(".name").html(b.name);
+				$row.find(".id").html(b.account_id);
+				$row.find(".amount").html("$"+b.bid.toFixed(2));
+				$(".revauction .bids").append($row);
+			})
+			return;
+		}
+		
 		$(".bookFlight").removeClass("show");
 		updatePassengersModal(true);
+	});
+	$(".revauction .placebid").click(function() {
+		if ($(this).hasClass("disabled")) return;
+		var flight = activeFlight;
+		if (!flight) return;
+
+		$(".revauction .message1").removeClass("show ok error");
+		var bidPrice = parseFloat($(".revauction input").val());
+		if (isNaN(bidPrice) || bidPrice <= 0) {
+			$(".revauction .message1").addClass("show error").html("Please enter a valid price");
+			return;
+		}
+		var data = {
+			account_id : account_id,
+			airline_id : flight.airline_id,
+			flightNumber : flight.flightNumber,
+			price : bidPrice
+		};
+		var $this = $(this).addClass("disabled");
+		makeCall("makebid", {
+			data:data,
+			callBack:(r) => {
+				if (!r || !r.ok) {
+					$(".revauction .message1").addClass("show ok").html("Your bid has been recorded.");
+					setTimeout(function() {
+						$this.removeClass("disabled");
+						$(".revauction").removeClass("show");
+						flight.bidHistory.push({
+							account_id: account_id,
+							bid : bidPrice
+						})
+					}, 1000);
+				} else {
+					$(".revauction .message1").addClass("show ok").html("Your bid has been accepted!");
+					setTimeout(function() {
+						$this.removeClass("disabled");
+						price = bidPrice;
+						priceClass = "economy";
+						$(".revauction").removeClass("show");
+						updatePassengersModal(true);
+					}, 1000);
+				}
+			}
+		})
 	});
 
 	var passengers = [], seats = 0, userDetails = false,
@@ -586,9 +660,7 @@ $(function() {
 		legs = legs.join(" ");
 		var date = flight.legs[0].depTime;
 		date = date.getFullYear()+""+padTwo(1+date.getMonth())+""+padTwo(date.getDate());
-		var priceClass = $(".bookFlight .prices .choice.selected").attr("selectprice"),
-			price = flight.prices[priceClass];
-
+		
 		var data = {
 			account_id : account_id,
 			airline_id : flight.airline_id,
@@ -618,7 +690,6 @@ $(function() {
 		data.persons = JSON.stringify({
 			persons : persons
 		});
-		
 
 		makeCall("createreservation", {
 			data: data,
@@ -658,7 +729,7 @@ $(function() {
 	/*
 	$("#flyingfrom").attr("airport_id", "New York City,United States")
 	$("#flyingto").attr("airport_id", "Los Angeles,United States")
-	$(".return input").prop("checked", true);
+	//$(".return input").prop("checked", true);
 	//$("#numberofseats").val(2);
 	getFlights();
 	//*/

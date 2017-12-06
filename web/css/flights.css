@@ -271,6 +271,15 @@ h1 {
 .flight .price > * {
 	font-weight:bold;
 }
+.flight .reverseauction {
+	position:absolute;
+	display:none;
+	top:35px;
+	right:12px;
+	font-size:13px;
+	color:#222;
+}
+.flight .reverseauction.show { display:block; }
 .flight .stops {
 	display:block;
 	margin:-1px 0 0 160px;
@@ -339,6 +348,9 @@ h1 {
 	border-right:1px solid #eef;
 	cursor:pointer;
 }
+.bookFlight .prices .choice.auction { display:none; }
+.bookFlight .prices.showauction .choice { width:33.33%; }
+.bookFlight .prices.showauction .choice.auction { display:inline-block; }
 .bookFlight .prices .choice:hover { opacity:0.8; }
 .bookFlight .prices .choice.selected:hover { opacity:1; }
 .bookFlight .prices .choice:last-child { border-right:none; }
@@ -377,6 +389,39 @@ h1 {
 .bookFlight .book {
 	margin-top:16px;
 }
+
+.revauction .box {
+	min-width:400px;
+
+}
+.revauction h2 { margin-bottom:4px; }
+.revauction .labelbid {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:18px;
+	color:#444;
+	margin:0px 15px 0px 0;
+}
+.revauction input {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:14px;
+	padding:2px 3px;
+	width:70px;
+}
+.revauction .button1 {
+	display:block;
+	width:100px;
+	text-align: center;
+	margin:7px 0 0;
+}
+.revauction .labelbid2 {
+	margin:15px 0 0;
+}
+.revauction .datasets { margin-top:2px; }
+.revauction .name { width:170px; }
+.revauction .id { width:50px; }
+.revauction .amount { width:90px; }
 
 .passengers .box {
 	min-width:400px;
