@@ -226,6 +226,7 @@ $(function() {
 
 			if (!fromAirport || !toAirport) {
 				$(".flights").addClass("none pick");
+				$(".flights .flight").not(".dummy").remove();
 				return;
 			}
 
