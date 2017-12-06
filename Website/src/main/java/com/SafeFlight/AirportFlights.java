@@ -36,30 +36,67 @@ public class AirportFlights extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("Servlet is called.");
 		JSONObject json = new JSONObject();
-		JSONArray flights = new JSONArray();
+		JSONArray jArray = new JSONArray();
 		
 		try {
 			Connection conn = ConnectionUtils.getMyConnection();
 			String airport_id = request.getParameter("airport_id");
-			 System.out.println("Get connection " + conn);
-		       
-		     // Testing SQL
 			String query = "{CALL getFlightsAtAirport(?)}";
 			CallableStatement stmt = conn.prepareCall(query);
 			stmt.setString(1, airport_id);
 			ResultSet rs = stmt.executeQuery();
 			
 		    while(rs.next()) {
+	        		JSONObject o = new JSONObject();
 		    		String airline_id = rs.getString("AirlineID");
-		    		System.out.println(airline_id);
-		        	int flightNo = rs.getInt("FlightNo");
-		        	int legNumber = rs.getInt("LegNo");
-		        		
-		        	JSONObject o = new JSONObject();
+		        	String flightNo = rs.getString("FlightNo");
+		        	String legNumber = rs.getString("LegNo");
+		        	String depAirportID = rs.getString("DepAirportID");
+		        	String arrAirportID = rs.getString("ArrAirportID");
+		        	String depTime = rs.getString("DepTime");
+		        	String arrTime = rs.getString("ArrTime");
 		        	o.put("airline_id", airline_id);
 		        	o.put("flightNumber", flightNo);
-		        	o.put("legNumber", legNumber);
-		        	flights.add(o);
+		        	JSONObject legsInfo = new JSONObject();
+		        	legsInfo.put("depAirportID", depAirportID);
+		        	legsInfo.put("arrAirportID", arrAirportID);
+		        	legsInfo.put("depTime", depTime);
+		        	legsInfo.put("arrTime", arrTime);
+		        	JSONObject legs = new JSONObject();
+		        	legs.put(legNumber, legsInfo);
+		        	o.put("legs", legs);
+		        	
+		        	query = "{CALL getFlight(?,?)}";
+		        	stmt = conn.prepareCall(query);
+		        	stmt.setString(1, airline_id);
+		        	stmt.setString(2, flightNo);
+		        	ResultSet rs2 = stmt.executeQuery();
+		        	rs2.next();
+		        	o.put("daysOfWeek", rs2.getString("DaysOperating"));
+		        	
+		        	JSONObject fares = new JSONObject();
+	        		JSONObject fareInfo = new JSONObject();
+	        		String temp = null;
+	        		query = "{CALL getFare(?,?)}";
+	        		stmt = conn.prepareCall(query);
+	        		stmt.setString(1, airline_id);
+	        		stmt.setString(2, flightNo);
+	        		rs2 = stmt.executeQuery();
+	        		while(rs2.next()) {
+	        			String fare_type = rs2.getString("FareType");
+	        			if(temp != null && !temp.equals(fare_type)) {
+	        				fares.put(temp, fareInfo);
+	        				fareInfo = new JSONObject();
+	        			}
+	        			fareInfo.put(rs2.getString("Class"), rs2.getString("Fare"));
+	        			temp = fare_type;
+	        		}
+	        		if(temp != null) {
+	        			fares.put(temp, fareInfo);
+	        		}
+	        		o.put("prices", fares);
+		        	
+		        	jArray.add(o);
 		    }
 			ConnectionUtils.close(conn);
 		} catch (SQLException e) {
@@ -70,7 +107,7 @@ public class AirportFlights extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-        json.put("flights", flights);
+        json.put("flights", jArray);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(json);

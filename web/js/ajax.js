@@ -107,6 +107,10 @@ $(function() {
 			url: "/flights/get",
 			method: "GET"
 		},
+		getairportflights: {
+			url: "/reports/airportflights",
+			method: "GET"
+		},
 		getpopularflights: {
 			url: "/flights/getpopular",
 			method: "GET"

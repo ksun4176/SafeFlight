@@ -46,26 +46,40 @@
 
     			<div id="left">
 
-                    <div class="option bestflights">
-                        <div class="title">Best Seller Flights</div>
-                    </div>
-                    <div class="option personalflights">
-                        <div class="title">Personal Suggestions</div>
-                        <? if ($TYPE == 1) { ?>
+                    <? if ($TYPE == 2) { ?>
+                        <div class="option allflights">
+                            <div class="title">All Flights</div>
+                        </div>
+                        <div class="option airportflights">
+                            <div class="title">Flights by Airport</div>
                             <div class="expand t3">
-                                <div class="label">For customer:</div>
-                                <select class="personalcustomer">
-                                    <? global $output; for($i=0;$i<count($output);$i++) { ?>
-                                        <option value="<?=$output[$i]->person_id?>">
-                                            <?=$output[$i]->first_name?>
-                                            <?=$output[$i]->last_name?>
-                                            &lt;<?=$output[$i]->email?>&gt;
-                                        </option>
-                                    <? } ?>
-                                </select>
+                                <div class="label">Airport:</div>
+                                <select class="airports"></select>
                             </div>
-                        <? } ?>
+                        </div>
+                    <? } ?>
+                    <div class="option bestflights">
+                        <div class="title"><?=($TYPE == 2)?"Most Active Flights":"Best Seller Flights"?></div>
                     </div>
+                    <? if ($TYPE == 0 || $TYPE == 1) { ?>
+                        <div class="option personalflights">
+                            <div class="title">Personal Suggestions</div>
+                            <? if ($TYPE == 1) { ?>
+                                <div class="expand t3">
+                                    <div class="label">For customer:</div>
+                                    <select class="personalcustomer">
+                                        <? global $output; for($i=0;$i<count($output);$i++) { ?>
+                                            <option value="<?=$output[$i]->person_id?>">
+                                                <?=$output[$i]->first_name?>
+                                                <?=$output[$i]->last_name?>
+                                                &lt;<?=$output[$i]->email?>&gt;
+                                            </option>
+                                        <? } ?>
+                                    </select>
+                                </div>
+                            <? } ?>
+                        </div>
+                    <? } ?>
                     <div class="option searchflights selected">
                         <div class="title">Search Flights</div>
                         <div class="expand t3">

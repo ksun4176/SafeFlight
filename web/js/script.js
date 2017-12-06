@@ -68,6 +68,7 @@ var getAirlines = () => true;
 var getAirlineName = () => "";
 var getAirports = () => true;
 var getAirportName = () => "";
+var getAllAirports = () => [];
 $(function() {
 	var madeCall = false;
 	var airlines = {};
@@ -90,6 +91,7 @@ $(function() {
 $(function() {
 	var madeCall = false;
 	var airports = {};
+	var airportArray = [];
 	getAirports = () => {
 		if (madeCall) return;
 		madeCall = true;
@@ -97,6 +99,10 @@ $(function() {
 			if (r && r.airports) {
 				for(var i=0;i<r.airports.length;i++) {
 					airports[r.airports[i].airport_id] = r.airports[i].name;
+					airportArray.push({
+						id : r.airports[i].airport_id,
+						name : r.airports[i].name
+					})
 				}
 			}
 		}})
@@ -105,6 +111,7 @@ $(function() {
 		if (airports.hasOwnProperty(id)) return airports[id];
 		return "";
 	}
+	getAllAirports = () => airportArray;
 })
 
 

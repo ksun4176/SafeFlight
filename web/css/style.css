@@ -276,7 +276,7 @@ header .links .link .text {
 	font-size:23px;
 }
 
-.modal .spinner {
+.modal .box > .spinner {
 	display:none;
 	position:absolute;
 	left:50%;
@@ -286,7 +286,7 @@ header .links .link .text {
 .modal.loading .box > * {
 	opacity:0;
 }
-.modal.loading .spinner {
+.modal.loading .box > .spinner {
 	display:block;
 	opacity:1;
 }

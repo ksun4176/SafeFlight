@@ -77,6 +77,48 @@ else if (TYPE === 2) {
 			editAccount(employee, "Edit Employee", true, true);
 		})
 
+
+		for(var i=1;i<=12;i++) {
+			$("#salesreport .month").append("<option value='"+i+"' "+(i==12?"selected":"")+">"+i+"</option>")
+		}
+		for(var i=2010;i<=2017;i++) {
+			$("#salesreport .year").append("<option value='"+i+"' "+(i==2017?"selected":"")+">"+i+"</option>")
+		}
+		$("#salesreport .date").on("change", function() {
+			loadReports();
+		});
+		$(".salesreport").click(function() {
+			$("#salesreport").addClass("show");
+			loadReports();
+		})
+		function loadReports() {
+			var month = $("#salesreport .month").val(),
+				year = $("#salesreport .year").val();
+			$("#salesreport").addClass("loadingsales");
+			makeCall("getmonthlyreport", {
+				data: {
+					month: month,
+					year : year
+				},
+				callBack : (r) => {
+					$("#salesreport").removeClass("loadingsales");
+					if (r && r.reservations) {
+						var ress = r.reservations;
+						var totalFare = 0, totalFee = 0;
+						ress.forEach((res) => {
+							totalFare += res.totalFare;
+							totalFee += res.bookingFee;
+						});
+
+						$("#salesreport .stats").html("Reservations: "+ress.length+"<br>"+
+							"Total Fare: $"+totalFare.toFixed(2)+"<br>"+
+							"Total Booking Fees: $"+totalFee.toFixed(2)+"<br>"
+							);
+					}
+				}
+			})
+		}
+
 		
 
 	});

@@ -60,10 +60,12 @@ h1 {
 #left .searchflights.option.selected .expand {
 	max-height:400px;
 }
-#left .personalflights.option.selected .expand {
+#left .personalflights.option.selected .expand,
+#left .airportflights.option.selected .expand {
 	max-height:66px;
 }
-#left .personalflights select {
+#left .personalflights select,
+#left .airportflights select {
 	width:100%;
 	padding:2px 3px;
 	font-size:15px;
