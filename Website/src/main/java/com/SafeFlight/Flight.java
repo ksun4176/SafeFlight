@@ -489,7 +489,7 @@ public class Flight extends HttpServlet {
 		        				query = "{CALL getAuctions(?,?)}";
 	        					stmt = conn.prepareCall(query);
 	        					stmt.setString(1, key.substring(0,2));
-	        					stmt.setString(2, flight_no);
+	        					stmt.setString(2, key.substring(2));
 	        					ResultSet rs3 = stmt.executeQuery();
 	        					JSONArray bidArray = new JSONArray();
 	        					JSONObject bidInfo = new JSONObject();
@@ -498,7 +498,7 @@ public class Flight extends HttpServlet {
 	        						bidInfo.put("bid",rs3.getString("NYOP"));
 	        						bidArray.add(bidInfo);
 	        					}
-	        					o.put("bidHistory", bidArray);
+	        					flight.put("bidHistory", bidArray);
 	    					}
 	    					JSONObject faresInfo = new JSONObject();
 	    					faresInfo.put("economy", temp3.get(key2).get(0));
