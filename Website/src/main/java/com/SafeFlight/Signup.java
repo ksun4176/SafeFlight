@@ -59,10 +59,10 @@ public class Signup extends HttpServlet {
 			
 			String rep_id = request.getParameter("customer_rep_id");
 			
-			if(zip != null && !zip.matches("[0-9]{5}")) {
+			if(zip != null && zip != "" && !zip.matches("[0-9]{5}")) {
 				throw new IllegalArgumentException("Invalid ZipCode");
 			}
-			if(ccnum != null && !ccnum.matches("[0-9]{16}")) {
+			if(ccnum != null && ccnum != "" && !ccnum.matches("[0-9]{16}")) {
 				throw new IllegalArgumentException("Invalid Credit Card Number");
 			}
 			
