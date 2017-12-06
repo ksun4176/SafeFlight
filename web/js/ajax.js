@@ -29,6 +29,10 @@ $(function() {
 			adummy: {ok:true}
 		},
 		
+		createemployee: {
+			url: "/account/signup/employee",
+			method: "POST"
+		},
 		getemployees: {
 			url: "/account/get/employee",
 			method: "GET"

@@ -98,11 +98,11 @@
 
                     <h1>Manager Dashboard</h1>
 
-                    <div id="miniheader">
+                    <div class="miniheader">
                         Employees
+                        <span class="createaccountclick">Create Account</span>
                     </div>
 
-                    <div class="miniheader">Employees</div>
                     <div class="accounts accountse">
                         <div class="account top" account-id="-1">
                             <div class="column edit"><span>edit</span></div>
@@ -113,11 +113,35 @@
                         </div>
                     </div>
 
+                    <div class="modal" id="createaccount">
+                        <div>
+                            <div class="box">
+                                <div class="spinner"><span></span></div>
+                                <h2>Create Employee</h2>
+                                <div class="label">First Name</div>
+                                <input class="input firstName" />
+                                <div class="label">Last Name</div>
+                                <input class="input lastName" />
+                                <div class="label">SSN</div>
+                                <input class="input ssn" />
+                                <div class="label">Username</div>
+                                <input class="input username" />
+                                <div class="label">Password</div>
+                                <input class="input password" type="password" />
+                                <div class="message message1"></div>
+                                <div class="button button2">Create</div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="miniheader">Reservations</div>
-                    <div class="fields">
+                    <div class="fields listreservations">
                         <div class="label labeli">Flight</div>
+                        <select class="flights"><option value=-1>--</option></select>
                         <div class="label labeli">OR</div>
                         <div class="label labeli">Customer</div>
+                        <select class="customers"><option value=-1>--</option></select>
                     </div>
 
                     <div class="openmodalbuttons">

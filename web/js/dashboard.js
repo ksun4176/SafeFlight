@@ -145,6 +145,11 @@ $(function() {
 
 					$('.accountse').append($acc);
 				});
+
+				if (TYPE == 2 && EDIT_ACCOUNT > -1) {
+					$(".accountse .account[employee-id="+EDIT_ACCOUNT+"] .edit span").click();
+					EDIT_ACCOUNT = -1;
+				}
 			}
 		}
 		);
@@ -164,12 +169,15 @@ $(function() {
 		var readFields = [],
 			call;
 		if (TYPE == 1) {
-			call = "createaccount"
+			call = "createaccount";
 			data.customer_rep_id = ID;
 			readFields = ["username", "password", "firstName", "lastName"];
 			data.address = data.city = data.state = data.email = data.zip = data.creditCardNo = "";
 		} else if (TYPE == 2) {
-
+			call = "createemployee";
+			readFields = ["username", "password", "firstName", "lastName", "ssn"];
+			data.address = data.city = data.state = data.zip = "";
+			data.hourlyRate = 0;
 		}
 		for(var i=0;i<readFields.length;i++) {
 			var f = readFields[i];
@@ -186,10 +194,11 @@ $(function() {
 			data: data,
 			callBack : (r) => {
 				if (r) {
-					if (r.account_id > 0) {
+					var field = (TYPE == 2) ? "employee_id" : "account_id";
+					if (r[field] > 0) {
 						$("#createaccount .message").addClass("show ok");
 						setTimeout(function() {
-							window.location.href = "/dashboard.php?acc="+r.account_id;
+							window.location.href = "/dashboard.php?acc="+r[field];
 						}, 1000);
 					} else {
 						$this.removeClass("disabled");
