@@ -46,9 +46,9 @@ username=grahugme,password=grahugme
     			<h1>Login</h1>
 
                 <div class="label">Username</div>
-                <input class="loginInput" type="text" id="username" placeholder="username" value="kevsun" />
+                <input class="loginInput" type="text" id="username" placeholder="username" value="" />
                 <div class="label">Password</div>
-                <input class="loginInput" type="password" id="password" placeholder="password" value="kevsun" />
+                <input class="loginInput" type="password" id="password" placeholder="password" value="" />
 
                 <div class="error">Invalid Login Credentials</div>
 
