@@ -17,6 +17,7 @@
         <script type="text/javascript">var TYPE=<?=$TYPE?>;var ID=<?=$ID?>;</script>
         <script type="text/javascript">var DISPLAY_RES=<?=isset($_GET['res'])?$_GET['res']:-1?>;</script>
         <script type="text/javascript">var EDIT_ACCOUNT=<?=isset($_GET['acc'])?$_GET['acc']:-1?>;</script>
+        <script type="text/javascript">var FLIGHT_CUSTOMERS=<?=isset($_GET['flc'])?("'".$_GET['flc']."'"):"false"?>;</script>
 		<script src="js/vendor/jmin.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/script.js"></script>
@@ -143,30 +144,70 @@
                         <div class="label labeli">Customer</div>
                         <select class="customers"><option value=-1>--</option></select>
                     </div>
-
-                    <div class="openmodalbuttons">
-                        <div class="salesreport button2">Get Sales Report</div>
-
-                    </div>
-
-
-                    <div class="modal" id="salesreport">
-                        <div>
-                            <div class="box">
-                                <h2>Sales Report</h2>
-                                <div class="label">Month</div>
-                                <select class="date month"></select>
-                                <div class="label">Year</div>
-                                <select class="date year"></select>
-                                <div class="spinnerbox">
-                                    <div class="spinner"><span></span></div>
-                                </div>
-                                <div class="stuff">
-                                    <div class="stats"></div>
-                                </div>
-                            </div>
+                    <div class="reservations">
+                        <div class="reservation top" res-id="-1">
+                            <div class="column edit"><span>view</span></div>
+                            <div class="column resno">Res #</div>
+                            <div class="column date">Date</div>
+                            <div class="column fare">Total Fare</div>
+                            <div class="column fee">Booking Fee</div>
+                            <div class="column address"></div>
                         </div>
                     </div>
+
+                    <div class="miniheader">Most Revenue</div>
+                    <div class="fields mostrevenue">
+                        <div class="label labeli">Show Most Generated Revenue For:</div>
+                        <select class="">
+                            <option value=-1>--</option>
+                            <option value="getbestcustomer">Customer</option>
+                            <option value="getbestcustomerrep">Customer Representatives</option>
+                        </select>
+                    </div>
+                    <div class="mostrevenues datasets">
+                        <div class="mostrevenue dataset top">
+                            <div class="column revenue">Revenue</div>
+                            <div class="column name">Name</div>
+                            <div class="column hourlyRate">Hourly</div>
+                            <div class="column start">Start</div>
+                            <div class="column email">Email</div>
+                            <div class="column address">Address</div>
+                        </div>
+                    </div>
+
+                    <div class="miniheader">Revenue Summary</div>
+                    <div class="fields listrevenuesummary">
+                        <div class="label labeli">Flight</div>
+                        <select class="flights"><option value=-1>--</option></select>
+                        <div class="label labeli">OR</div>
+                        <div class="label labeli">City</div>
+                        <select class="cities"><option value=-1>--</option></select>
+                        <div class="label labeli">OR</div>
+                        <div class="label labeli">Customer</div>
+                        <select class="customers"><option value=-1>--</option></select>
+                    </div>
+                    <div class="revenuesummary"></div>
+
+                    <div class="miniheader">Flight Customers</div>
+                    <div class="fields listmanifest">
+                        <div class="label labeli">Flight</div>
+                        <select class="flights"><option value=-1>--</option></select>
+                    </div>
+                    <div class="manifests datasets">
+                        <div class="manifest dataset top">
+                            <div class="column name">Name</div>
+                            <div class="column address">Address</div>
+                        </div>
+                    </div>
+
+                    <div class="miniheader">Sales Report</div>
+                    <div class="fields listsalesreport">
+                        <div class="label labeli">Month</div>
+                        <select class="date month"><option value=-1>--</option></select>
+                        <div class="label labeli">Year</div>
+                        <select class="date year"><option value=-1>--</option></select>
+                    </div>
+                    <div class="salesstats"></div>
 
                 <?php } ?>
     			

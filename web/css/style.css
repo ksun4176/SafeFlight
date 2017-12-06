@@ -502,6 +502,42 @@ header .links .link .text {
 
 
 
+.datasets {
+	display:block;
+	width:100%;
+	margin-top:10px;
+}
+.dataset {
+	display:block;
+	border-bottom:1px solid #88a;
+	padding:2px 0 3px;
+}
+.datasets .dataset:last-child {
+	border-bottom:none;
+}
+.dataset.top {
+	border-bottom:1px solid #000;
+}
+.dataset .column {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:16px;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.dataset.top .column {
+	font-weight:bold;
+}
+.dataset .column.edit {
+	width:70px;
+	text-align: left;
+}
+.dataset.top .column.edit {
+	visibility:hidden;
+}
+
+
 
 
 

@@ -81,6 +81,16 @@ $(function() {
 		getreservations: {
 			url: "/reservations/get",
 			method: "POST",
+			transform : (r) => {
+				if (!r) return null;
+				if (!r.reservations) return {reservations:[]};
+				var res = [];
+				r.reservations.forEach((rr) => {
+					if (res.filter((re) => re.reservation_id == rr.reservation_id).length == 0)
+						res.push(rr);
+				});
+				return {reservations:res};
+			},
 			_dummy : () => {
 				var arr = [], ind = 0;;
 				for(var i=0;i<5;i++) arr.push({
@@ -144,8 +154,24 @@ $(function() {
 			method: "GET"
 		},
 
+		getrevenue: {
+			url: "/reports/revenue",
+			method: "GET"
+		},
+		getmanifest : {
+			url : "/reports/flightcustomers",
+			method: "GET"
+		},
 		getmonthlyreport: {
 			url: "/reports/month",
+			method: "GET"
+		},
+		getbestcustomer: {
+			url: "/reports/customer",
+			method: "GET"
+		},
+		getbestcustomerrep: {
+			url: "/reports/customerrepresentative",
 			method: "GET"
 		},
 	}

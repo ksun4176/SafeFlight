@@ -377,10 +377,14 @@ $(function() {
 
 	var activeFlight = null;
 	$(".flight.dummy .select").click(function(e) {
-		if ($(this).hasClass("disabled")) return;
 		var index = parseInt($(this).closest(".flight").attr("flight"));
 		var flight = flights[index],
 			flightr = flight.return;
+		if (TYPE == 2) {
+			window.location.href = "/dashboard.php?flc="+flight.airline_id+""+flight.flightNumber;
+			return;
+		}
+		if ($(this).hasClass("disabled")) return;
 		activeFlight = flight;
 		if (!!flightr)
 			$(".bookFlight").addClass("showreturn");

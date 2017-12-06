@@ -16,6 +16,8 @@ h1 {
 .miniheader {
 	margin-top:30px;
 	font-size:23px;
+	padding-top:17px;
+	border-top:3px solid #004;
 }
 .miniheader span {
 	margin-left:12px;
@@ -35,14 +37,14 @@ h1 {
 }
 .account {
 	display:block;
-	border-bottom:1px solid #000;
+	border-bottom:1px solid #88a;
 	padding:2px 0 3px;
 }
 .accounts .account:last-child {
 	border-bottom:none;
 }
 .account.top {
-	border-bottom:2px solid #000;
+	border-bottom:1px solid #000;
 }
 .account .column {
 	display:inline-block;
@@ -178,6 +180,97 @@ h1 {
 	margin:5px 0 5px;
 }
 
+
+.reservations {
+	display:block;
+	width:100%;
+	margin-top:10px;
+}
+.reservation {
+	display:block;
+	border-bottom:1px solid #88a;
+	padding:2px 0 3px;
+}
+.reservations .reservation:last-child {
+	border-bottom:none;
+}
+.reservation.top {
+	border-bottom:1px solid #000;
+}
+.reservation .column {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:16px;
+}
+.reservation.top .column {
+	font-weight:bold;
+}
+.reservation .column.edit {
+	width:70px;
+	text-align: left;
+}
+.reservation.top .column.edit {
+	visibility:hidden;
+}
+.reservation .column.edit span {
+	display:inline-block;
+	font-size:12px;
+	cursor:pointer;
+	border:1px solid rgba(0,0,0,0.5);
+	border-radius:2px;
+	padding:1px 3px;
+	background:#fff;
+}
+.reservation .column.resno {
+	width:50px;
+}
+.reservation .column.date {
+	width:80px;
+}
+.reservation .column.fare {
+	width:100px;
+}
+.reservation .column.fee {
+	width:100px;
+}
+.reservation .column.address {
+	min-width:0;
+	width:calc(100% - 70px - 50px - 80px - 100px - 100px);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.mostrevenues .revenue { width: 80px; }
+.mostrevenues .name { width: 140px; }
+.mostrevenues .hourlyRate { width:0; }
+.mostrevenues .email { width:230px; }
+.mostrevenues .start { width:0; }
+.mostrevenues .address { width:calc(100% - 80px - 140x - 230px); }
+
+.mostrevenues.custrep .hourlyRate { width:70px; }
+.mostrevenues.custrep .email { width:0; }
+.mostrevenues.custrep .start { width:70px; }
+.mostrevenues.custrep .address { width:calc(100% - 80px - 70px - 140x - 70px); }
+
+.manifests .name { width: 160px; }
+.manifests .address { width:calc(100% - 160px); }
+
+.listreservations.fields select { width:150px; }
+.listrevenuesummary.fields select { width:150px; }
+.listmanifest.fields select { width:200px; }
+.listsalesreport.fields select { width:60px; }
+.revenuesummary, .salesstats {
+	font-size:18px;
+	margin:2px 0;
+}
+.salesstats {
+	border-bottom:3px solid #004;
+	padding-bottom:35px;
+	margin-bottom:150px;
+}
+
+
 .fields {
 	display:block;
 	margin:3px 0 5px;
@@ -201,7 +294,8 @@ h1 {
 	margin-right:8px;
 }
 
-.listreservations.fields select { width:150px; }
+
+
 
 
 

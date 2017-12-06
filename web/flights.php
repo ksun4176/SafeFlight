@@ -154,6 +154,8 @@
                                 <div class="select button1">Select</div>
                             <? } else if ($TYPE == -1) { ?>
                                 <div class="select button1 disabled">Login to Book</div>
+                            <? } else if ($TYPE == 2) { ?>
+                                <div class="select button1">View Customers</div>
                             <? } ?>
         				</div>
 

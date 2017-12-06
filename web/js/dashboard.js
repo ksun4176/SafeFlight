@@ -1,4 +1,6 @@
 
+var showRes = () => true;
+
 if (TYPE === 1) {
 	$(function() {
 
@@ -79,29 +81,24 @@ else if (TYPE === 2) {
 
 
 		for(var i=1;i<=12;i++) {
-			$("#salesreport .month").append("<option value='"+i+"' "+(i==12?"selected":"")+">"+i+"</option>")
+			$(".listsalesreport .month").append("<option value='"+padTwo(i)+"' "+(i==12?"":"")+">"+i+"</option>")
 		}
-		for(var i=2010;i<=2017;i++) {
-			$("#salesreport .year").append("<option value='"+i+"' "+(i==2017?"selected":"")+">"+i+"</option>")
+		for(var i=2012;i<=2020;i++) {
+			$(".listsalesreport .year").append("<option value='"+i+"' "+(i==2017?"":"")+">"+i+"</option>")
 		}
-		$("#salesreport .date").on("change", function() {
+		$(".listsalesreport .date").on("change", function() {
 			loadReports();
 		});
-		$(".salesreport").click(function() {
-			$("#salesreport").addClass("show");
-			loadReports();
-		})
 		function loadReports() {
-			var month = $("#salesreport .month").val(),
-				year = $("#salesreport .year").val();
-			$("#salesreport").addClass("loadingsales");
+			var month = $(".listsalesreport .month").val(),
+				year = $(".listsalesreport .year").val();
+			if (month == -1 || year == -1) return;
 			makeCall("getmonthlyreport", {
 				data: {
 					month: month,
 					year : year
 				},
 				callBack : (r) => {
-					$("#salesreport").removeClass("loadingsales");
 					if (r && r.reservations) {
 						var ress = r.reservations;
 						var totalFare = 0, totalFee = 0;
@@ -113,7 +110,7 @@ else if (TYPE === 2) {
 							if (reps.indexOf(res.customer_rep_id) == -1) reps.push(res.customer_rep_id);
 						});
 
-						$("#salesreport .stats").html("Reservations: "+ress.length+"<br>"+
+						$(".salesstats").html("Reservations: "+ress.length+"<br>"+
 							"Total Fare: $"+totalFare.toFixed(2)+"<br>"+
 							"Total Booking Fees: $"+totalFee.toFixed(2)+"<br>"+
 							"Active Customers: "+accs.length+"<br>"+
@@ -132,9 +129,15 @@ else if (TYPE === 2) {
 				if (r && r.flights) {
 					r.flights.forEach((f) => {
 						var thing = f.airline_id + "" + f.flightNumber;
-						$(".listreservations .flights").append(
+						$("select.flights").append(
 							"<option value='"+thing+"''>"+thing+"</option");
-					})
+					});
+
+					if (FLIGHT_CUSTOMERS) {
+						$(".listmanifest .flights").val(FLIGHT_CUSTOMERS).trigger("change");
+						$(window).scrollTop($(".listmanifest .flights").offset().top);
+						FLIGHT_CUSTOMERS = false;
+					}
 				}
 			}
 		});
@@ -142,15 +145,197 @@ else if (TYPE === 2) {
 			callBack: (r) => {
 				if (r && r.accounts) {
 					r.accounts.forEach((a) => {
-						$(".listreservations .customers").append(
+						$("select.customers").append(
 							"<option value="+a.person_id+">"+a.first_name+" "+a.last_name+" &lt;"+a.email+"&gt;</option");
 					})
 				}
 			}
 		});
+		makeCall("getcities", {
+			callBack: (r) => {
+				if (r && r.cities) {
+					r.cities.forEach((a) => {
+						$("select.cities").append(
+							"<option value=\""+a.city+"\">"+a.city+", "+ a.country+"</option");
+					})
+				}
+			}
+		});
+
 		$(".listreservations select").on("change", function() {
 			$(".listreservations select").not(this).val(-1);
-		})
+			var val = $(this).val();
+			if (val == -1) return;
+
+			var data = {};
+			if ($(this).hasClass("flights")) {
+				data.flightNumber = parseInt(val.replace(/[^\d]+/g, ""));
+				data.airline_id = (val.replace(/[\d]+/g, ""));
+			} else {
+				data.account_id = parseInt(val);
+			}
+
+			var reservations;
+			makeCall("getreservations", {
+				data : data,
+				callBack : (r) => {
+					if (!r || !r.reservations) return;
+					reservations = r.reservations;
+					for(var i=0;i<reservations.length;i++) {
+						reservations[i].date = new Date(reservations[i].ResDate+" 12:00:00");
+					}
+					reservations = reservations.sort((a, b) => {
+						var diff = b.date - a.date;
+						if (diff == 0) return b.reservation_id - a.reservation_id;
+						return diff;
+					});
+					showReservations(reservations);
+				}
+			});
+		});
+		$(".reservation .edit span").click(function() {
+			var res_id = parseInt($(this).closest(".reservation").attr("res-id"));
+			showRes(res_id);
+		});
+		function showReservations(ress) {
+			$(".reservations .reservation").not(".top").remove();
+			var $open = null;
+			ress.forEach((res) => {
+				var $res = $(".reservation.top").clone(true, true);
+				$res.removeClass("top");
+				if (res.reservation_id == DISPLAY_RES) $open = $res;
+				$res.attr('res-id', res.reservation_id)
+				$res.find(".resno").html(res.reservation_id);
+				$res.find(".date").html(res.date.getMonth()+1+"/"+res.date.getDate()+"/"+(res.date.getFullYear()-2000));
+				$res.find(".fare").html("$"+res.totalFare.toFixed(2));
+				$res.find(".fee").html("$"+res.bookingFee.toFixed(2));
+				$(".reservations").append($res);
+			});
+		}
+		showRes = (res_id) => {
+			$("#resit").addClass("show loading");
+			makeCall("getreservation", {
+				data: { reservation_id: res_id },
+				callBack : (r) => {
+					$("#resit .flight").not(".dummy").remove();
+					$("#resit").removeClass("loading delete");
+					$("#resit").attr("res-id", res_id);
+					if (r) {
+						$("#resit h2 .num").html(res_id);
+						r.forEach((f) => {
+							var $f = $("#resit .flight.dummy").clone(true, true);
+							$f.removeClass("dummy");
+							$f.find(".num").html(f.airline_id+""+f.flight_num);
+							$f.find(".stops").html(buildLegString(f.legs, "DepAirportID", "ArrAirportID"));
+							$f.find(".date").html(buildDate(f.DepTime));
+							$f.find(".airline").html(getAirlineName(f.airline_id));
+							$f.find(".time").html(buildHumanTime(f.DepTime)+" - "+buildHumanTime(f.ArrTime));
+							f.legs.forEach((leg) => {
+								$f.find(".expando").append(
+									"<div><div>"+buildHumanTime(leg.DepTime)+" - "+buildHumanTime(leg.ArrTime)+"</div>"+
+									"<span>"+getAirportName(leg.DepAirportID)+" - "+getAirportName(leg.ArrAirportID)+
+									"</span></div>");
+							});
+							$f.insertAfter($("#resit .flight.dummy"));
+						});
+					}
+				}
+			})
+		}
+
+		$(".mostrevenue select").on("change", function() {
+			var val = $(this).val();
+			if (val == -1) return;
+			makeCall(val, {
+				callBack : (r) => {
+					if (!r) return;
+					var arr, mapFields;
+					if (r.customer) {
+						arr = r.customer;
+						mapFields = ["email"];
+						$(".mostrevenues").removeClass("custrep");
+					} else if (r.custReps) {
+						arr = r.custReps;
+						arr.forEach((a) => {
+							var time = new Date(a.startDate + " 12:00:00");
+							a.start = padTwo(time.getMonth()+1)+"/"+padTwo(time.getDate())+"/"+(time.getYear()-100);
+						})
+						mapFields = ["hourlyRate", "start"];
+						$(".mostrevenues").addClass("custrep");
+					}
+					arr = arr.sort((a, b) => b.revenue - a.revenue);
+					if (!arr || !mapFields) return;
+					$(".mostrevenues .mostrevenue").not(".top").remove();
+					arr.forEach((a) => {
+						var $row = $(".mostrevenue.top").clone(true, true);
+						$row.removeClass("top");
+						$row.find(".name").html(a.firstName+" "+a.lastName);
+						$row.find(".revenue").html("$"+a.revenue.toFixed(2));
+						$row.find(".address").html(a.address+", "+a.city+", "+a.state+" "+a.zipCode);
+						mapFields.forEach((f) => {
+							$row.find("."+f).html(a[f]);
+						})
+
+						$(".mostrevenues").append($row);
+					});
+				}
+			});
+		});
+
+		$(".listrevenuesummary select").on("change", function() {
+			$(".listrevenuesummary select").not(this).val(-1);
+			var val = $(this).val();
+			if (val == -1) return;
+
+			var data = {};
+			if ($(this).hasClass("flights")) {
+				data.flightNumber = parseInt(val.replace(/[^\d]+/g, ""));
+				data.airlineID = (val.replace(/[\d]+/g, ""));
+			} else if ($(this).hasClass("cities")) {
+				data.toCity = (val);
+			} else {
+				data.account_id = parseInt(val);
+			}
+
+			makeCall("getrevenue", {
+				data : data,
+				callBack : (r) => {
+					if (r && r.hasOwnProperty("Revenue")) {
+						$(".revenuesummary").html("Revenue Generated: $"+r.Revenue.toFixed(2));
+					}
+				}
+			});
+		});
+
+		$(".listmanifest select").on("change", function() {
+			var val = $(this).val();
+			if (val == -1) return;
+
+			var data = {};
+			data.flightNumber = parseInt(val.replace(/[^\d]+/g, ""));
+			data.airlineId = (val.replace(/[\d]+/g, ""));
+			makeCall("getmanifest", {
+				data : data,
+				callBack : (r) => {
+					if (!r || !r.customers) return;
+					var cs = [];
+					r.customers.forEach((c) => {
+						if (!cs.find((a) => a.account_id==c.account_id))
+							cs.push(c);
+					});
+
+					$(".manifests .manifest").not(".top").remove();
+					cs.forEach((a) => {
+						var $row = $(".manifest.top").clone(true, true);
+						$row.removeClass("top");
+						$row.find(".name").html(a.firstName+" "+a.lastName);
+						$row.find(".address").html(a.Address+", "+a.city+", "+a.state+" "+a.zipCode);
+
+						$(".manifests").append($row);
+					});
+				}
+			});
+		});
 
 
 		
@@ -254,35 +439,8 @@ $(function() {
 if (DISPLAY_RES > -1) {
 	$(function() {
 		var res_id = DISPLAY_RES;
-		
-		$("#resit").addClass("show loading");
-		makeCall("getreservation", {
-			data: { reservation_id: res_id },
-			callBack : (r) => {
-				$("#resit .flight").not(".dummy").remove();
-				$("#resit").removeClass("loading delete");
-				$("#resit").attr("res-id", res_id);
-				if (r) {
-					$("#resit h2 .num").html(res_id);
-					r.forEach((f) => {
-						var $f = $("#resit .flight.dummy").clone(true, true);
-						$f.removeClass("dummy");
-						$f.find(".num").html(f.airline_id+""+f.flight_num);
-						$f.find(".stops").html(buildLegString(f.legs, "DepAirportID", "ArrAirportID"));
-						$f.find(".date").html(buildDate(f.DepTime));
-						$f.find(".airline").html(getAirlineName(f.airline_id));
-						$f.find(".time").html(buildHumanTime(f.DepTime)+" - "+buildHumanTime(f.ArrTime));
-						f.legs.forEach((leg) => {
-							$f.find(".expando").append(
-								"<div><div>"+buildHumanTime(leg.DepTime)+" - "+buildHumanTime(leg.ArrTime)+"</div>"+
-								"<span>"+getAirportName(leg.DepAirportID)+" - "+getAirportName(leg.ArrAirportID)+
-								"</span></div>");
-						});
-						$f.insertAfter($("#resit .flight.dummy"));
-					});
-				}
-			}
-		})
+
+		showRes(res_id);
 	})
 }
 
