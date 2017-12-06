@@ -120,7 +120,7 @@ $(function() {
 		getflights: {
 			url: "/flights/get",
 			method: "GET",
-			transform:function(r) {
+			atransform:function(r) {
 				if (!r || !r.flights) return r;
 				r.flights.forEach((f) => {
 					if (Math.random() < 1) {
@@ -157,7 +157,7 @@ $(function() {
 		makebid : {
 			url: "/flights/makebid",
 			method: "POST",
-			dummy: {
+			adummy: {
 				ok: true
 			}
 		},
