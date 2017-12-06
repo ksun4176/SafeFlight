@@ -486,7 +486,7 @@ public class Flight extends HttpServlet {
 	    				for(String key2 : temp3.keySet()) {
 	    					if(key2.equals("hiddenfare")) {
 		        				flight.put("hasAuction", true);
-		        				query = "{CALL getAuctions(?,?)}";
+		        				query = "{CALL getAuction(?,?)}";
 	        					stmt = conn.prepareCall(query);
 	        					stmt.setString(1, key.substring(0,2));
 	        					stmt.setString(2, key.substring(2));
