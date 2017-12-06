@@ -104,8 +104,8 @@ public class Flight extends HttpServlet {
 		        					stmt.setString(2, flight_no);
 		        					ResultSet rs3 = stmt.executeQuery();
 		        					JSONArray bidArray = new JSONArray();
-		        					JSONObject bidInfo = new JSONObject();
 		        					while(rs3.next()) {
+			        					JSONObject bidInfo = new JSONObject();
 		        						bidInfo.put("account_id", rs3.getString("AccountNo"));
 		        						bidInfo.put("bid",rs3.getString("NYOP"));
 		        						bidArray.add(bidInfo);
@@ -492,8 +492,8 @@ public class Flight extends HttpServlet {
 	        					stmt.setString(2, key.substring(2));
 	        					ResultSet rs3 = stmt.executeQuery();
 	        					JSONArray bidArray = new JSONArray();
-	        					JSONObject bidInfo = new JSONObject();
 	        					while(rs3.next()) {
+		        					JSONObject bidInfo = new JSONObject();
 	        						bidInfo.put("account_id", rs3.getString("AccountNo"));
 	        						bidInfo.put("bid",rs3.getString("NYOP"));
 	        						bidArray.add(bidInfo);
