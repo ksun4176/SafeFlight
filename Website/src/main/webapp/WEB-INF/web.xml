@@ -186,6 +186,12 @@
   	<description></description>
   	<servlet-class>com.SafeFlight.AccountDelete</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>SignupEmployee</servlet-name>
+  	<display-name>SignupEmployee</display-name>
+  	<description></description>
+  	<servlet-class>com.SafeFlight.SignupEmployee</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>Flights</servlet-name>
   	<url-pattern>/flights</url-pattern>
@@ -285,6 +291,10 @@
   <servlet-mapping>
   	<servlet-name>AccountDelete</servlet-name>
   	<url-pattern>/account/delete</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SignupEmployee</servlet-name>
+  	<url-pattern>/account/signup/employee</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
