@@ -156,7 +156,7 @@ else if (TYPE === 2) {
 				if (r && r.cities) {
 					r.cities.forEach((a) => {
 						$("select.cities").append(
-							"<option value=\""+a.city+"\">"+a.city+", "+ a.country+"</option");
+							"<option value=\""+a.city+","+a.country+"\">"+a.city+", "+ a.country+"</option");
 					})
 				}
 			}

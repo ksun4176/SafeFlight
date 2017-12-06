@@ -111,7 +111,7 @@
 
     		<div class="bottomarea">
     			
-
+                <div class="copyright">&copy; SafeFlight 2017</div>
     		</div>
 
     	</div>

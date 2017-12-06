@@ -10,6 +10,7 @@
 			<div class="links">
 				<?php
 					$links = array(
+						array("Help", "/help.php"),
 						array("Flights", "/flights.php"),
 						array("Login", "/login.php"),
 						array("Signup", "/signup.php")
