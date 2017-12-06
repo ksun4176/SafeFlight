@@ -226,6 +226,7 @@ $(function() {
 
 			if (!fromAirport || !toAirport) {
 				$(".flights").addClass("none pick");
+				$(".flights .flight").not(".dummy").remove();
 				return;
 			}
 
@@ -476,8 +477,12 @@ $(function() {
 				var $row = $(".revauction .bid.top").clone(true, true);
 				$row.removeClass("top");
 				$row.find(".name").html(b.name);
-				$row.find(".id").html(b.account_id);
-				$row.find(".amount").html("$"+b.bid.toFixed(2));
+				if (b.account_id == account_id) {
+					$row.addClass("bold");
+					$row.find(".id").html(b.account_id+" (Your bid)");
+				} else
+					$row.find(".id").html("**");
+				$row.find(".amount").html("$"+parseFloat(b.bid).toFixed(2));
 				$(".revauction .bids").append($row);
 			})
 			return;

@@ -46,10 +46,10 @@
 
     			<div id="left">
 
+                    <div class="option allflights">
+                        <div class="title">All Flights</div>
+                    </div>
                     <? if ($TYPE == 2) { ?>
-                        <div class="option allflights">
-                            <div class="title">All Flights</div>
-                        </div>
                         <div class="option airportflights">
                             <div class="title">Flights by Airport</div>
                             <div class="expand t3">

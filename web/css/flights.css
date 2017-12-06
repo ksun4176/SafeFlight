@@ -419,8 +419,9 @@ h1 {
 	margin:15px 0 0;
 }
 .revauction .datasets { margin-top:2px; }
+.revauction .dataset.bold .column { font-weight:bold; }
 .revauction .name { width:170px; }
-.revauction .id { width:50px; }
+.revauction .id { width:100px; }
 .revauction .amount { width:90px; }
 
 .passengers .box {
