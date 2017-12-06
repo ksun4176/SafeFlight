@@ -132,7 +132,8 @@ h1 {
 #createaccount .message.exist:before { content:"Username already exists"; }
 
 .openmodalbuttons {
-	margin-top:16px;
+	margin-top:26px;
+	margin-bottom:30px;
 }
 
 #salesreport .box {
@@ -191,7 +192,16 @@ h1 {
 	vertical-align: middle;
 	margin-right:5px;
 }
+.fields select {
+	display:inline-block;
+	vertical-align: middle;
+	font-size:14px;
+	cursor:pointer;
+	padding:2px 3px;
+	margin-right:8px;
+}
 
+.listreservations.fields select { width:150px; }
 
 
 
