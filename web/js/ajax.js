@@ -61,7 +61,11 @@ $(function() {
 				var f = [];
 				for(var i in flights) {
 					if (flights.hasOwnProperty(i)) {
-						flights[i].legs.shift();
+						for(var j=0;j<flights[i].legs.length;j++)
+							if (!flights[i].legs[j]) {
+								flights[i].legs.splice(j, 1);
+								j--;
+							}
 						flights[i].DepTime = flights[i].legs[0].DepTime;
 						flights[i].ArrTime = flights[i].legs[flights[i].legs.length-1].ArrTime;
 						f.push(flights[i]);

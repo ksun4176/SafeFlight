@@ -103,6 +103,40 @@ h1 {
 
 #resit .button1 {display:none;}
 
+#createaccount .box {
+	min-width:300px;
+	padding:12px 18px;
+}
+#createaccount h2 {
+	margin-bottom:7px;
+}
+#createaccount .label {
+	font-size:14px;
+	color:#444;
+	margin:3px 0 1px;
+}
+#createaccount .input {
+	font-size:18px;
+	width:100%;
+	padding:2px 3px;
+}
+#createaccount .button {
+	margin:16px 0 8px;
+}
+#createaccount .message {
+	margin:9px 0 0;
+}
+#createaccount .message.ok:before { content:"Account Created"; }
+#createaccount .message.error:before { content:"Failed to create account. Check all fields"; }
+
+
+
+
+
+
+
+
+
 
 
 
