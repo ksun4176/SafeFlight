@@ -55,9 +55,11 @@ public class Revenue extends HttpServlet {
 					json.put("Revenue", revenue);
 				}
 			} else if(toCity != null) {
-				String query = "{CALL getRevenueDC(?)}";
+				String[] info = toCity.split(",");
+				String query = "{CALL getRevenueDC(?,?)}";
 				CallableStatement stmt = conn.prepareCall(query);
-				stmt.setString(1, toCity);
+				stmt.setString(1, info[0]);
+				stmt.setString(2, info[1]);
 				ResultSet rs = stmt.executeQuery();
 				if(rs.next()) {
 					float revenue = rs.getFloat("Revenue");

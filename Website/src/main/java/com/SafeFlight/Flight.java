@@ -96,14 +96,34 @@ public class Flight extends HttpServlet {
 		        		while(rs2.next()) {
 		        			String fare_type = rs2.getString("FareType");
 		        			if(temp != null && !temp.equals(fare_type)) {
-		        				fares.put(temp, fareInfo);
-		        				fareInfo = new JSONObject();
+		        				if(temp.equals("hiddenfare")) {
+		        					o.put("hasAuction", true);
+		        					query = "{CALL getAuctions(?,?)}";
+		        					stmt = conn.prepareCall(query);
+		        					stmt.setString(1, airline_id);
+		        					stmt.setString(2, flight_no);
+		        					ResultSet rs3 = stmt.executeQuery();
+		        					JSONArray bidArray = new JSONArray();
+		        					JSONObject bidInfo = new JSONObject();
+		        					while(rs3.next()) {
+		        						bidInfo.put("account_id", rs3.getString("AccountNo"));
+		        						bidInfo.put("bid",rs3.getString("NYOP"));
+		        						bidArray.add(bidInfo);
+		        					}
+		        					o.put("bidHistory", bidArray);
+		        				} else {
+			        				fares.put(temp, fareInfo);
+			        				fareInfo = new JSONObject();
+		        				}
 		        			}
 		        			fareInfo.put(rs2.getString("Class"), rs2.getString("Fare"));
 		        			temp = fare_type;
 		        		}
 		        		if(temp != null) {
 		        			fares.put(temp, fareInfo);
+		        		}
+		        		if(o.get("hasAuction") == null) {
+		        			o.put("hasAuction", false);
 		        		}
 		        		o.put("prices", fares);
 		        		jArray.add(o);
@@ -464,13 +484,35 @@ public class Flight extends HttpServlet {
 	    				JSONObject fare = new JSONObject();
 	    				HashMap<String,ArrayList<Float>> temp3 = fares.get(key);
 	    				for(String key2 : temp3.keySet()) {
+	    					if(key2.equals("hiddenfare")) {
+		        				flight.put("hasAuction", true);
+		        				query = "{CALL getAuctions(?,?)}";
+	        					stmt = conn.prepareCall(query);
+	        					stmt.setString(1, key.substring(0,2));
+	        					stmt.setString(2, flight_no);
+	        					ResultSet rs3 = stmt.executeQuery();
+	        					JSONArray bidArray = new JSONArray();
+	        					JSONObject bidInfo = new JSONObject();
+	        					while(rs3.next()) {
+	        						bidInfo.put("account_id", rs3.getString("AccountNo"));
+	        						bidInfo.put("bid",rs3.getString("NYOP"));
+	        						bidArray.add(bidInfo);
+	        					}
+	        					o.put("bidHistory", bidArray);
+	    					}
 	    					JSONObject faresInfo = new JSONObject();
 	    					faresInfo.put("economy", temp3.get(key2).get(0));
 	    					faresInfo.put("first", temp3.get(key2).get(1));
 	    					fare.put(key2, faresInfo);
 	    				}
 	    				flight.put("prices", fare);
+	    				if(flight.get("hasAuction") == null) {
+	    					flight.put("hasAuction", false);
+	    				}
 	    				if(roundtrip) {
+		    				if(flight.get("hasAuction") != null) {
+		    					flight.put("hasAuction", false);
+		    				}
 	    					for(String key2 : flights3.keySet()) {
 		        				HashMap<Integer,ArrayList<String>> temp4 = flights3.get(key2);
 	    						if(temp2.get(Collections.max(temp2.keySet())).get(3).compareTo(temp4.get(Collections.min(temp4.keySet())).get(2)) < 0) {
