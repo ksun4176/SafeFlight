@@ -102,6 +102,7 @@
                         Employees
                     </div>
 
+                    <div class="miniheader">Employees</div>
                     <div class="accounts accountse">
                         <div class="account top" account-id="-1">
                             <div class="column edit"><span>edit</span></div>
@@ -109,6 +110,32 @@
                             <div class="column name">Name</div>
                             <div class="column email">SSN</div>
                             <div class="column address">Address</div>
+                        </div>
+                    </div>
+
+                    <div class="miniheader">Reservations</div>
+
+                    <div class="openmodalbuttons">
+                        <div class="salesreport button2">Get Sales Report</div>
+
+                    </div>
+
+
+                    <div class="modal" id="salesreport">
+                        <div>
+                            <div class="box">
+                                <h2>Sales Report</h2>
+                                <div class="label">Month</div>
+                                <select class="date month"></select>
+                                <div class="label">Year</div>
+                                <select class="date year"></select>
+                                <div class="spinnerbox">
+                                    <div class="spinner"><span></span></div>
+                                </div>
+                                <div class="stuff">
+                                    <div class="stats"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
