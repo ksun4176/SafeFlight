@@ -55,13 +55,25 @@ h1 {
 }
 #left .option.selected .expand {
 	padding:4px 10px 10px;
+	border-bottom:1px solid #000;
+}
+#left .searchflights.option.selected .expand {
 	max-height:400px;
+}
+#left .personalflights.option.selected .expand {
+	max-height:66px;
+}
+#left .personalflights select {
+	width:100%;
+	padding:2px 3px;
+	font-size:15px;
+	margin-top:3px;
+	cursor:pointer;
 }
 #left .label {
 	font-size:15px;
 	margin-top:5px;
 }
-
 #left .labelsmall {
 	font-size:14px;
 	color:#555;

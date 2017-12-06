@@ -128,6 +128,8 @@ h1 {
 }
 #createaccount .message.ok:before { content:"Account Created"; }
 #createaccount .message.error:before { content:"Failed to create account. Check all fields"; }
+#createaccount .message.empty:before { content:"Please fill in all fields properly"; }
+#createaccount .message.exist:before { content:"Username already exists"; }
 
 
 

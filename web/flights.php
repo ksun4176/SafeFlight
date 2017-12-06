@@ -26,6 +26,19 @@
 		
     	<?php $headerHighlight = "Flights"; include __DIR__."/common/header.php"; ?>
 
+        <?php
+            if ($TYPE == 1) {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Website/account/get?customer_rep_id=".$ID);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+                global $output;
+                $output = curl_exec($ch); 
+                $output = json_decode($output);
+                $output = $output->accounts;
+            }
+        ?>
+
     	<div id="container">
     		<div id="content">
 
@@ -33,13 +46,27 @@
 
     			<div id="left">
 
-                    <div class="option">
+                    <div class="option bestflights">
                         <div class="title">Best Seller Flights</div>
                     </div>
-                    <div class="option">
+                    <div class="option personalflights">
                         <div class="title">Personal Suggestions</div>
+                        <? if ($TYPE == 1) { ?>
+                            <div class="expand t3">
+                                <div class="label">For customer:</div>
+                                <select class="personalcustomer">
+                                    <? global $output; for($i=0;$i<count($output);$i++) { ?>
+                                        <option value="<?=$output[$i]->person_id?>">
+                                            <?=$output[$i]->first_name?>
+                                            <?=$output[$i]->last_name?>
+                                            &lt;<?=$output[$i]->email?>&gt;
+                                        </option>
+                                    <? } ?>
+                                </select>
+                            </div>
+                        <? } ?>
                     </div>
-                    <div class="option selected">
+                    <div class="option searchflights selected">
                         <div class="title">Search Flights</div>
                         <div class="expand t3">
             				<div class="label">I am looking for a flight:</div>
@@ -136,17 +163,10 @@
                                             <div class="price"><div></div><span></span></div>
                                         </div>
                                     </div>
-                                    <? if ($TYPE == 1) {
-                                        $ch = curl_init();
-                                        curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Website/account/get?customer_rep_id=".$ID); 
-                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-                                        $output = curl_exec($ch); 
-                                        $output = json_decode($output);
-                                        $output = $output->accounts;
-                                        ?>
+                                    <? if ($TYPE == 1) { ?>
                                         <div class="customerlabel">Book under customer:</div>
                                         <select class="customer">
-                                            <? for($i=0;$i<count($output);$i++) { ?>
+                                            <? global $output; for($i=0;$i<count($output);$i++) { ?>
                                                 <option value="<?=$output[$i]->person_id?>">
                                                     <?=$output[$i]->first_name?>
                                                     <?=$output[$i]->last_name?>

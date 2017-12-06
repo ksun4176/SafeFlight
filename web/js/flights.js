@@ -13,10 +13,14 @@ $(function() {
 		}
 	}
 
-	$("#left .option").click(function() {
+	$("#left .option .title").click(function() {
 		$("#left .option.selected").removeClass("selected");
-		$(this).addClass("selected");
+		$(this).closest(".option").addClass("selected");
+		getFlights();
 	})
+	$("#left .personalflights .personalcustomer").on("change", function() {
+		getFlights();
+	});
 
 	var airports = null;
 	var airportCb = [], airportRequestSent = false;
@@ -170,42 +174,63 @@ $(function() {
 		return a[2]+"-"+a[0]+"-"+a[1];
 	}
 	function getFlights() {
-		var fromDate = transformDate($("#departing").val()),
-			toDate = transformDate($("#arriving").val()),
-			fromAirport = $("#flyingfrom").attr("airport_id"),
-			toAirport = $("#flyingto").attr("airport_id"),
-			numOfSeats = parseInt($("#numberofseats").val());
-		var roundTrip = $("#left .return .checkbox").get(0).checked,
-			returnBy = transformDate($("#returning").val());
-
-		if (!fromAirport || !toAirport) {
-			$(".flights").addClass("none pick");
-			return;
+		if ($(".bestflights.option").hasClass("selected")) {
+			$(".flights").removeClass("none pick").addClass("loading");
+			$(".flights .flight").not(".dummy").remove();
+			makeCall("getpopularflights", {
+				callBack: returnFlights
+			});
 		}
-
-		var data = {
-			seats: numOfSeats,
-			fromAirport : fromAirport,
-			toAirport : toAirport,
-			roundtrip : false
-		};
-		if (fromDate)
-			data.fromDate = fromDate;
-		if (toDate)
-			data.toDate = toDate;
-		if (roundTrip) {
-			data.roundtrip = true;
-			if (returnBy)
-				data.backBeforeDate = returnBy;
+		if ($(".personalflights.option").hasClass("selected")) {
+			$(".flights").removeClass("none pick").addClass("loading");
+			$(".flights .flight").not(".dummy").remove();
+			var account_id = ID;
+			if (TYPE == 1)
+				account_id = parseInt($(".personalcustomer").val());
+			makeCall("getpersonalflights", {
+				data: {
+					account_id: account_id
+				},
+				callBack: returnFlights
+			});
 		}
+		if ($(".searchflights.option").hasClass("selected")) {
+			var fromDate = transformDate($("#departing").val()),
+				toDate = transformDate($("#arriving").val()),
+				fromAirport = $("#flyingfrom").attr("airport_id"),
+				toAirport = $("#flyingto").attr("airport_id"),
+				numOfSeats = parseInt($("#numberofseats").val());
+			var roundTrip = $("#left .return .checkbox").get(0).checked,
+				returnBy = transformDate($("#returning").val());
 
-		$(".flights").removeClass("none").addClass("loading");
-		$(".flights .flight").not(".dummy").remove();
+			if (!fromAirport || !toAirport) {
+				$(".flights").addClass("none pick");
+				return;
+			}
 
-		makeCall("getflights", {
-			data: data,
-			callBack: returnFlights
-		});
+			var data = {
+				seats: numOfSeats,
+				fromAirport : fromAirport,
+				toAirport : toAirport,
+				roundtrip : false
+			};
+			if (fromDate)
+				data.fromDate = fromDate;
+			if (toDate)
+				data.toDate = toDate;
+			if (roundTrip) {
+				data.roundtrip = true;
+				if (returnBy)
+					data.backBeforeDate = returnBy;
+			}
+
+			$(".flights").removeClass("none pick").addClass("loading");
+			$(".flights .flight").not(".dummy").remove();
+			makeCall("getflights", {
+				data: data,
+				callBack: returnFlights
+			});
+		}
 	}
 	
 	function buildLegString(l) {
