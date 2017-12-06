@@ -186,8 +186,14 @@ $(function() {
 		}
 		if ($(".airportflights.option").hasClass("selected")) {
 			var airport_id = $(".airportflights .airports").val();
-
-			console.log(airport_id);
+			$(".flights").removeClass("none pick").addClass("loading");
+			$(".flights .flight").not(".dummy").remove();
+			makeCall("getairportflights", {
+				data: {
+					airport_id : airport_id
+				},
+				callBack: returnFlights
+			});
 		}
 		if ($(".bestflights.option").hasClass("selected")) {
 			$(".flights").removeClass("none pick").addClass("loading");

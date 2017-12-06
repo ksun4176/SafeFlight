@@ -177,6 +177,20 @@ h1 {
 	margin:5px 0 5px;
 }
 
+.fields {
+	display:block;
+	margin:3px 0 5px;
+}
+.fields .label {
+	display:block;
+	font-size:14px;
+	color:#333;
+}
+.fields .labeli {
+	display:inline-block;
+	vertical-align: middle;
+	margin-right:5px;
+}
 
 
 

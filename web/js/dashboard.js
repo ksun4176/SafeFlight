@@ -119,7 +119,6 @@ else if (TYPE === 2) {
 			})
 		}
 
-		$(".salesreport").click();
 		
 
 	});

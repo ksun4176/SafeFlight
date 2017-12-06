@@ -114,6 +114,11 @@
                     </div>
 
                     <div class="miniheader">Reservations</div>
+                    <div class="fields">
+                        <div class="label labeli">Flight</div>
+                        <div class="label labeli">OR</div>
+                        <div class="label labeli">Customer</div>
+                    </div>
 
                     <div class="openmodalbuttons">
                         <div class="salesreport button2">Get Sales Report</div>
