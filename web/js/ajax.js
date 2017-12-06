@@ -26,7 +26,7 @@ $(function() {
 		deleteaccount: {
 			url: "/account/delete",
 			method: "POST",
-			dummy: {ok:true}
+			adummy: {ok:true}
 		},
 		
 		getemployees: {

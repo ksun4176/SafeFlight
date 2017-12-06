@@ -112,11 +112,12 @@ $(function() {
 	$(".createaccountclick").click(function() {
 		$("#createaccount").addClass("show");
 		$("#createaccount .input").val("");
-		$("#createaccount .message").removeClass("show ok error");
+		$("#createaccount .message").removeClass("show ok error empty exist");
 	});
 
 	$("#createaccount .button").click(function() {
 		var data = {};
+		$("#createaccount .message").removeClass("show ok error empty exist");
 
 		var readFields = [],
 			call;
@@ -125,19 +126,38 @@ $(function() {
 			data.customer_rep_id = ID;
 			readFields = ["username", "password", "firstName", "lastName"];
 			data.address = data.city = data.state = data.email = data.zip = data.creditCardNo = "";
+		} else if (TYPE == 2) {
+
+		}
+		for(var i=0;i<readFields.length;i++) {
+			var f = readFields[i];
+			data[f] = $("#createaccount .input."+f).val().trim();
+			if (data[f] == "") {
+				$("#createaccount .message").addClass("show error empty");
+				return;
+			}
 		}
 
-		readFields.forEach((f) => {
-			data[f] = $("#createaccount .input."+f).val();
-		});
-
+		var $this = $(this).addClass("disabled");
+		$("#createaccount .input").attr("disabled", true);
 		makeCall(call, {
 			data: data,
 			callBack : (r) => {
-				if (r && r.account_id > 0) {
-
+				if (r) {
+					if (r.account_id > 0) {
+						$("#createaccount .message").addClass("show ok");
+						setTimeout(function() {
+							window.location.href = "/dashboard.php?acc="+r.account_id;
+						}, 1000);
+					} else {
+						$this.removeClass("disabled");
+						$("#createaccount .message").addClass("show error exist");
+						$("#createaccount .input").attr("disabled", false);
+					}
 				} else {
+					$this.removeClass("disabled");
 					$("#createaccount .message").addClass("show error");
+					$("#createaccount .input").attr("disabled", false);
 				}
 			}
 		})

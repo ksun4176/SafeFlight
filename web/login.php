@@ -52,7 +52,7 @@ username=grahugme,password=grahugme
 
                 <div class="error">Invalid Login Credentials</div>
 
-                <input type="button" id="gobutton" value="Go" />
+                <input type="button" id="gobutton" class="loginbutton" value="Go" />
 
     		</div>
     	</div>
