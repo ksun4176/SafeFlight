@@ -103,12 +103,24 @@ $(function() {
 			}
 		},
 
-		getcities: {
-			url: "/flights/cities",
-			method: "GET"
-		},
 		getflights: {
 			url: "/flights/get",
+			method: "GET"
+		},
+		getpopularflights: {
+			url: "/flights/getpopular",
+			method: "GET"
+		},
+		getpersonalflights: {
+			url: "/flights/getpersonallist",
+			method: "GET",
+			dummy: {
+				flights:[]
+			}
+		},
+
+		getcities: {
+			url: "/flights/cities",
 			method: "GET"
 		},
 		getairports: {

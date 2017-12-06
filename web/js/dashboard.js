@@ -124,9 +124,7 @@ $(function() {
 			call = "createaccount"
 			data.customer_rep_id = ID;
 			readFields = ["username", "password", "firstName", "lastName"];
-			data.address = data.city = data.state = data.email = "";
-			data.zip = "";
-			data.creditCardNo = "";
+			data.address = data.city = data.state = data.email = data.zip = data.creditCardNo = "";
 		}
 
 		readFields.forEach((f) => {
