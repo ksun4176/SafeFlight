@@ -16,6 +16,7 @@
 
         <script type="text/javascript">var TYPE=<?=$TYPE?>;var ID=<?=$ID?>;</script>
         <script type="text/javascript">var DISPLAY_RES=<?=isset($_GET['res'])?$_GET['res']:-1?>;</script>
+        <script type="text/javascript">var EDIT_ACCOUNT=<?=isset($_GET['acc'])?$_GET['acc']:-1?>;</script>
 		<script src="js/vendor/jmin.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/script.js"></script>
@@ -37,7 +38,27 @@
 
                     <div id="miniheader" class="miniheader">
                         Customers
-                        <span>Get mailing list</span>
+                        <span class="getmailinglist">Get mailing list</span>
+                        <span class="createaccountclick">Create Account</span>
+                    </div>
+
+                    <div class="modal" id="createaccount">
+                        <div>
+                            <div class="box">
+                                <div class="spinner"><span></span></div>
+                                <h2>Create Account</h2>
+                                <div class="label">First Name</div>
+                                <input class="input firstName" />
+                                <div class="label">Last Name</div>
+                                <input class="input lastName" />
+                                <div class="label">Username</div>
+                                <input class="input username" />
+                                <div class="label">Password</div>
+                                <input class="input password" type="password" />
+                                <div class="message message1"></div>
+                                <div class="button button2">Create</div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="modal" id="mailinglist">

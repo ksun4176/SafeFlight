@@ -2,7 +2,7 @@
 if (TYPE === 1) {
 	$(function() {
 
-		$("#miniheader span").click(function() {
+		$(".getmailinglist").click(function() {
 			$("#mailinglist").addClass("show loading");
 			$("#mailinglist textarea").val("");
 
@@ -51,6 +51,11 @@ if (TYPE === 1) {
 
 						$('.accounts1').append($acc);
 					});
+
+					if (EDIT_ACCOUNT > -1) {
+						$(".accounts1 .account[account-id="+EDIT_ACCOUNT+"] .edit span").click();
+						EDIT_ACCOUNT = -1;
+					}
 				}
 			}
 			);
@@ -77,32 +82,70 @@ else if (TYPE === 2) {
 	});
 }
 
-	var employees = [];
-	$(function() {
+var employees = [];
+$(function() {
 
-		
-		makeCall(
-			"getemployees",
-			{
-				data : {},
-				callBack : (r) => {
-					employees = r ? (r.employees || []) : [];
-					employees.forEach((employee) => {
-						var $acc = $(".accountse .account.top").clone(true, true);
-						$acc.removeClass("top");
-						$acc.attr("employee-id", employee.id);
+	makeCall(
+		"getemployees",
+		{
+			data : {},
+			callBack : (r) => {
+				employees = r ? (r.employees || []) : [];
+				employees.forEach((employee) => {
+					var $acc = $(".accountse .account.top").clone(true, true);
+					$acc.removeClass("top");
+					$acc.attr("employee-id", employee.id);
 
-						$acc.find(".username").html(employee.username);
-						$acc.find(".email").html(employee.ssn);
-						$acc.find(".name").html(employee.first_name+" "+employee.last_name);
-						$acc.find(".address").html(employee.address+", "+employee.city+", "+employee.state+" "+employee.zipcode)
+					$acc.find(".username").html(employee.username);
+					$acc.find(".email").html(employee.ssn);
+					$acc.find(".name").html(employee.first_name+" "+employee.last_name);
+					$acc.find(".address").html(employee.address+", "+employee.city+", "+employee.state+" "+employee.zipcode)
 
-						$('.accountse').append($acc);
-					});
+					$('.accountse').append($acc);
+				});
+			}
+		}
+		);
+
+
+
+	$(".createaccountclick").click(function() {
+		$("#createaccount").addClass("show");
+		$("#createaccount .input").val("");
+		$("#createaccount .message").removeClass("show ok error");
+	});
+
+	$("#createaccount .button").click(function() {
+		var data = {};
+
+		var readFields = [],
+			call;
+		if (TYPE == 1) {
+			call = "createaccount"
+			data.customer_rep_id = ID;
+			readFields = ["username", "password", "firstName", "lastName"];
+			data.address = data.city = data.state = data.email = "";
+			data.zip = "";
+			data.creditCardNo = "";
+		}
+
+		readFields.forEach((f) => {
+			data[f] = $("#createaccount .input."+f).val();
+		});
+
+		makeCall(call, {
+			data: data,
+			callBack : (r) => {
+				if (r && r.account_id > 0) {
+
+				} else {
+					$("#createaccount .message").addClass("show error");
 				}
 			}
-			);
+		})
 	});
+
+});
 
 
 if (DISPLAY_RES > -1) {

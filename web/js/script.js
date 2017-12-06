@@ -26,7 +26,11 @@ function transformFlightLeg(leg) {
 		l[i].depTime = new Date(l[i].depTime);
 		l[i].leg = i;
 	}
-	l.shift();
+	for(var i=0;i<l.length;i++)
+		if (!l[i]) {
+			l.splice(i, 1);
+			i--;
+		}
 	return l;
 }
 

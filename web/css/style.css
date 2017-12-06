@@ -307,6 +307,31 @@ header .links .link .text {
 	color:#555;
 }
 
+.button2 {
+	display:inline-block;
+	cursor:pointer;
+	text-align: center;
+	font-size:16px;
+	padding:5px 10px;
+	background:#fff;
+	border:1px solid #000;
+}
+.button2:hover {
+	background:#eee;
+}
+.button2.disabled {
+	color:#aaa;
+	background:#ddd;
+}
+
+.message1 {
+	display:none;
+	margin:5px 0;
+	font-size:15px;
+}
+.message1.show { display:block; }
+.message1.ok { color:#090; }
+.message1.error { color:#f00; }
 
 
 
