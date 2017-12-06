@@ -98,7 +98,7 @@ public class Flight extends HttpServlet {
 		        			if(temp != null && !temp.equals(fare_type)) {
 		        				if(temp.equals("hiddenfare")) {
 		        					o.put("hasAuction", true);
-		        					query = "{CALL getAuctions(?,?)}";
+		        					query = "{CALL getAuction(?,?)}";
 		        					stmt = conn.prepareCall(query);
 		        					stmt.setString(1, airline_id);
 		        					stmt.setString(2, flight_no);
