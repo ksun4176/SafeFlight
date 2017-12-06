@@ -62,7 +62,7 @@ public class Signup extends HttpServlet {
 			if(zip != null && !zip.matches("[0-9]{5}")) {
 				throw new IllegalArgumentException("Invalid ZipCode");
 			}
-			if(ccnnum != null && !ccnum.matches("[0-9]{16}")) {
+			if(ccnum != null && !ccnum.matches("[0-9]{16}")) {
 				throw new IllegalArgumentException("Invalid Credit Card Number");
 			}
 			
