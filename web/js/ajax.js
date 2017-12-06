@@ -122,7 +122,7 @@ $(function() {
 		getpersonalflights: {
 			url: "/flights/getpersonallist",
 			method: "GET",
-			dummy: {
+			adummy: {
 				flights:[]
 			}
 		},
