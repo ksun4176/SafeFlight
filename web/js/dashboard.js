@@ -105,19 +105,53 @@ else if (TYPE === 2) {
 					if (r && r.reservations) {
 						var ress = r.reservations;
 						var totalFare = 0, totalFee = 0;
+						var accs = [], reps = [];
 						ress.forEach((res) => {
 							totalFare += res.totalFare;
 							totalFee += res.bookingFee;
+							if (accs.indexOf(res.account_id) == -1) accs.push(res.account_id);
+							if (reps.indexOf(res.customer_rep_id) == -1) reps.push(res.customer_rep_id);
 						});
 
 						$("#salesreport .stats").html("Reservations: "+ress.length+"<br>"+
 							"Total Fare: $"+totalFare.toFixed(2)+"<br>"+
-							"Total Booking Fees: $"+totalFee.toFixed(2)+"<br>"
+							"Total Booking Fees: $"+totalFee.toFixed(2)+"<br>"+
+							"Active Customers: "+accs.length+"<br>"+
+							"Active Customer Representatives: "+reps.length+"<br>"
 							);
 					}
 				}
 			})
 		}
+
+		makeCall("getflights", {
+			data: {
+				all : true
+			},
+			callBack: (r) => {
+				if (r && r.flights) {
+					r.flights.forEach((f) => {
+						var thing = f.airline_id + "" + f.flightNumber;
+						$(".listreservations .flights").append(
+							"<option value='"+thing+"''>"+thing+"</option");
+					})
+				}
+			}
+		});
+		makeCall("getaccounts", {
+			callBack: (r) => {
+				if (r && r.accounts) {
+					r.accounts.forEach((a) => {
+						$(".listreservations .customers").append(
+							"<option value="+a.person_id+">"+a.first_name+" "+a.last_name+" &lt;"+a.email+"&gt;</option");
+					})
+				}
+			}
+		});
+		$(".listreservations select").on("change", function() {
+			$(".listreservations select").not(this).val(-1);
+		})
+
 
 		
 
