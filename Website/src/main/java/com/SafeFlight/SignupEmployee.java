@@ -59,16 +59,14 @@ public class SignupEmployee extends HttpServlet {
 			String state = request.getParameter("state");
 			String zip = request.getParameter("zip");
 
-			System.out.println(username + " " + password + " " + firstName + " " + lastName + " " + address + " " + ssn + " " + hourlyRate);
-			System.out.println(" POOP ");
-			System.out.println(city + " " + state + " " + zip);
 			//assume isManager is always 0
 			if (username == null || password == null || firstName == null || lastName == null 
 			|| address == null || ssn == null || hourlyRate == null || 
 			city == null || state == null || zip == null) {
 				throw new IllegalArgumentException("Fields are not filled");
 				
-			} 
+			}
+
 			if(zip != null && zip != "" && !zip.matches("[0-9]{5}")) {
 					throw new IllegalArgumentException("Invalid ZipCode");
 			}
@@ -91,7 +89,12 @@ public class SignupEmployee extends HttpServlet {
 			stmt2.setString(2, ssn);
 			stmt2.setString(3, "0");
 			stmt2.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
-			stmt2.setString(5, hourlyRate);
+			if (hourlyRate.equals("")) {
+				stmt2.setString(5, "0.00");
+			}
+			else {
+				stmt2.setString(5, hourlyRate);
+			}
 			ResultSet rs2 = stmt2.executeQuery();
 			employee.put("employee_id", id);
 			
@@ -104,7 +107,6 @@ public class SignupEmployee extends HttpServlet {
 			stmt3.executeQuery();
 			
 			ConnectionUtils.close(conn);
-			System.out.println(username + " " + password + " " + firstName + " " + lastName + " " + address + " " + ssn + " " + hourlyRate);
 			} catch (ClassNotFoundException e) {
 				// onError set return id to -1
 				e.printStackTrace();
