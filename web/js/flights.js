@@ -503,7 +503,7 @@ $(function() {
 			return;
 		}
 		var data = {
-			account_id : account_id,
+			account_num : account_id,
 			airline_id : flight.airline_id,
 			flightNumber : flight.flightNumber,
 			price : bidPrice
@@ -521,7 +521,7 @@ $(function() {
 							account_id: account_id,
 							bid : bidPrice
 						})
-					}, 1000);
+					}, 3000);
 				} else {
 					$(".revauction .message1").addClass("show ok").html("Your bid has been accepted!");
 					setTimeout(function() {
@@ -530,7 +530,7 @@ $(function() {
 						priceClass = "economy";
 						$(".revauction").removeClass("show");
 						updatePassengersModal(true);
-					}, 1000);
+					}, 3000);
 				}
 			}
 		})
