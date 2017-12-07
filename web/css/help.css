@@ -5,6 +5,7 @@
 #content {
 	font-size:0;
 	padding:0 15px;
+	height:calc(100% - 80px);
 }
 
 h1 {
@@ -17,6 +18,7 @@ h1 {
 	display:inline-block;
 	vertical-align: top;
 	min-height:100px;
+	height:100%;
 	overflow:visible;
 }
 
@@ -24,33 +26,88 @@ h1 {
 	width:calc(300px);
 	border-right:1px solid #99b;
 	min-height:500px;
-	padding-top:8px;
+	padding-top:10px;
 }
 .row {
 	width:100%;
 }
-.row .title {
+.row > .title {
 	padding:5px 9px;
 	width:100%;
 	font-size:18px;
 	cursor:pointer;
 }
-.row .title:before {
+.row > .title:before {
 	content:"- ";
+	display:inline-block;
+	width:14px;
 }
-.row .title:hover {
+.row > .title.hasChildren:before {
+	content:"> ";
+}
+.row > .title:hover {
 	text-decoration: underline;
+}
+.row > .title.active {
+	font-weight:bold;
 }
 .row.active > .title {
 	font-weight:bold;
 }
-.children {
+.row > .children {
 	width:100%;
 	padding-left:20px;
+	overflow:hidden;
+	height:0;
+}
+.row.expand > .children {
+	height:auto;
 }
 	
 
 #right {
 	width:calc(100% - 300px);
-	padding:0 0 0 15px;
+	max-height:100%;
+	overflow-y:auto;
 }
+#right > div {
+	padding:15px 15px 60px 20px;
+	font-size:18px;
+	display:none;
+}
+#right > div.show {
+	display:block;
+}
+#right h2 {
+	display:inline-block;
+	font-size:24px;
+	padding:0px 2px 3px 1px;
+	margin-bottom:20px;
+	border-bottom:1px solid #000;
+}
+#right p {
+	display:block;
+	font-size:18px;
+	margin:0 0 12px 0;
+}
+#right .img {
+	display:block;
+	max-width:100%;
+  -webkit-transform: scale(0.94); /* Saf3.1+, Chrome */
+     -moz-transform: scale(0.94); /* FF3.5+ */
+      -ms-transform: scale(0.94); /* IE9 */
+       -o-transform: scale(0.94); /* Opera 10.*/
+          transform: scale(0.94);
+    margin:-10px 0 0;
+}​
+
+
+
+
+
+
+
+
+
+
+
