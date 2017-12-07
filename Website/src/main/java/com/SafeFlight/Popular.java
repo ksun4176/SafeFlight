@@ -89,8 +89,25 @@ public class Popular extends HttpServlet {
 		        		while(rs2.next()) {
 		        			String fare_type = rs2.getString("FareType");
 		        			if(temp != null && !temp.equals(fare_type)) {
-		        				fares.put(temp, fareInfo);
-		        				fareInfo = new JSONObject();
+		        				if(temp.equals("hiddenfare")) {
+		        					o.put("hasAuction", true);
+		        					query = "{CALL getAuction(?,?)}";
+		        					stmt = conn.prepareCall(query);
+		        					stmt.setString(1, airline_id);
+		        					stmt.setString(2, flight_no);
+		        					ResultSet rs3 = stmt.executeQuery();
+		        					JSONArray bidArray = new JSONArray();
+		        					while(rs3.next()) {
+			        					JSONObject bidInfo = new JSONObject();
+		        						bidInfo.put("account_id", rs3.getString("AccountNo"));
+		        						bidInfo.put("bid",rs3.getString("NYOP"));
+		        						bidArray.add(bidInfo);
+		        					}
+		        					o.put("bidHistory", bidArray);
+		        				} else {
+			        				fares.put(temp, fareInfo);
+			        				fareInfo = new JSONObject();
+		        				}
 		        			}
 		        			fareInfo.put(rs2.getString("Class"), rs2.getString("Fare"));
 		        			temp = fare_type;
@@ -99,6 +116,9 @@ public class Popular extends HttpServlet {
 		        			fares.put(temp, fareInfo);
 		        		}
 		        		o.put("prices", fares);
+	    				if(o.get("hasAuction") == null) {
+	    					o.put("hasAuction", false);
+	    				}
 		        		jArray.add(o);
 		        }
 
